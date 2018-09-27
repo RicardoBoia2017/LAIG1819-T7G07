@@ -9,7 +9,7 @@ var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var TRANSF_INDEX = 6;
 var PRIMITIVE_INDEX = 7;
-var NODES_INDEX = 8;
+var COMPONENTS_INDEX = 8;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -102,7 +102,6 @@ class MySceneGraph {
                 return error;
         }
 
-
         // <views>
         if ((index = nodeNames.indexOf("views")) == -1)
             return "tag <views> missing";
@@ -191,7 +190,7 @@ class MySceneGraph {
         if ((index = nodeNames.indexOf("components")) == -1)
             return "tag <components> missing";
         else {
-            if (index != NODES_INDEX)
+            if (index != COMPONENTS_INDEX)
                 this.onXMLMinorError("tag <components> out of order");
 
             //Parse components block
@@ -206,12 +205,26 @@ class MySceneGraph {
      *  @param {scene block element} sceneNode
      */
     parseScene(sceneNode) 
-    {
-         // TODO: Parse scene node
+    {		 
+		 this.root = "root";
+		 this.axis_length = 1;
 
-         this.log("Parsed scene node");
+		this.root = this.reader.getString(sceneNode,'root');
+		this.axis_length = this.reader.getFloat(sceneNode, 'axis_length');
+			
+		if (this.root == null) {
+            this.root = "root";
+            this.onXMLMinorError("unable to parse value for root; assuming 'root = root'");
+        }
+		
+        else if (!(this.axis_length != null && !isNaN(this.axis_length))) {
+            this.axis_length = 1;
+            this.onXMLMinorError("unable to parse value for axis_length; assuming 'axis_length = 1'");
+        }
+				
+        this.log("Parsed scene node");
 
-         return null;
+        return null;
     }
 
 
