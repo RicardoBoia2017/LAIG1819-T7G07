@@ -221,9 +221,9 @@ class MySceneGraph {
             this.axis_length = 1;
             this.onXMLMinorError("unable to parse value for axis_length; assuming 'axis_length = 1'");
         }
-				
+		
         this.log("Parsed scene node");
-
+	
         return null;
     }
 
@@ -231,93 +231,184 @@ class MySceneGraph {
     /**
      * Parses the <views> block.
      */
-    parseViews(initialsNode) {
+    parseViews(viewsNode) {
 
-        /*
-        var children = initialsNode.children;
+		this.views = [];
+	
+		var children = viewsNode.children;
+		
+		var nodeNames = [];
 
-        var nodeNames = [];
+		for (var i = 0; i < children.length; i++)
+			nodeNames.push(children[i].nodeName);
+	
+		for (var j = 0; j < nodeNames.length; j++)
+		{
+			if (nodeNames[j] == "perspective")
+			{
+				//id
+				var id;
+				id = this.reader.getString(children[j], 'id');
+				
+				if (id == null) { // acrescentar conversão para o default
+					this.onXMLMinorError("unable to parse value for id");
+				}
+				
+				//near
+				var near;
+				near = this.reader.getFloat(children[j], 'near');
+				
+				if (near == null ) {
+					near = 0.1;
+					this.onXMLMinorError("unable to parse value for near plane; assuming 'near = 0.1'");
+				}
+				
+				else if (isNaN(near)) {
+					near = 0.1;
+					this.onXMLMinorError("non-numeric value found for near plane; assuming 'near = 0.1'");
+				}
+				
+				else if (near <= 0) {
+					near = 0.1;
+					this.onXMLMinorError("'near' must be positive; assuming 'near = 0.1'");
+				}	
 
-        for (var i = 0; i < children.length; i++)
-            nodeNames.push(children[i].nodeName);
+				//far
+				var far;
+				far = this.reader.getFloat(children[j], 'far');
+				
+				if (far == null ) {
+					far = 500;
+					this.onXMLMinorError("unable to parse value for far plane; assuming 'far = 500'");
+				}
+				
+				else if (isNaN(far)) {
+					far = 500;
+					this.onXMLMinorError("non-numeric value found for far plane; assuming 'far = 500'");
+				}
+				
+				if (near >= far)
+					return "'near' must be smaller than 'far'";	
+				
+				//angle
+				var angle;
+				angle = this.reader.getFloat(children[j], 'angle');
+				
+				if (angle == null ) {
+					angle = 0;
+					this.onXMLMinorError("unable to parse value for angle plane; assuming 'angle = 500'");
+				}
+				
+				else if (isNaN(angle)) {
+					angle = 0;
+					this.onXMLMinorError("non-numeric value found for angle plane; assuming 'angle = 500'");
+				}				
+				
+				this.log (angle);
+				//specifications of view				
+				var viewSpecs = children[j].children;
+				
+				var from = [];
+				var to = [];
+				
+				for (var k = 0; k < viewSpecs.length; k++)
+				{
+					if (viewSpecs[k].nodeName == "from")
+					{
+						var fromX = this.reader.getFloat (viewSpecs[k], 'x');
+						var fromY = this.reader.getFloat (viewSpecs[k], 'y');
+						var fromZ = this.reader.getFloat (viewSpecs[k], 'z');
+									
+						if (fromX == null ) {
+							fromX = 0.1;
+							this.onXMLMinorError("unable to parse value for near plane; assuming 'fromX = 0.1'");
+						}
+						
+						else if (isNaN(fromX)) {
+							fromX = 0.1;
+							this.onXMLMinorError("non-numeric value found for near plane; assuming 'fromX = 0.1'");
+						}
+						
+						if (fromY == null ) {
+							fromY = 0.1;
+							this.onXMLMinorError("unable to parse value for near plane; assuming 'fromY = 0.1'");
+						}
+						
+						else if (isNaN(fromY)) {
+							fromY = 0.1;
+							this.onXMLMinorError("non-numeric value found for near plane; assuming 'fromY = 0.1'");
+						}	
+						
+						if (fromZ == null ) {
+							fromZ = 0.1;
+							this.onXMLMinorError("unable to parse value for near plane; assuming 'fromZ = 0.1'");
+						}
+						
+						else if (isNaN(fromZ)) {
+							fromZ = 0.1;
+							this.onXMLMinorError("non-numeric value found for near plane; assuming 'fromZ = 0.1'");
+						}			
 
-        // Frustum planes
-        // (default values)
-        this.near = 0.1;
-        this.far = 500;
-        var indexFrustum = nodeNames.indexOf("frustum");
-        if (indexFrustum == -1) {
-            this.onXMLMinorError("frustum planes missing; assuming 'near = 0.1' and 'far = 500'");
-        }
-        else {
-            this.near = this.reader.getFloat(children[indexFrustum], 'near');
-            this.far = this.reader.getFloat(children[indexFrustum], 'far');
-
-            if (!(this.near != null && !isNaN(this.near))) {
-                this.near = 0.1;
-                this.onXMLMinorError("unable to parse value for near plane; assuming 'near = 0.1'");
-            }
-            else if (!(this.far != null && !isNaN(this.far))) {
-                this.far = 500;
-                this.onXMLMinorError("unable to parse value for far plane; assuming 'far = 500'");
-            }
-
-            if (this.near >= this.far)
-                return "'near' must be smaller than 'far'";
-        }
-
-        // Checks if at most one translation, three rotations, and one scaling are defined.
-        if (initialsNode.getElementsByTagName('translation').length > 1)
-            return "no more than one initial translation may be defined";
-
-        if (initialsNode.getElementsByTagName('rotation').length > 3)
-            return "no more than three initial rotations may be defined";
-
-        if (initialsNode.getElementsByTagName('scale').length > 1)
-            return "no more than one scaling may be defined";
-
-        // Initial transforms.
-        this.initialTranslate = [];
-        this.initialScaling = [];
-        this.initialRotations = [];
-
-        // Gets indices of each element.
-        var translationIndex = nodeNames.indexOf("translation");
-        var thirdRotationIndex = nodeNames.indexOf("rotation");
-        var secondRotationIndex = nodeNames.indexOf("rotation", thirdRotationIndex + 1);
-        var firstRotationIndex = nodeNames.lastIndexOf("rotation");
-        var scalingIndex = nodeNames.indexOf("scale");
-
-        // Checks if the indices are valid and in the expected order.
-        // Translation.
-        this.initialTransforms = mat4.create();
-        mat4.identity(this.initialTransforms);
-
-        if (translationIndex == -1)
-            this.onXMLMinorError("initial translation undefined; assuming T = (0, 0, 0)");
-        else {
-            var tx = this.reader.getFloat(children[translationIndex], 'x');
-            var ty = this.reader.getFloat(children[translationIndex], 'y');
-            var tz = this.reader.getFloat(children[translationIndex], 'z');
-
-            if (tx == null || ty == null || tz == null) {
-                tx = 0;
-                ty = 0;
-                tz = 0;
-                this.onXMLMinorError("failed to parse coordinates of initial translation; assuming zero");
-            }
-
-            //TODO: Save translation data
-        }
-
-        //TODO: Parse Rotations
-
-        //TODO: Parse Scaling
-
-        //TODO: Parse Reference length
-
-        */
-        this.log("Parsed initials");
+						from.push (fromX);
+						from.push (fromY);
+						from.push (fromZ);
+					}
+					else if (viewSpecs[k].nodeName == "to")
+					{
+						var toX = this.reader.getFloat (viewSpecs[k], 'x');
+						var toY = this.reader.getFloat (viewSpecs[k], 'y');
+						var toZ = this.reader.getFloat (viewSpecs[k], 'z');
+									
+						if (toX == null ) {
+							toX = 20;
+							this.onXMLMinorError("unable to parse value for near plane; assuming 'toX = 20'");
+						}
+						
+						else if (isNaN(toX)) {
+							toX = 20;
+							this.onXMLMinorError("non-numeric value found for near plane; assuming 'toX = 20'");
+						}
+						
+						if (toY == null ) {
+							toY = 20;
+							this.onXMLMinorError("unable to parse value for near plane; assuming 'toY = 20'");
+						}
+						
+						else if (isNaN(toY)) {
+							toY = 20;
+							this.onXMLMinorError("non-numeric value found for near plane; assuming 'toY = 20'");
+						}	
+						
+						if (toZ == null ) {
+							toZ = 20;
+							this.onXMLMinorError("unable to parse value for near plane; assuming 'toZ = 20'");
+						}
+						
+						else if (isNaN(toZ)) {
+							toZ = 20;
+							this.onXMLMinorError("non-numeric value found for near plane; assuming 'toZ = 20'");
+						}	
+						
+						to.push (toX);
+						to.push (toY);
+						to.push (toZ);						
+					}
+					
+				}
+				
+				this.views[id] = ["perspective", near, far, angle, from, to];
+				this.log (this.views[id]);
+			}	
+			
+			
+			else if (nodeNames[j] == "ortho")
+			{
+			
+			}
+			
+		}
+		
+        this.log("Parsed views");
 
         return null;
     }
