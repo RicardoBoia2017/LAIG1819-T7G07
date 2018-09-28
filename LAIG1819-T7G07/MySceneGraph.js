@@ -206,8 +206,8 @@ class MySceneGraph {
      */
     parseScene(sceneNode) 
     {		 
-		 this.root = "root";
-		 this.axis_length = 1;
+		this.root = "root";
+		this.axis_length = 1;
 
 		this.root = this.reader.getString(sceneNode,'root');
 		this.axis_length = this.reader.getFloat(sceneNode, 'axis_length');
@@ -304,7 +304,6 @@ class MySceneGraph {
 					this.onXMLMinorError("non-numeric value found for angle plane; assuming 'angle = 500'");
 				}				
 				
-				this.log (angle);
 				//specifications of view				
 				var viewSpecs = children[j].children;
 				
@@ -313,6 +312,7 @@ class MySceneGraph {
 				
 				for (var k = 0; k < viewSpecs.length; k++)
 				{
+					//from
 					if (viewSpecs[k].nodeName == "from")
 					{
 						var fromX = this.reader.getFloat (viewSpecs[k], 'x');
@@ -353,6 +353,7 @@ class MySceneGraph {
 						from.push (fromY);
 						from.push (fromZ);
 					}
+					//to
 					else if (viewSpecs[k].nodeName == "to")
 					{
 						var toX = this.reader.getFloat (viewSpecs[k], 'x');
@@ -397,7 +398,6 @@ class MySceneGraph {
 				}
 				
 				this.views[id] = ["perspective", near, far, angle, from, to];
-				this.log (this.views[id]);
 			}	
 			
 			
@@ -418,8 +418,163 @@ class MySceneGraph {
      * @param {ambient block element} ambientNode
      */
     parseAmbient(ambientNode) {
-        // TODO: Parse ambient node
 
+		var children = ambientNode.children;
+		var nodeNames = [];
+		
+		for (var i = 0; i < children.length; i++)
+			nodeNames.push(children[i].nodeName);
+		
+		//ambient
+		this.ambientSpecs = [];
+		var ambientIndex = nodeNames.indexOf("ambient");
+		
+		if (ambientIndex == -1)
+            this.onXMLMinorError("unable to parse ambient component of ambient; assuming ambient = [0.2,0.2,0.2,1]");
+		
+		//r (red)
+		var r = this.reader.getFloat(children[ambientIndex], 'r');
+		
+		if (!(r != null && !isNaN(r)))
+		{
+			r = 0.2;
+            this.onXMLMinorError("unable to parse red component of ambient; assuming r = 0.2");	
+		}			
+		
+		else if (r < 0 || r > 1)
+		{
+			r = 0.2;
+            this.onXMLMinorError("red component value of ambient must be between 0 and 1");				
+		}
+			
+		this.ambientSpecs [0] = r;
+
+		//g (green)
+		var g = this.reader.getFloat(children[ambientIndex], 'g');
+		
+		if (!(g != null && !isNaN(g)))
+		{
+			r = 0.2;
+            this.onXMLMinorError("unable to parse green component of ambient; assuming g = 0.2");	
+		}			
+		
+		else if (g < 0 || g > 1)
+		{
+			r = 0.2;
+            this.onXMLMinorError("green component value of ambient must be between 0 and 1");				
+		}
+			
+		this.ambientSpecs [1] = g;		
+		
+		//b (blue)
+		var b = this.reader.getFloat(children[ambientIndex], 'b');
+		
+		if (!(b != null && !isNaN(b)))
+		{
+			b = 0.2;
+            this.onXMLMinorError("unable to parse blue component of ambient; assuming b = 0.2");	
+		}			
+		
+		else if (b < 0 || b > 1)
+		{
+			b = 0.2;
+            this.onXMLMinorError("blue component value of ambient must be between 0 and 1");				
+		}
+			
+		this.ambientSpecs [2] = b;
+		
+		//a (alpha)
+		var a = this.reader.getFloat(children[ambientIndex], 'a');
+		
+		if (!(a != null && !isNaN(a)))
+		{
+			a = 0.2;
+            this.onXMLMinorError("unable to parse alpha component of ambient; assuming a = 0.2");	
+		}			
+		
+		else if (a < 0 || a > 1)
+		{
+			a = 0.2;
+            this.onXMLMinorError("alpha component value of ambient must be between 0 and 1");				
+		}
+			
+		this.ambientSpecs [3] = a;
+		
+		//background
+		this.backgroundSpecs = [];
+		var backgroundIndex = nodeNames.indexOf("background");
+		
+		if (backgroundIndex == -1)
+            this.onXMLMinorError("unable to parse background component of background; assuming background = [0.2,0.2,0.2,1]");
+		
+		//r (red)
+		var r = this.reader.getFloat(children[backgroundIndex], 'r');
+		
+		if (!(r != null && !isNaN(r)))
+		{
+			r = 0.2;
+            this.onXMLMinorError("unable to parse red component of background; assuming r = 0.2");	
+		}			
+		
+		else if (r < 0 || r > 1)
+		{
+			r = 0.2;
+            this.onXMLMinorError("red component value of background must be between 0 and 1");				
+		}
+			
+		this.backgroundSpecs [0] = r;
+
+		//g (green)
+		var g = this.reader.getFloat(children[backgroundIndex], 'g');
+		
+		if (!(g != null && !isNaN(g)))
+		{
+			r = 0.2;
+            this.onXMLMinorError("unable to parse green component of background; assuming g = 0.2");	
+		}			
+		
+		else if (g < 0 || g > 1)
+		{
+			r = 0.2;
+            this.onXMLMinorError("green component value of background must be between 0 and 1");				
+		}
+			
+		this.backgroundSpecs [1] = g;		
+		
+		//b (blue)
+		var b = this.reader.getFloat(children[backgroundIndex], 'b');
+		
+		if (!(b != null && !isNaN(b)))
+		{
+			b = 0.2;
+            this.onXMLMinorError("unable to parse blue component of background; assuming b = 0.2");	
+		}			
+		
+		else if (b < 0 || b > 1)
+		{
+			b = 0.2;
+            this.onXMLMinorError("blue component value of background must be between 0 and 1");				
+		}
+			
+		this.backgroundSpecs [2] = b;
+		
+		//a (alpha)
+		var a = this.reader.getFloat(children[backgroundIndex], 'a');
+		
+		if (!(a != null && !isNaN(a)))
+		{
+			a = 0.2;
+            this.onXMLMinorError("unable to parse alpha component of background; assuming a = 0.2");	
+		}			
+		
+		else if (a < 0 || a > 1)
+		{
+			a = 0.2;
+            this.onXMLMinorError("alpha component value of background must be between 0 and 1");				
+		}
+			
+		this.backgroundSpecs [3] = a;	
+	    this.log (this.backgroundSpecs);
         this.log("Parsed ambient");
 
         return null;
