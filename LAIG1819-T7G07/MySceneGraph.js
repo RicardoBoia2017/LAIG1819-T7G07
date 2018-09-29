@@ -430,20 +430,20 @@ class MySceneGraph {
 		var ambientIndex = nodeNames.indexOf("ambient");
 		
 		if (ambientIndex == -1)
-            this.onXMLMinorError("unable to parse ambient component of ambient; assuming ambient = [0.2,0.2,0.2,1]");
+            this.onXMLMinorError("unable to parse ambient component of ambient; assuming ambient = [0,0,0,1]");
 		
 		//r (red)
 		var r = this.reader.getFloat(children[ambientIndex], 'r');
 		
 		if (!(r != null && !isNaN(r)))
 		{
-			r = 0.2;
-            this.onXMLMinorError("unable to parse red component of ambient; assuming r = 0.2");	
+			r = 0;
+            this.onXMLMinorError("unable to parse red component of ambient; assuming r = 0");	
 		}			
 		
 		else if (r < 0 || r > 1)
 		{
-			r = 0.2;
+			r = 0;
             this.onXMLMinorError("red component value of ambient must be between 0 and 1");				
 		}
 			
@@ -454,13 +454,13 @@ class MySceneGraph {
 		
 		if (!(g != null && !isNaN(g)))
 		{
-			r = 0.2;
-            this.onXMLMinorError("unable to parse green component of ambient; assuming g = 0.2");	
+			r = 0;
+            this.onXMLMinorError("unable to parse green component of ambient; assuming g = 0");	
 		}			
 		
 		else if (g < 0 || g > 1)
 		{
-			r = 0.2;
+			r = 0;
             this.onXMLMinorError("green component value of ambient must be between 0 and 1");				
 		}
 			
@@ -471,13 +471,13 @@ class MySceneGraph {
 		
 		if (!(b != null && !isNaN(b)))
 		{
-			b = 0.2;
-            this.onXMLMinorError("unable to parse blue component of ambient; assuming b = 0.2");	
+			b = 0;
+            this.onXMLMinorError("unable to parse blue component of ambient; assuming b = 0");	
 		}			
 		
 		else if (b < 0 || b > 1)
 		{
-			b = 0.2;
+			b = 0;
             this.onXMLMinorError("blue component value of ambient must be between 0 and 1");				
 		}
 			
@@ -488,13 +488,13 @@ class MySceneGraph {
 		
 		if (!(a != null && !isNaN(a)))
 		{
-			a = 0.2;
-            this.onXMLMinorError("unable to parse alpha component of ambient; assuming a = 0.2");	
+			a = 0;
+            this.onXMLMinorError("unable to parse alpha component of ambient; assuming a = 0");	
 		}			
 		
 		else if (a < 0 || a > 1)
 		{
-			a = 0.2;
+			a = 0;
             this.onXMLMinorError("alpha component value of ambient must be between 0 and 1");				
 		}
 			
@@ -505,20 +505,20 @@ class MySceneGraph {
 		var backgroundIndex = nodeNames.indexOf("background");
 		
 		if (backgroundIndex == -1)
-            this.onXMLMinorError("unable to parse background component of background; assuming background = [0.2,0.2,0.2,1]");
+            this.onXMLMinorError("unable to parse background component of ambient; assuming background = [0,0,0,1]");
 		
 		//r (red)
 		var r = this.reader.getFloat(children[backgroundIndex], 'r');
 		
 		if (!(r != null && !isNaN(r)))
 		{
-			r = 0.2;
-            this.onXMLMinorError("unable to parse red component of background; assuming r = 0.2");	
+			r = 0;
+            this.onXMLMinorError("unable to parse red component of background; assuming r = 0");	
 		}			
 		
 		else if (r < 0 || r > 1)
 		{
-			r = 0.2;
+			r = 0;
             this.onXMLMinorError("red component value of background must be between 0 and 1");				
 		}
 			
@@ -529,13 +529,13 @@ class MySceneGraph {
 		
 		if (!(g != null && !isNaN(g)))
 		{
-			r = 0.2;
-            this.onXMLMinorError("unable to parse green component of background; assuming g = 0.2");	
+			r = 0;
+            this.onXMLMinorError("unable to parse green component of background; assuming g = 0");	
 		}			
 		
 		else if (g < 0 || g > 1)
 		{
-			r = 0.2;
+			r = 0;
             this.onXMLMinorError("green component value of background must be between 0 and 1");				
 		}
 			
@@ -546,13 +546,13 @@ class MySceneGraph {
 		
 		if (!(b != null && !isNaN(b)))
 		{
-			b = 0.2;
-            this.onXMLMinorError("unable to parse blue component of background; assuming b = 0.2");	
+			b = 0;
+            this.onXMLMinorError("unable to parse blue component of background; assuming b = 0");	
 		}			
 		
 		else if (b < 0 || b > 1)
 		{
-			b = 0.2;
+			b = 0;
             this.onXMLMinorError("blue component value of background must be between 0 and 1");				
 		}
 			
@@ -563,18 +563,18 @@ class MySceneGraph {
 		
 		if (!(a != null && !isNaN(a)))
 		{
-			a = 0.2;
-            this.onXMLMinorError("unable to parse alpha component of background; assuming a = 0.2");	
+			a = 0;
+            this.onXMLMinorError("unable to parse alpha component of background; assuming a = 0");	
 		}			
 		
 		else if (a < 0 || a > 1)
 		{
-			a = 0.2;
+			a = 0;
             this.onXMLMinorError("alpha component value of background must be between 0 and 1");				
 		}
 			
 		this.backgroundSpecs [3] = a;	
-	    this.log (this.backgroundSpecs);
+		
         this.log("Parsed ambient");
 
         return null;
@@ -586,8 +586,7 @@ class MySceneGraph {
      * @param {lights block element} lightsNode
      */
     parseLights(lightsNode) {
-
-        /*
+/*
         var children = lightsNode.children;
 
         this.lights = [];
@@ -734,8 +733,41 @@ class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
-        // TODO: Parse block
 
+		this.textures = [];
+		
+		var children = texturesNode.children;
+
+		for (var i = 0; i < children.length; i++)
+		{
+			if (children[i].nodeName != "texture")
+				this.onXMLMinorError("unable to parse texture");
+			
+			else
+			{ 
+				//id
+				var id = this.reader.getString(children[i], 'id')
+				
+				if (id == null)
+					return "unable to parse value for texture id";	
+
+				if (this.textures [id] != null)
+				{
+					return "textures id have to be unique";
+					this.log ("Repetido");
+				}
+				
+				//file
+				var file = this.reader.getString(children[i], 'file');
+				
+				if (file == null)
+					return "unable to parse file for texture #" + id;
+				
+				this.textures [id] = [file];
+			}
+		}
+		
+		this.log (this.textures ["trunk"]);
         console.log("Parsed textures");
 
         return null;
@@ -746,7 +778,7 @@ class MySceneGraph {
      * @param {materials block element} materialsNode
      */
     parseMaterials(materialsNode) {
-        // TODO: Parse block
+
         this.log("Parsed materials");
         return null;
 
