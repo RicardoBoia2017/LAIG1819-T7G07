@@ -629,8 +629,6 @@ class MySceneGraph {
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
             }
-
-			this.log (grandChildren.length);
 			
             // Gets indices of each element.
             var enableIndex = nodeNames.indexOf("enable");
@@ -776,7 +774,6 @@ class MySceneGraph {
                 return "specular component undefined for ID = " + lightId;
             // TODO: Store Light global information.
             this.lights[lightId] = [enableLight, locationLight, ambientIllumination, diffuseIllumination, specularIllumination];
-            this.log(this.lights["l"]);
 			
 			numLights++;
         }
@@ -787,7 +784,7 @@ class MySceneGraph {
             this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
 
             
-  //      this.log("Parsed lights");
+        this.log("Parsed lights");
 
         return null;
     }
@@ -818,20 +815,18 @@ class MySceneGraph {
 				if (this.textures [id] != null)
 				{
 					return "textures id have to be unique";
-					this.log ("Repetido");
 				}
 				
 				//file
 				var file = this.reader.getString(children[i], 'file');
 				
 				if (file == null)
-					return "unable to parse file for texture #" + id;
+					return "unable to parse file for texture " + id;
 				
 				this.textures [id] = [file];
 			}
 		}
 		
-		this.log (this.textures ["trunk"]);
         console.log("Parsed textures");
 
         return null;
@@ -853,7 +848,126 @@ class MySceneGraph {
      * @param {transformations block element} transfNode
      */
     parseTransf(transfNode) {
-        // TODO: Parse block
+		
+		this.transformations = [];
+		
+		var children = transfNode.children;
+		var numTransf = 0;
+		
+		var grandChildren = []
+		var nodeNames = [];
+		
+		for (var i = 0; i < children.length; i++)
+		{
+            if (children[i].nodeName != "transformation"){
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+			//Get id of current transformation
+			var transfId = this.reader.getString (children [i], 'id')
+
+			if (this.transformations[transfId] != null)
+                return "ID must be unique for each transformation (conflict: ID = " + transfId + ")";
+
+			grandChildren = children[i].children;
+			
+			//Retrieves transformation
+			for (var j = 0; j < grandChildren.length; j++)
+			{
+				switch (grandChildren[j].nodeName)
+				{
+					case "translate":
+					{
+						//x
+						var x = this.reader.getFloat (grandChildren[j],'x');
+						if (x == null || isNaN (x))
+						{
+							x = 0
+							this.onXMLMinorErro ("unable to parse x component of translation, assuming x = 0");
+						}
+						
+						//y
+						var y = this.reader.getFloat (grandChildren[j],'y');
+						if (y == null || isNaN (y))
+						{
+							y = 0
+							this.onXMLMinorErro ("unable to parse y component of translation, assuming y = 0");
+						}
+						
+						//z
+						var z = this.reader.getFloat (grandChildren[j],'z');
+						if (z == null || isNaN (z))
+						{
+							z = 0
+							this.onXMLMinorErro ("unable to parse z component of translation, assuming z = 0");
+						}
+												
+						//type, x, y, z
+						this.transformations [transfId] = ["t", x, y, z];
+						
+						break;
+					}
+					case "rotate":
+					{		
+						//axis of rotation
+						var axis = this.reader.getString (grandChildren[j],'axis');
+						
+						if (axis == null || 
+						   (axis != "x" && axis != "y" && axis != "z") )
+								return "unable to parse axis of rotation from " + transfId;
+
+						//angle
+						var angle = this.reader.getFloat (grandChildren[j],'angle');
+						if (angle == null || isNaN (angle))
+						{
+							angle = 0
+							this.onXMLMinorErro ("unable to parse angle of rotation, assuming angle = 0");
+						}	
+						
+						this.transformations [transfId] = ["r", angle, axis];
+						this.log (this.transformations [transfId]);
+						
+						break;
+					}
+					case "scale":
+					{
+						//x
+						var x = this.reader.getFloat (grandChildren[j],'x');
+						if (x == null || isNaN (x))
+						{
+							x = 0
+							this.onXMLMinorErro ("unable to parse x component of scale, assuming x = 0");
+						}
+						
+						//y
+						var y = this.reader.getFloat (grandChildren[j],'y');
+						if (y == null || isNaN (y))
+						{
+							y = 0
+							this.onXMLMinorErro ("unable to parse y component of scale, assuming y = 0");
+						}
+						
+						//z
+						var z = this.reader.getFloat (grandChildren[j],'z');
+						if (z == null || isNaN (z))
+						{
+							z = 0
+							this.onXMLMinorErro ("unable to parse z component of scale, assuming z = 0");
+						}
+												
+						//type, x, y, z
+						this.transformations [transfId] = ["s", x, y, z];	
+						break;
+					}
+					
+					default:
+						return "unable to parse type of transformation of '" + transfId + "'";
+				}
+				
+			}
+		}
+		
         this.log("Parsed transformations");
         return null;
 
