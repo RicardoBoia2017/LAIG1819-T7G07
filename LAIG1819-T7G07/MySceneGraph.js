@@ -1133,10 +1133,8 @@ class MySceneGraph {
 							return "unable to z3 component of primitive";
 	
 						triangleSpecs.push (z3); 
-						specsArray.push(triangleSpecs);
 						
-						this.log (specsArray[0]);
-						
+						specsArray.push(triangleSpecs);			
 						break;
 					}
 					
