@@ -69,15 +69,19 @@
 
 
 <primitives>
-    <!-- Uma "primitive" e' uma primitiva e pode ser usada em nos folha -->
-    <!-- Deve existir um ou mais blocos "primitive" -->
-    <!-- Os identificadores "id" nao podem ser repetidos -->
+
     <primitive id="rectangle">
-        <!-- apenas pode existir UMA das seguintes tags: -->
-        <!-- rectangle, triangle, cylinder, sphere, torus -->
-        <!-- os parametros devem ser interpretados, genericamente, -->
-        <!-- como em WebGL; o cilindro deve adicionalmente ter tampas -->
         <rectangle x1="0" y1="0" x2="1" y2="1" />
+    </primitive>
+	
+	<primitive id="triangle">
+        <triangle x1="0" y1="0" z1="0"
+                x2="1" y2="0" z2="0"
+                x3="0.5" y3="1" z3="0" />
+    </primitive>
+
+    <primitive id="cylinder">
+       <cylinder base="1" top="1" height="2" slices="12" stacks="4" />
     </primitive>
 </primitives>
 

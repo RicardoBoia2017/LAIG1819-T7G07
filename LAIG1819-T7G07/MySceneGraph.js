@@ -205,19 +205,17 @@ class MySceneGraph {
      *  @param {scene block element} sceneNode
      */
     parseScene(sceneNode) 
-    {		 
-		this.root = "root";
-		this.axis_length = 1;
-
-		this.root = this.reader.getString(sceneNode,'root');
-		this.axis_length = this.reader.getFloat(sceneNode, 'axis_length');
+	{
+		this.root = this.reader.getString(sceneNode,'root');	
 			
 		if (this.root == null) {
             this.root = "root";
             this.onXMLMinorError("unable to parse value for root; assuming 'root = root'");
         }
 		
-        else if (!(this.axis_length != null && !isNaN(this.axis_length))) {
+		this.axis_length = this.reader.getFloat(sceneNode, 'axis_length');
+
+        if (!(this.axis_length != null && !isNaN(this.axis_length))) {
             this.axis_length = 1;
             this.onXMLMinorError("unable to parse value for axis_length; assuming 'axis_length = 1'");
         }
@@ -251,7 +249,7 @@ class MySceneGraph {
 				id = this.reader.getString(children[j], 'id');
 				
 				if (id == null) { // acrescentar conversão para o default
-					this.onXMLMinorError("unable to parse value for id");
+					this.onXMLMinorError("unable to parse id value for view");
 				}
 				
 				//near
@@ -401,7 +399,7 @@ class MySceneGraph {
 			}	
 			
 			
-			else if (nodeNames[j] == "ortho")
+			else if (nodeNames[j] == "ortho") //TODO
 			{
 			
 			}
@@ -606,7 +604,7 @@ class MySceneGraph {
             // Get id of the current light.
             var lightId = this.reader.getString(children[i], 'id');
             if (lightId == null)
-                return "no ID defined for light";
+                return "unable to parse id value for light";
 
             // Checks for repeated IDs.
             if (this.lights[lightId] != null)
@@ -802,7 +800,7 @@ class MySceneGraph {
 		for (var i = 0; i < children.length; i++)
 		{
 			if (children[i].nodeName != "texture")
-				this.onXMLMinorError("unable to parse texture");
+				this.onXMLMinorError("unable to parse texture id");
 			
 			else
 			{ 
@@ -810,7 +808,7 @@ class MySceneGraph {
 				var id = this.reader.getString(children[i], 'id')
 				
 				if (id == null)
-					return "unable to parse value for texture id";	
+					return "unable to parse value for texture";	
 
 				if (this.textures [id] != null)
 				{
@@ -867,6 +865,9 @@ class MySceneGraph {
 			//Get id of current transformation
 			var transfId = this.reader.getString (children [i], 'id')
 
+			if (transfId == null)
+					return "unable to parse value for transformation id";
+			
 			if (this.transformations[transfId] != null)
                 return "ID must be unique for each transformation (conflict: ID = " + transfId + ")";
 
@@ -926,7 +927,6 @@ class MySceneGraph {
 						}	
 						
 						this.transformations [transfId] = ["r", angle, axis];
-						this.log (this.transformations [transfId]);
 						
 						break;
 					}
@@ -978,8 +978,188 @@ class MySceneGraph {
      * @param {primitives block element} primitivesNode
      */
     parsePrimitives(primitivesNode) {
-        // TODO: Parse block
-        this.log("Parsed primitives");
+
+		this.primitives = [];
+		
+		var children = primitivesNode.children;
+		
+		for (var i = 0; i < children.length; i++)
+		{
+			//id
+			var primitiveId = this.reader.getString (children [i],'id');
+			
+			if (primitiveId == null)
+				return "unable to parse id value for primitive";
+			
+			if (this.primitives [primitiveId] != null)
+				return "primitives id must be unique";
+			
+			//gets primitive specifications
+			var primitiveSpecs = children[i].children;
+			var specsArray = [];
+			
+			for (var j = 0; j < primitiveSpecs.length; j++)
+			{
+				switch (primitiveSpecs[j].nodeName)
+				{
+					case "rectangle":
+					{
+						
+						var rectangleSpecs = [];
+						
+						//pushes type
+						rectangleSpecs.push ("rectangle");
+						
+						//x1 
+						var x1 = this.reader.getFloat (primitiveSpecs[j],'x1');
+						if (x1 == null || isNaN (x1))
+						{
+							x1 = 0;
+							this.onXMLMinorErro ("unable to parse x1 component of primitive, assuming x1 = 0");
+						}	
+						
+						rectangleSpecs.push (x1);
+						
+						//y1 
+						var y1 = this.reader.getFloat (primitiveSpecs[j],'y1');
+						if (y1 == null || isNaN (y1))
+						{
+							y1 = 0;
+							this.onXMLMinorErro ("unable to parse y1 component of primitive, assuming y1 = 0");
+						}	
+
+						rectangleSpecs.push (y1);						
+						
+						//x2 
+						var x2 = this.reader.getFloat (primitiveSpecs[j],'x2');
+						if (x2 == null || isNaN (x2))
+						{
+							x2 = 1;
+							this.onXMLMinorErro ("unable to parse x2 component of primitive, assuming x2 = 1");
+						}	
+												
+						else if (x1 >= x2)
+							return "x2 of primitive must be greater than x1";
+
+						rectangleSpecs.push (x2);						
+						
+						//y2 
+						var y2 = this.reader.getFloat (primitiveSpecs[j],'y2');
+						if (y2 == null || isNaN (y2))
+						{
+							y2 = 1;
+							this.onXMLMinorErro ("unable to parse y2 component of primitive, assuming y2 = 1");
+						}	
+						
+						else if (y1 >= y2)
+							return "y2 of primitive must be greater than y1";
+
+						rectangleSpecs.push (y2);
+						
+						specsArray.push (rectangleSpecs);
+						break;
+					}
+					
+					case "triangle":
+					{
+
+						var triangleSpecs = [];
+						
+						//pushes type
+						triangleSpecs.push ("triangle");
+						
+						//x1 
+						var x1 = this.reader.getFloat (primitiveSpecs[j],'x1');
+						
+						if (x1 == null || isNaN (x1))
+							return "unable to x1 component of primitive";
+						
+						triangleSpecs.push (x1);					
+					
+						//y1 
+						var y1 = this.reader.getFloat (primitiveSpecs[j],'y1');
+						if (y1 == null || isNaN (y1))
+							return "unable to y1 component of primitive";
+	
+						triangleSpecs.push (y1);	
+
+						//z1 
+						var z1 = this.reader.getFloat (primitiveSpecs[j],'z1');
+						if (z1 == null || isNaN (z1))
+							return "unable to z1 component of primitive";
+	
+						triangleSpecs.push (z1);
+						
+						//x2
+						var x2 = this.reader.getFloat (primitiveSpecs[j],'x2');
+						
+						if (x2 == null || isNaN (x2))
+							return "unable to x2 component of primitive";
+						
+						triangleSpecs.push (x2);							
+						
+						//y2
+						var y2 = this.reader.getFloat (primitiveSpecs[j],'y2');
+						if (y2 == null || isNaN (y2))
+							return "unable to y2 component of primitive";
+	
+						triangleSpecs.push (y2);
+
+						//z2 
+						var z2 = this.reader.getFloat (primitiveSpecs[j],'z2');
+						if (z2 == null || isNaN (z2))
+							return "unable to z2 component of primitive";
+	
+						triangleSpecs.push (z2);
+					
+						//x3
+						var x3 = this.reader.getFloat (primitiveSpecs[j],'x3');
+						
+						if (x3 == null || isNaN (x3))
+							return "unable to x3 component of primitive";
+						
+						triangleSpecs.push (x3);
+
+						//y3
+						var y3 = this.reader.getFloat (primitiveSpecs[j],'y3');
+						if (y3 == null || isNaN (y3))
+							return "unable to y3 component of primitive";
+	
+						triangleSpecs.push (y3);						
+
+						//z3 
+						var z3 = this.reader.getFloat (primitiveSpecs[j],'z3');
+						if (z3 == null || isNaN (z3))
+							return "unable to z3 component of primitive";
+	
+						triangleSpecs.push (z3); 
+						specsArray.push(triangleSpecs);
+						
+						this.log (specsArray[0]);
+						
+						break;
+					}
+					
+					case "cylinder":
+					{
+						break;
+					}	
+					
+					case "sphere":
+					{
+						
+						break;
+					}
+					
+					case "torus":
+					{
+						break;
+					}
+				}
+			}
+		}
+		
+		this.log("Parsed primitives");
         return null;
 
     }
