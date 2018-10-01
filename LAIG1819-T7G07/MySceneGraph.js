@@ -836,6 +836,201 @@ class MySceneGraph {
      */
     parseMaterials(materialsNode) {
 
+		this.materials = [];
+		var numMaterials = 0;
+		
+		var children = materialsNode.children;
+		
+		var grandChildren = [];
+		var nodeNames = [];
+		
+		for(var i = 0; i < children.length; i++)
+		{
+			
+			if (children[i].nodeName != "material")
+			{
+			    this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+			}
+					
+			//id
+			var materialId = this.reader.getString (children[i], 'id');
+									
+			if (materialId == null)
+				return "unable to parse id value for material";
+			
+			if (this.materials [materialId] != null)
+				return "materials id must be unique";
+
+			//Specifications for the current material
+			
+			var shininessMaterial = this.reader.getFloat (children[i], 'shininess')
+			
+			if (shininessMaterial == null || isNaN(shininessMaterial) )
+			{
+				shininessMaterial = 1;
+                this.onXMLMinorError("unable to parse value component of the 'shininess' field for ID = " + lightId + "; assuming 'value = 1'");				
+			}
+			
+			grandChildren = children[i].children;
+			
+			var nodeNames = [];
+            for (var j = 0; j < grandChildren.length; j++) 
+                nodeNames.push(grandChildren[j].nodeName);
+			
+            // Gets indices of each element
+            var emissionIndex = nodeNames.indexOf("emission");
+            var ambientIndex = nodeNames.indexOf("ambient");
+            var diffuseIndex = nodeNames.indexOf("diffuse");
+            var specularIndex = nodeNames.indexOf("specular");
+			
+			//Retrieves the material emission
+			var emissionMaterial = [];
+			
+			if (emissionMaterial != 1)
+			{
+                // R
+                var r = this.reader.getFloat(grandChildren[emissionIndex], 'r');
+                if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                    return "unable to parse R component of the emission for ID = " + materialId;
+                else
+                    emissionMaterial.push(r);
+
+                // G
+                var g = this.reader.getFloat(grandChildren[emissionIndex], 'g');
+                if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                    return "unable to parse G component of the emission for ID = " + materialId;
+                else
+                    emissionMaterial.push(g);
+
+                // B
+                var b = this.reader.getFloat(grandChildren[emissionIndex], 'b');
+                if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                    return "unable to parse B component of the emission for ID = " + materialId;
+                else
+                    emissionMaterial.push(b);
+
+                // A
+                var a = this.reader.getFloat(grandChildren[emissionIndex], 'a');
+                if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+                    return "unable to parse A component of the emission for ID = " + materialId;
+                else
+                    emissionMaterial.push(a);				
+			}
+			else
+				return "material emission undefined for ID" + materialId;
+			
+			//Retrieves the ambient component
+	        var ambientIllumination = [];
+            if (ambientIndex != -1) {
+                // R
+                var r = this.reader.getFloat(grandChildren[ambientIndex], 'r');
+                if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                    return "unable to parse R component of the ambient illumination for ID = " + materialId;
+                else
+                    ambientIllumination.push(r);
+
+                // G
+                var g = this.reader.getFloat(grandChildren[ambientIndex], 'g');
+                if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                    return "unable to parse G component of the ambient illumination for ID = " + materialId;
+                else
+                    ambientIllumination.push(g);
+
+                // B
+                var b = this.reader.getFloat(grandChildren[ambientIndex], 'b');
+                if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                    return "unable to parse B component of the ambient illumination for ID = " + materialId;
+                else
+                    ambientIllumination.push(b);
+
+                // A
+                var a = this.reader.getFloat(grandChildren[ambientIndex], 'a');
+                if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+                    return "unable to parse A component of the ambient illumination for ID = " + materialId;
+                else
+                    ambientIllumination.push(a);
+            }
+            else
+                return "ambient component undefined for ID = " + materialId;	
+
+            // Retrieve the diffuse component
+            var diffuseIllumination = [];
+            if (diffuseIndex != -1) {
+                // R
+                var r = this.reader.getFloat(grandChildren[diffuseIndex], 'r');
+                if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                    return "unable to parse R component of the diffuse illumination for ID = " + materialId;
+                else
+                    diffuseIllumination.push(r);
+
+                // G
+                var g = this.reader.getFloat(grandChildren[diffuseIndex], 'g');
+                if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                    return "unable to parse G component of the diffuse illumination for ID = " + materialId;
+                else
+                    diffuseIllumination.push(g);
+
+                // B
+                var b = this.reader.getFloat(grandChildren[diffuseIndex], 'b');
+                if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                    return "unable to parse B component of the diffuse illumination for ID = " + materialId;
+                else
+                    diffuseIllumination.push(b);
+
+                // A
+                var a = this.reader.getFloat(grandChildren[diffuseIndex], 'a');
+                if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+                    return "unable to parse A component of the diffuse illumination for ID = " + materialId;
+                else
+                    diffuseIllumination.push(a);
+            }
+            else
+                return "diffuse component undefined for ID = " + materialId;
+
+            //Retrieve the specular component
+            var specularIllumination = [];
+            if (specularIndex != -1) {
+                // R
+                var r = this.reader.getFloat(grandChildren[specularIndex], 'r');
+                if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                    return "unable to parse R component of the specular illumination for ID = " + materialId;
+                else
+                    specularIllumination.push(r);
+
+                // G
+                var g = this.reader.getFloat(grandChildren[specularIndex], 'g');
+                if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                    return "unable to parse G component of the specular illumination for ID = " + materialId;
+                else
+                    specularIllumination.push(g);
+
+                // B
+                var b = this.reader.getFloat(grandChildren[specularIndex], 'b');
+                if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                    return "unable to parse B component of the specular illumination for ID = " + materialId;
+                else
+                    specularIllumination.push(b);
+
+                // A
+                var a = this.reader.getFloat(grandChildren[specularIndex], 'a');
+                if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+                    return "unable to parse A component of the specular illumination for ID = " + materialId;
+                else
+                    specularIllumination.push(a);
+            }
+            else
+                return "specular component undefined for ID = " + materialId;		
+
+			this.materials[materialId] = [shininessMaterial, emissionMaterial, ambientIllumination, diffuseIllumination, specularIllumination];
+			
+			this.log (this.materials[materialId]);
+			numMaterials++;
+		}
+		
+		if (numMaterials == 0)
+			return "at least one material must be defined";
+		
         this.log("Parsed materials");
         return null;
 
@@ -863,7 +1058,7 @@ class MySceneGraph {
             }
 
 			//Get id of current transformation
-			var transfId = this.reader.getString (children [i], 'id')
+			var transfId = this.reader.getString (children [i], 'id');
 
 			if (transfId == null)
 					return "unable to parse value for transformation id";
@@ -1155,6 +1350,8 @@ class MySceneGraph {
 					}
 				}
 			}
+			
+			this.primitives [primitiveId] = [primitiveSpecs];
 		}
 		
 		this.log("Parsed primitives");
