@@ -9,7 +9,7 @@ function MySolidCylinder(scene, args)
     this.theCylinder = new MyCylinder(scene, args);
     this.theCylinder.initBuffers();
 
-    args = args.split(" ").map(x => parseInt(x, 10));
+    args = args;//.split(" ").map(x => parseInt(x, 10));
  
     this.height = args[0];
     this.bot = args[1];

@@ -5,7 +5,7 @@
  function MySphere(scene, args) {
  	CGFobject.call(this,scene);
 
-  args = args.split(" ").map(x => parseInt(x, 10));
+  args = args;//.split(" ").map(x => parseInt(x, 10));
 
 	this.radius = args[0];
 	this.slices=args[1];

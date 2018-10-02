@@ -5,7 +5,7 @@
 function MyCylinder(scene, args) {
   CGFobject.call(this,scene);
 
-  args = args.split(" ").map(x => parseInt(x, 10));
+  args = args;//.split(" ").map(x => parseInt(x, 10));
 
   this.height = args[0];
   this.botRadius = args[1];

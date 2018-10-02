@@ -31,6 +31,15 @@ class MySceneGraph {
 		var argsQuad = [0,0, 1, 1];
 		this.quad = new MyQuad (this.scene, argsQuad);
 		
+		var argsTri = [0,0,0,1,0,0,0.5,1,0];
+		this.triangle = new MyTriangle (this.scene, argsTri);
+
+		var argsCyl = [1, 1, 1, 20, 20];
+		this.cylinder = new MySolidCylinder (this.scene,argsCyl);
+
+		var argsSphere = [1,20,20];
+		this.sphere = new MySphere (this.scene,argsSphere);
+
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
         this.axisCoords['y'] = [0, 1, 0];
@@ -1027,7 +1036,6 @@ class MySceneGraph {
 
 			this.materials[materialId] = [shininessMaterial, emissionMaterial, ambientIllumination, diffuseIllumination, specularIllumination];
 			
-			this.log (this.materials[materialId]);
 			numMaterials++;
 		}
 		
@@ -1254,7 +1262,7 @@ class MySceneGraph {
 
 						rectangleSpecs.push (y2);
 						
-						specsArray.push (rectangleSpecs);
+						specsArray = rectangleSpecs;
 						break;
 					}
 					
@@ -1332,7 +1340,7 @@ class MySceneGraph {
 	
 						triangleSpecs.push (z3); 
 						
-						specsArray.push(triangleSpecs);			
+						specsArray = triangleSpecs;			
 						break;
 					}
 					
@@ -1354,7 +1362,7 @@ class MySceneGraph {
 				}
 			}
 			
-			this.primitives [primitiveId] = [primitiveSpecs];
+			this.primitives [primitiveId] = primitiveSpecs;
 		}
 		
 		this.log("Parsed primitives");
@@ -1403,8 +1411,12 @@ class MySceneGraph {
      */
     displayScene() {
         // entry point for graph rendering
-		
-		this.quad.display();
+		var i;
+		this.log (this.primitives["rectangle1"][1]);
+//		for(var key in this.primitives)
+//		{
+//			this.log(this.primitives.hasOwnProperty);
+//		}
         //TODO: Render loop starting at root of graph
     }
 }

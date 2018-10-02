@@ -5,7 +5,7 @@
 function MyTriangle(scene, args) {
   CGFobject.call(this, scene);
 
-  this.args = args.split(" ").map(x => parseInt(x, 10));
+  this.args = args;
   this.minS = 0;
 	this.minT = 0;
 	this.maxS = 1;
