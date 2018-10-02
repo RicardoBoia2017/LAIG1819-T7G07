@@ -74,6 +74,7 @@ class XMLscene extends CGFscene {
                 i++;
             }
         }
+
     }
 
 
@@ -83,7 +84,7 @@ class XMLscene extends CGFscene {
     onGraphLoaded() {
         this.camera.near = this.graph.near;
         this.camera.far = this.graph.far;
-
+        
         //TODO: Change reference length according to parsed graph
         //this.axis = new CGFaxis(this, this.graph.referenceLength);
 
@@ -120,8 +121,8 @@ class XMLscene extends CGFscene {
         if (this.sceneInited) {
             // Draw axis
             this.axis.display();
-
             var i = 0;
+
             for (var key in this.lightValues) {
                 if (this.lightValues.hasOwnProperty(key)) {
                     if (this.lightValues[key]) {

@@ -28,7 +28,9 @@ class MySceneGraph {
         this.nodes = [];
 
         this.idRoot = null;                    // The id of the root element.
-
+		var argsQuad = [0,0, 1, 1];
+		this.quad = new MyQuad (this.scene, argsQuad);
+		
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
         this.axisCoords['y'] = [0, 1, 0];
@@ -65,7 +67,7 @@ class MySceneGraph {
         this.loadedOk = true;
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-        this.scene.onGraphLoaded();
+       this.scene.onGraphLoaded();
     }
 
     /**
@@ -197,6 +199,8 @@ class MySceneGraph {
             if ((error = this.parseComponents(nodes[index])) != null)
                 return error;
         }
+
+
     }
 
 
@@ -253,39 +257,38 @@ class MySceneGraph {
 				}
 				
 				//near
-				var near;
-				near = this.reader.getFloat(children[j], 'near');
+				this.near = this.reader.getFloat(children[j], 'near');
 				
-				if (near == null ) {
-					near = 0.1;
+				if (this.near == null ) {
+					this.near = 0.1;
 					this.onXMLMinorError("unable to parse value for near plane; assuming 'near = 0.1'");
 				}
 				
-				else if (isNaN(near)) {
-					near = 0.1;
+				else if (isNaN(this.near)) {
+					this.near = 0.1;
 					this.onXMLMinorError("non-numeric value found for near plane; assuming 'near = 0.1'");
 				}
 				
-				else if (near <= 0) {
-					near = 0.1;
+				else if (this.near <= 0) {
+					this.near = 0.1;
 					this.onXMLMinorError("'near' must be positive; assuming 'near = 0.1'");
 				}	
 
 				//far
-				var far;
-				far = this.reader.getFloat(children[j], 'far');
+				this.far;
+				this.far = this.reader.getFloat(children[j], 'far');
 				
-				if (far == null ) {
-					far = 500;
+				if (this.far == null ) {
+					this.far = 500;
 					this.onXMLMinorError("unable to parse value for far plane; assuming 'far = 500'");
 				}
 				
-				else if (isNaN(far)) {
-					far = 500;
+				else if (isNaN(this.far)) {
+					this.far = 500;
 					this.onXMLMinorError("non-numeric value found for far plane; assuming 'far = 500'");
 				}
 				
-				if (near >= far)
+				if (this.near >= this.far)
 					return "'near' must be smaller than 'far'";	
 				
 				//angle
@@ -395,7 +398,7 @@ class MySceneGraph {
 					
 				}
 				
-				this.views[id] = ["perspective", near, far, angle, from, to];
+				this.views[id] = ["perspective", this.near, this.far, angle, from, to];
 			}	
 			
 			
@@ -1400,6 +1403,8 @@ class MySceneGraph {
      */
     displayScene() {
         // entry point for graph rendering
+		
+		this.quad.display();
         //TODO: Render loop starting at root of graph
     }
 }

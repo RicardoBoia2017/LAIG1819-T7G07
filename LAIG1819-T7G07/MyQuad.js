@@ -4,7 +4,7 @@
 */
 function MyQuad(scene, args) {
     CGFobject.call(this,scene);
-    this.args = args.split(" ").map(x => parseInt(x, 10));
+    this.args = args;
     this.initBuffers();
 };
 
