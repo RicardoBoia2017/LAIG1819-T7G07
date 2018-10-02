@@ -1362,7 +1362,7 @@ class MySceneGraph {
 				}
 			}
 			
-			this.primitives [primitiveId] = primitiveSpecs;
+			this.primitives [primitiveId] = specsArray;;
 		}
 		
 		this.log("Parsed primitives");
@@ -1411,12 +1411,7 @@ class MySceneGraph {
      */
     displayScene() {
         // entry point for graph rendering
-		var i;
-		this.log (this.primitives["rectangle1"][1]);
-//		for(var key in this.primitives)
-//		{
-//			this.log(this.primitives.hasOwnProperty);
-//		}
+
         //TODO: Render loop starting at root of graph
     }
 }
