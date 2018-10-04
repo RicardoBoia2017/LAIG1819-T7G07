@@ -411,9 +411,122 @@ class MySceneGraph {
 			}	
 			
 			
-			else if (nodeNames[j] == "ortho") //TODO
+			else if (nodeNames[j] == "ortho") 
 			{
-			
+				//id
+				var id;
+				id = this.reader.getString(children[j], 'id');
+				
+				if (id == null) { // acrescentar conversão para o default
+					this.onXMLMinorErro("unable to parse id value for view");
+				}
+				
+				//near
+				this.near = this.reader.getFloat(children[j], 'near');
+				
+				if (this.near == null ) {
+					this.near = 0.1;
+					this.onXMLMinorErro("unable to parse value for near plane; assuming 'near = 0.1'");
+				}
+				
+				else if (isNaN(this.near)) {
+					this.near = 0.1;
+					this.onXMLMinorErro("non-numeric value found for near plane; assuming 'near = 0.1'");
+				}
+				
+				else if (this.near <= 0) {
+					this.near = 0.1;
+					this.onXMLMinorErro("'near' must be positive; assuming 'near = 0.1'");
+				}	
+
+				//far
+				this.far;
+				this.far = this.reader.getFloat(children[j], 'far');
+				
+				if (this.far == null ) {
+					this.far = 500;
+					this.onXMLMinorErro("unable to parse value for far plane; assuming 'far = 500'");
+				}
+				
+				else if (isNaN(this.far)) {
+					this.far = 500;
+					this.onXMLMinorErro("non-numeric value found for far plane; assuming 'far = 500'");
+				}
+
+				else if (this.far <= 0) {
+					this.far = 500;
+					this.onXMLMinorErro("'far' must be positive; assuming 'far = 500'");
+				}
+
+				if (this.near >= this.far)
+					return "'near' must be smaller than 'far'";	
+
+
+				//left
+				this.left = this.reader.getFloat(children[j], 'left');
+				
+				if (this.left == null ) {
+					this.left = -30;
+					this.onXMLMinorErro("unable to parse value for left plane; assuming 'left = -30'");
+				}
+				
+				else if (isNaN(this.left)) {
+					this.left = -30;
+					this.onXMLMinorErro("non-numeric value found for left plane; assuming 'left = -30'");
+				}
+					
+
+				//right
+				this.right;
+				this.right = this.reader.getFloat(children[j], 'right');
+				
+				if (this.right == null ) {
+					this.right = 30;
+					this.onXMLMinorErro("unable to parse value for right plane; assuming 'right = 30'");
+				}
+				
+				else if (isNaN(this.right)) {
+					this.right = 30;
+					this.onXMLMinorErro("non-numeric value found for right plane; assuming 'right = 30'");
+				}
+				
+				if (this.left >= this.right)
+					return "'left' must be smaller than 'right'";
+
+
+				//top
+				this.top = this.reader.getFloat(children[j], 'top');
+				
+				if (this.top == null ) {
+					this.top = 30;
+					this.onXMLMinorErro("unable to parse value for top plane; assuming 'top = 30'");
+				}
+				
+				else if (isNaN(this.top)) {
+					this.top = 30;
+					this.onXMLMinorErro("non-numeric value found for top plane; assuming 'top = 30'");
+				}
+					
+
+				//bottom
+				this.bottom;
+				this.bottom = this.reader.getFloat(children[j], 'bottom');
+				
+				if (this.bottom == null ) {
+					this.bottom = -30;
+					this.onXMLMinorErro("unable to parse value for bottom plane; assuming 'bottom = -30'");
+				}
+				
+				else if (isNaN(this.bottom)) {
+					this.right = -30;
+					this.onXMLMinorErro("non-numeric value found for bottom plane; assuming 'bottom = -30'");
+				}
+				
+				if (this.bottom >= this.top)
+					return "'bottom' must be smaller than 'top'";	
+				
+					
+				this.views[id] = ["ortho", this.near, this.far, this.left, this.right, this.top, this.bottom];	
 			}
 			
 		}
@@ -1346,23 +1459,166 @@ class MySceneGraph {
 					
 					case "cylinder":
 					{
+						var cylinderSpecs = [];
+						
+						//pushes type
+						cylinderSpecs.push ("cylinder");
+						
+						//base
+						var base = this.reader.getFloat (primitiveSpecs[j],'base');
+						if (base == null || isNaN(base)) 
+						{
+							base = 1;
+							this.onXMLMinorErro ("unable to parse base component of primitive, assuming base = 1");
+						}	
+						
+						cylinderSpecs.push (base);
+						
+						//top 
+						var top = this.reader.getFloat (primitiveSpecs[j],'top');
+						if (top == null || isNaN (top))
+						{
+							top = 1;
+							this.onXMLMinorErro ("unable to parse top component of primitive, assuming top = 1");
+						}	
+
+						cylinderSpecs.push (y1);						
+						
+						//height 
+						var height = this.reader.getFloat (primitiveSpecs[j],'height');
+						if (height == null || isNaN (height))
+						{
+							height = 1;
+							this.onXMLMinorErro ("unable to parse height component of primitive, assuming height = 1");
+						}	
+
+						cylinderSpecs.push (height);						
+						
+						//slices 
+						var slices = this.reader.getFloat (primitiveSpecs[j],'slices');
+						if (slices == null || isNaN (slices)) //penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
+						{
+							slices = 12;
+							this.onXMLMinorErro ("unable to parse slices component of primitive, assuming slices = 12");
+						}	
+					
+						cylinderSpecs.push (slices);
+
+						//stacks 
+						var stacks = this.reader.getFloat (primitiveSpecs[j],'stacks');
+						if (stacks == null || isNaN (stacks)) //penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
+						{
+							stacks = 20;
+							this.onXMLMinorErro ("unable to parse stacks component of primitive, assuming stacks = 20");
+						}	
+					
+						cylinderSpecs.push (stacks);
+						
+						specsArray = cylinderSpecs;
 						break;
 					}	
 					
 					case "sphere":
 					{
 						
+						var sphereSpecs = [];
+						
+						//pushes type
+						sphereSpecs.push ("sphere");
+						
+						//radius
+						var radius = this.reader.getFloat (primitiveSpecs[j],'radius');
+						if (radius == null || isNaN(radius)) 
+						{
+							radius = 1;
+							this.onXMLMinorErro ("unable to parse radius component of primitive, assuming radius = 1");
+						}	
+						
+						sphereSpecs.push (radius);
+												
+						
+						//slices 
+						var slices = this.reader.getFloat (primitiveSpecs[j],'slices');
+						if (slices == null || isNaN (slices)) //penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
+						{
+							slices = 12;
+							this.onXMLMinorErro ("unable to parse slices component of primitive, assuming slices = 12");
+						}	
+					
+						sphereSpecs.push (slices);
+
+						//stacks 
+						var stacks = this.reader.getFloat (primitiveSpecs[j],'stacks');
+						if (stacks == null || isNaN (stacks)) //penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
+						{
+							stacks = 20;
+							this.onXMLMinorErro ("unable to parse stacks component of primitive, assuming stacks = 20");
+						}	
+					
+						sphereSpecs.push (stacks);
+						
+						specsArray = sphereSpecs;
 						break;
 					}
 					
 					case "torus":
 					{
+						var torusSpecs = [];
+						
+						//pushes type
+						torusSpecs.push ("torus");
+						
+						//inner
+						var inner = this.reader.getFloat (primitiveSpecs[j],'inner');
+						if (inner == null || isNaN(inner)) 
+						{
+							inner = 1;
+							this.onXMLMinorErro ("unable to parse inner component of primitive, assuming inner = 1");
+						}	
+						
+						torusSpecs.push (inner);
+												
+						
+						//outer 
+						var outer = this.reader.getFloat (primitiveSpecs[j],'outer');
+						if (outer == null || isNaN (outer)) 
+						{
+							outer = 2;
+							this.onXMLMinorErro ("unable to parse outer component of primitive, assuming outer = 2");
+						}	
+					
+						torusSpecs.push (outer);
+
+						//slices 
+						var slices = this.reader.getFloat (primitiveSpecs[j],'slices');
+						if (slices == null || isNaN (slices)) //TODO: penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
+						{
+							slices = 12;
+							this.onXMLMinorErro ("unable to parse slices component of primitive, assuming slices = 12");
+						}	
+					
+						torusSpecs.push (slices);
+
+						//loops 
+						var loops = this.reader.getFloat (primitiveSpecs[j],'loops');
+						if (loops == null || isNaN (loops)) //TODO: penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
+						{
+							loops = 20;
+							this.onXMLMinorErro ("unable to parse loops component of primitive, assuming loops = 20");
+						}	
+					
+						torusSpecs.push (loops);
+						
+						specsArray = torusSpecs;
 						break;
 					}
+
+					default:
+						return "unable to parse this type of primitive";
 				}
 			}
 			
-			this.primitives [primitiveId] = specsArray;;
+			this.primitives [primitiveId] = specsArray;
 		}
 		
 		this.log("Parsed primitives");
@@ -1376,7 +1632,303 @@ class MySceneGraph {
      */
     parseComponents(componentsNode) {
         // TODO: Parse block
-        this.log("Parsed componentss");
+
+
+
+
+		this.components = [];
+		
+		var children = componentsNode.children;
+		
+		for (var i = 0; i < children.length; i++)
+		{
+			//id
+			var componentId = this.reader.getString (children [i],'id');
+			
+			if (componentId == null)
+				return "unable to parse id value for component";
+			
+			if (this.components [componentId] != null)
+				return "component id must be unique";
+			
+			//gets component grandChildren
+			var grandChildren = children[i].children;
+			var specsArray = [];
+			
+			for (var j = 0; j < grandChildren.length; j++)
+			{
+				switch (grandChildren[j].nodeName)
+				{
+					case "transformation":
+					{
+						
+						var transfSpecs = [];
+						
+						var transfChildren = grandChildren[j].children;
+						
+						if(transfChildren.length == 0)
+							break;
+						if(transfChildren[0].nodeName == "transformationref")
+						{
+							//pushes type
+							transfSpecs.push("transformationref");
+
+							var transId = this.reader.getString(transfChildren[0], 'id');
+							if (transId == null)
+								return "unable to parse id value for transformationref";
+						
+							transfSpecs.push(transId);
+						}
+						else
+						{
+							for (var k = 0; k < transfChildren.length; k++)
+							{
+								switch (transfChildren[k].nodeName)
+								{
+									case "translate":
+									{
+										var translateSpecs = [];
+
+										//pushes type
+										translateSpecs.push("translate");
+					
+										//x 
+										var x = this.reader.getFloat (transfChildren[k],'x');
+										if (x == null || isNaN (x))
+										{
+											x = 0;
+											this.onXMLMinorErro ("unable to parse x component of translate, assuming x = 0");
+										}	
+
+										translateSpecs.push (x);
+
+										//y 
+										var y = this.reader.getFloat (transfChildren[k],'y');
+										if (y == null || isNaN (y))
+										{
+											y = 0;
+											this.onXMLMinorErro ("unable to parse y component of translate, assuming y = 0");
+										}	
+
+										translateSpecs.push (y);
+
+										//z
+										var z = this.reader.getFloat (transfChildren[k],'z');
+										if (z == null || isNaN (z))
+										{
+											z = 0;
+											this.onXMLMinorErro ("unable to parse z component of translate, assuming z = 0");
+										}	
+
+										translateSpecs.push (z);
+
+										transfSpecs.push(translateSpecs);
+										break;
+									}
+
+									case "rotate":
+									{
+										var rotateSpecs = [];
+
+										//pushes type
+										rotateSpecs.push("rotate");
+					
+										//axis
+										var axis = this.reader.getString (transfChildren[k],'axis');
+										if (axis == null)
+										{
+											axis = "x";
+											this.onXMLMinorErro ("unable to parse axis component of rotate, assuming axis = 'x'");
+										}	
+
+										rotateSpecs.push (axis);
+
+										//angle 
+										var angle = this.reader.getFloat (transfChildren[k],'angle');
+										if (angle == null || isNaN (angle))
+										{
+											angle = 0;
+											this.onXMLMinorErro ("unable to parse angle component of rotate, assuming angle = 0");
+										}	
+
+										rotateSpecs.push (angle);
+
+										transfSpecs.push(rotateSpecs);
+										break;
+									}
+
+									case "scale":
+									{
+										var scaleSpecs = [];
+
+										//pushes type
+										scaleSpecs.push("scale");
+					
+										//x 
+										var x = this.reader.getFloat (transfChildren[k],'x');
+										if (x == null || isNaN (x))
+										{
+											x = 0;
+											this.onXMLMinorErro ("unable to parse x component of scale, assuming x = 0");
+										}	
+
+										scaleSpecs.push (x);
+
+										//y 
+										var y = this.reader.getFloat (transfChildren[k],'y');
+										if (y == null || isNaN (y))
+										{
+											y = 0;
+											this.onXMLMinorErro ("unable to parse y component of scale, assuming y = 0");
+										}	
+
+										scaleSpecs.push (y);
+
+										//z
+										var z = this.reader.getFloat (transfChildren[k],'z');
+										if (z == null || isNaN (z))
+										{
+											z = 0;
+											this.onXMLMinorErro ("unable to parse z component of scale, assuming z = 0");
+										}	
+
+										scaleSpecs.push (z);
+
+										transfSpecs.push(scaleSpecs);
+										break;
+									}
+									default:
+										return "unable to parse this type of transformation";
+								}
+							}
+						}
+						break;
+					}
+
+					case "materials":
+					{
+
+						var materialsSpecs = [];
+						
+						var materialsChildren = grandChildren[j].children;
+						
+						if(materialsChildren.length == 0)
+							return "unable to parse materials: there must be at least one material in the component node";
+						
+						var matSpecs = [];
+
+						for (var h = 0; h < materialsChildren.length; h++)
+						{
+							if (materialsChildren[h].nodeName != "material")
+							{
+                				this.onXMLMinorErro("unknown tag <" + materialsChildren[h].nodeName + ">");
+                				continue;
+            				}
+            				else
+            				{
+						
+								//pushes type
+								matSpecs.push("material");
+
+								var materialId = this.reader.getString(materialsChildren[h], 'id');
+								if (materialId == null)
+									return "unable to parse id value for materialId";
+
+								matSpecs.push(transId);
+            				}
+							
+							materialsSpecs.push(matSpecs);
+						}
+						break;
+					}
+					case "texture":
+					{
+						var textureSpecs = [];
+						
+						//pushes type
+						textureSpecs.push("texture");
+
+						var textureId = this.reader.getString(grandChildren[j], 'id');
+						if (textureId == null)
+							return "unable to parse id value for textureId";
+
+						textureSpecs.push(textureId);
+
+						//length_s 
+						var length_s = this.reader.getFloat (grandChildren[j],'length_s');
+						if (length_s == null || isNaN (length_s))
+						{
+							length_s = 1;
+							this.onXMLMinorErro ("unable to parse length_s component of texture, assuming length_s = 1");
+						}	
+
+						textureSpecs.push (length_s);
+
+						//length_t 
+						var length_t = this.reader.getFloat (grandChildren[j],'length_t');
+						if (length_t == null || isNaN (length_t))
+						{
+							length_t = 1;
+							this.onXMLMinorErro ("unable to parse length_t component of texture, assuming length_t = 1");
+						}	
+
+						textureSpecs.push (length_t);
+						break;
+					}
+
+					case "children":
+					{
+						var childrenSpecs = [];
+						
+						var childrenChildren = grandChildren[j].children;
+						
+						if(childrenChildren.length == 0)
+							return "unable to parse components' children: there must be at least one children in the component node";
+						
+						var chilSpecs = [];
+
+						for (var l = 0; l < childrenChildren.length; l++)
+						{
+							if (childrenChildren[l].nodeName != "componentref" && childrenChildren[l].nodeName != "primitiveref")
+							{
+                				this.onXMLMinorErro("unknown tag <" + childrenChildren[l].nodeName + ">");
+                				continue;
+            				}
+            				else
+            				{
+								if(childrenChildren[l].nodeName == "componentref")
+								{
+									//push type
+									chilSpecs.push("componentref");
+								}
+								else
+								{
+									//push type
+									chilSpecs.push("primitiveref");
+								}
+
+								var childId = this.reader.getString( childrenChildren[l], 'id');
+								if (childId == null)
+									return "unable to parse id value for childId";
+
+								chilSpecs.push(childId);
+            				}
+							
+							childrenSpecs.push(chilSpecs);
+						}
+						break;
+					}
+
+					default:
+						return "unable to parse this type of component";
+
+				}
+			}
+
+			this.components [componentId] = [transfSpecs, materialsSpecs, textureSpecs, childrenSpecs];
+		}
+	
+        this.log("Parsed components");
         return null;
     }
 
@@ -1411,7 +1963,12 @@ class MySceneGraph {
      */
     displayScene() {
         // entry point for graph rendering
-
+		var i;
+		//this.log (this.primitives["rectangle1"][3]);
+//		for(var key in this.primitives)
+//		{
+//			this.log(this.primitives.hasOwnProperty);
+//		}
         //TODO: Render loop starting at root of graph
     }
 }

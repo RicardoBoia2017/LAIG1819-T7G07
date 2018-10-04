@@ -565,14 +565,14 @@
 
         <transformation>
             <translate x="12" y="5.8" z="4.75" />
-            <scale sx="0.4" sy="2" sz="0.4" />
+            <scale x="0.4" y="2" z="0.4" />
         </transformation>   
 
         <materials>
             <material id="null" />
         </materials>    
 
-        <texture id="vidral" />       			
+        <texture id="vidral" length_s="1" length_t="1"/>       			
 
         <children>
        		<componentref id="meiaPiramide1" /> 
@@ -588,14 +588,14 @@
         <transformation>
            	<rotate axis="x" angle="90" />
        	    <translate x="1" y="6" z="2.87" /> 
-       	    <scale sx="2.8" sy="3.5" sz="1" />
+       	    <scale x="2.8" y="3.5" z="1" />
         </transformation> 
 
         <materials>
             <material id="null" />     
         </materials>
 
-        <texture id="null" />       			
+        <texture id="null" length_s="1" length_t="1"/>       			
 
         <children>
 			<primitiveref  id="rectangle1" />        
@@ -604,12 +604,17 @@
     </component>
 
     <!-- Half a pyramid -->
-    <component id="meiaPiramide1">       
+    <component id="meiaPiramide1">  
+
+	<transformation>
+            <translate x="0" y="0" z="0"	/>
+        </transformation>
+     
         <materials>
             <material id="null" />
         </materials> 
 
-        <texture id="null" />       			
+        <texture id="null" length_s="1" length_t="1"/>       			
 
         <children>
             <componentref id="meiaPiramide" />      
@@ -629,7 +634,7 @@
             <material id="null" />
         </materials>  
 
-        <texture id="null" />       			
+        <texture id="null" length_s="1" length_t="1"/>       			
 
 		
 
@@ -642,11 +647,16 @@
     <!-- Generic half a pyramid -->
     <component id="meiaPiramide"> 
 
+
+	<transformation>
+            <translate x="0" y="0" z="0"	/>
+        </transformation>
+
         <materials>
             <material id="null" />
         </materials>   
 
-        <TEXTURE id="null" />       			
+        <texture id="null" length_s="1" length_t="1"/>       			
 
         <children>
             <componentref id="facePiramide1" />       
