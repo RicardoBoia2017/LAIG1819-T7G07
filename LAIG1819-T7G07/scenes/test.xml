@@ -83,6 +83,15 @@
     <primitive id="cylinder">
        <cylinder base="1" top="1" height="2" slices="12" stacks="4" />
     </primitive>
+
+    <primitive id="sphere">
+		<sphere radius="1" slices="20" stacks="20" />
+    </primitive>	
+
+    <primitive id="torus">
+		<torus inner="3" outer="1" slices="20" loops="20" />
+    </primitive>	
+	
 </primitives>
 
 
