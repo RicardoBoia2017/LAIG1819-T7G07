@@ -93,7 +93,10 @@
     <component id="r"> 
 
         <transformation>
-            <transformationref id="trans"/>  
+			<rotate axis="y" angle="90"/>
+			<scale x="1" y="2" z="3" />
+            <transformationref id="trans"/> 
+			<translate x="1" y="0" z="3"/> 
         </transformation>
 
         <materials>
@@ -105,13 +108,41 @@
         <children>
 
             <!-- <componentref id="luzes" /> -->   
-            <componentref id="rectangle" /> 
+            <primitiveref id="rectangle" /> 
             <!-- <componentref id="arvores" />   -->
             <!-- <componentref id="chao" /> -->
             <!-- <componentref id="bancos" /> -->
-        </children>
+        </children> 		
 
     </component>
+	
+    <!-- The root node -->
+    <component id="wr"> 
+
+        <transformation>
+			<rotate axis="y" angle="90"/>
+			<scale x="1" y="2" z="3" />
+            <transformationref id="trans"/> 
+			<translate x="1" y="0" z="3"/> 
+        </transformation>
+
+        <materials>
+            <material id="m"/> 
+        </materials>   
+
+        <texture id= "tex" length_s="1" length_t="1"/>  
+
+        <children>
+
+            <!-- <componentref id="luzes" /> -->   
+            <primitiveref id="rectangle" /> 
+			<componentref id="r"/>
+            <!-- <componentref id="arvores" />   -->
+            <!-- <componentref id="chao" /> -->
+            <!-- <componentref id="bancos" /> -->
+        </children> 
+
+    </component>	
 
 </components>
 
