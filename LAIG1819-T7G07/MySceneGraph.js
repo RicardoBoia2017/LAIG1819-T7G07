@@ -1904,15 +1904,13 @@ class MySceneGraph {
 
 				}
 			}
-
-//			this.components [componentId] = [transfSpecs, materialsSpecs, textureSpecs, childrenSpecs];
 		}
 	
-/*		for(var key in this.components)
+		for(var key in this.components)
 		{
 			var component = this.components[key];
-			this.log(component.children.length);
-		}*/
+			this.log(component.matrixTransf);
+		}
 		
         this.log("Parsed components");
         return null;
@@ -1951,27 +1949,14 @@ class MySceneGraph {
 		var i;
 		
 		//Chao
-		this.scene.pushMatrix();
-		this.scene.translate(2.5,0,1.75);
-		this.scene.scale(5,1,3.5);
-		this.scene.rotate(-Math.PI / 2, 1, 0, 0);
-		this.quad.display();
-		this.scene.popMatrix();
-	
-		//Parede em Z
-		this.scene.pushMatrix();
-		this.scene.translate(0,1,1.75);
-		this.scene.scale(1,2,3.5);
-		this.scene.rotate(Math.PI / 2, 0, 1, 0);
-		this.quad.display();
-		this.scene.popMatrix();
-		
-		//Parede em X
-		this.scene.pushMatrix();
-		this.scene.translate(2.5,1,0);
-		this.scene.scale(5,2,1);
-		this.quad.display();
-		this.scene.popMatrix();
+		for (var key in this.components)
+		{
+//			this.log(key);
+			this.scene.pushMatrix();
+			this.scene.multMatrix (this.components[key].matrixTransf);
+			this.quad.display();
+			this.scene.popMatrix();
+		}
 		
 		//this.log (this.primitives["rectangle1"][3]);
         //TODO: Render loop starting at root of graph
