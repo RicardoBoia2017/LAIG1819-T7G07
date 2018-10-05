@@ -71,10 +71,10 @@
 <primitives>
 
     <primitive id="rectangle">
-        <rectangle x1="0" y1="0" x2="1" y2="1" />
+        <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
     </primitive>
 	
-	<primitive id="triangle">
+<!--	<primitive id="triangle">
         <triangle x1="0" y1="0" z1="0"
                 x2="1" y2="0" z2="0"
                 x3="0.5" y3="1" z3="0" />
@@ -90,7 +90,7 @@
 
     <primitive id="torus">
 		<torus inner="3" outer="1" slices="20" loops="20" />
-    </primitive>	
+    </primitive>	--> 
 	
 </primitives>
 
@@ -125,14 +125,13 @@
 
     </component>
 	
-    <!-- The root node -->
-    <component id="wr"> 
+    <!-- floor -->
+    <component id="floor"> 
 
         <transformation>
-			<rotate axis="y" angle="90"/>
-			<scale x="1" y="2" z="3" />
-            <transformationref id="trans"/> 
-			<translate x="1" y="0" z="3"/> 
+			<translate x="2.5" y="0" z="1.75"/> 
+			<scale x="5" y="1" z="3.5" />
+			<rotate axis="x" angle="-90"/>
         </transformation>
 
         <materials>
@@ -145,13 +144,64 @@
 
             <!-- <componentref id="luzes" /> -->   
             <primitiveref id="rectangle" /> 
-			<componentref id="r"/>
             <!-- <componentref id="arvores" />   -->
             <!-- <componentref id="chao" /> -->
             <!-- <componentref id="bancos" /> -->
         </children> 
 
     </component>	
+	
+	<!-- z wall -->
+    <component id="z wall"> 
+
+        <transformation>
+			<translate x="0" y="1" z="1.75"/> 
+			<scale x="1" y="2" z="3.5" />
+			<rotate axis="y" angle="90"/>
+        </transformation>
+
+        <materials>
+            <material id="m"/> 
+        </materials>   
+
+        <texture id= "tex" length_s="1" length_t="1"/>  
+
+        <children>
+
+            <!-- <componentref id="luzes" /> -->   
+            <primitiveref id="rectangle" /> 
+            <!-- <componentref id="arvores" />   -->
+            <!-- <componentref id="chao" /> -->
+            <!-- <componentref id="bancos" /> -->
+        </children> 
+
+    </component>	
+
+	<!-- X Wall -->
+    <component id="x wall"> 
+
+        <transformation>
+			<translate x="2.5" y="1" z="0"/> 
+			<scale x="5" y="2" z="1" />
+        </transformation>
+
+        <materials>
+            <material id="m"/> 
+        </materials>   
+
+        <texture id= "tex" length_s="1" length_t="1"/>  
+
+        <children>
+
+            <!-- <componentref id="luzes" /> -->   
+            <primitiveref id="rectangle" /> 
+            <!-- <componentref id="arvores" />   -->
+            <!-- <componentref id="chao" /> -->
+            <!-- <componentref id="bancos" /> -->
+        </children> 
+
+    </component>		
+	
 
 </components>
 

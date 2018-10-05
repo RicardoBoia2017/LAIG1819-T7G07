@@ -28,7 +28,7 @@ class MySceneGraph {
         this.nodes = [];
 
         this.idRoot = null;                    // The id of the root element.
-		var argsQuad = [0,0, 1, 1];
+		var argsQuad = [-0.5,-0.5, 0.5, 0.5];
 		this.quad = new MyQuad (this.scene, argsQuad);
 		
 		var argsTri = [0,0,0,1,0,0,0.5,1,0];
@@ -1925,7 +1925,6 @@ class MySceneGraph {
 
 								chilSpecs.push(childId);
             				}
-				//			this.log(chilSpecs);
 						}
 						
 						childrenSpecs.push(chilSpecs);
@@ -1941,6 +1940,12 @@ class MySceneGraph {
 			this.components [componentId] = [transfSpecs, materialsSpecs, textureSpecs, childrenSpecs];
 		}
 	
+		for(var key in this.components)
+		{
+			var component = this.components [key];
+			this.log(component[0]);
+		}
+		
         this.log("Parsed components");
         return null;
     }
@@ -1976,11 +1981,31 @@ class MySceneGraph {
     displayScene() {
         // entry point for graph rendering
 		var i;
+		
+		//Chao
+		this.scene.pushMatrix();
+		this.scene.translate(2.5,0,1.75);
+		this.scene.scale(5,1,3.5);
+		this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+		this.quad.display();
+		this.scene.popMatrix();
+	
+		//Parede em Z
+		this.scene.pushMatrix();
+		this.scene.translate(0,1,1.75);
+		this.scene.scale(1,2,3.5);
+		this.scene.rotate(Math.PI / 2, 0, 1, 0);
+		this.quad.display();
+		this.scene.popMatrix();
+		
+		//Parede em X
+		this.scene.pushMatrix();
+		this.scene.translate(2.5,1,0);
+		this.scene.scale(5,2,1);
+		this.quad.display();
+		this.scene.popMatrix();
+		
 		//this.log (this.primitives["rectangle1"][3]);
-//		for(var key in this.primitives)
-//		{
-//			this.log(this.primitives.hasOwnProperty);
-//		}
         //TODO: Render loop starting at root of graph
     }
 }
