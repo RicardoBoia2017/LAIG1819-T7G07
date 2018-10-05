@@ -1647,9 +1647,10 @@ class MySceneGraph {
 			if (this.components [componentId] != null)
 				return "component id must be unique";
 			
+			this.components[componentId] = new MyComponent(this.scene, componentId);
+			
 			//gets component grandChildren
 			var grandChildren = children[i].children;
-//			var specsArray = [];
 						
 			for (var j = 0; j < grandChildren.length; j++)
 			{
@@ -1687,11 +1688,8 @@ class MySceneGraph {
 								switch (transfChildren[k].nodeName)
 								{
 										case "translate":
-										{
-											var translateSpecs = [];
-											//pushes type
-											translateSpecs.push("translate");
-						
+										{			
+
 											//x 
 											var x = this.reader.getFloat (transfChildren[k],'x');
 											if (x == null || isNaN (x))
@@ -1699,8 +1697,6 @@ class MySceneGraph {
 												x = 0;
 												this.onXMLMinorErro ("unable to parse x component of translate, assuming x = 0");
 											}	
-
-											translateSpecs.push (x);
 
 											//y 
 											var y = this.reader.getFloat (transfChildren[k],'y');
@@ -1710,8 +1706,6 @@ class MySceneGraph {
 												this.onXMLMinorErro ("unable to parse y component of translate, assuming y = 0");
 											}	
 
-											translateSpecs.push (y);
-
 											//z
 											var z = this.reader.getFloat (transfChildren[k],'z');
 											if (z == null || isNaN (z))
@@ -1719,30 +1713,32 @@ class MySceneGraph {
 												z = 0;
 												this.onXMLMinorErro ("unable to parse z component of translate, assuming z = 0");
 											}	
+											
+											mat4.translate(this.components[componentId].matrixTransf, this.components[componentId].matrixTransf, [x,y,z]);
 
-											translateSpecs.push (z);
-
-											transfSpecs.push(translateSpecs);
 											break;
 										}
 
 										case "rotate":
-										{
-											var rotateSpecs = [];
-
-											//pushes type
-											rotateSpecs.push("rotate");
-						
+										{			
 											//axis
 											var axis = this.reader.getString (transfChildren[k],'axis');
+		
 											if (axis == null)
 											{
 												axis = "x";
 												this.onXMLMinorErro ("unable to parse axis component of rotate, assuming axis = 'x'");
 											}	
-
-											rotateSpecs.push (axis);
-
+											
+											if (axis == "x")
+												axis =[1,0,0];
+											
+											else if (axis == "y")
+												axis =[0,1,0];
+											
+											else if (axis == "z")	
+												axis =[0,0,1];
+										
 											//angle 
 											var angle = this.reader.getFloat (transfChildren[k],'angle');
 											if (angle == null || isNaN (angle))
@@ -1751,19 +1747,13 @@ class MySceneGraph {
 												this.onXMLMinorErro ("unable to parse angle component of rotate, assuming angle = 0");
 											}	
 
-											rotateSpecs.push (angle);
-
-											transfSpecs.push(rotateSpecs);
+											mat4.rotate(this.components[componentId].matrixTransf, this.components[componentId].matrixTransf, angle * DEGREE_TO_RAD, axis);
+											
 											break;
 										}
 
 										case "scale":
 										{
-											var scaleSpecs = [];
-
-											//pushes type
-											scaleSpecs.push("scale");
-						
 											//x 
 											var x = this.reader.getFloat (transfChildren[k],'x');
 											if (x == null || isNaN (x))
@@ -1771,8 +1761,6 @@ class MySceneGraph {
 												x = 0;
 												this.onXMLMinorErro ("unable to parse x component of scale, assuming x = 0");
 											}	
-
-											scaleSpecs.push (x);
 
 											//y 
 											var y = this.reader.getFloat (transfChildren[k],'y');
@@ -1782,8 +1770,6 @@ class MySceneGraph {
 												this.onXMLMinorErro ("unable to parse y component of scale, assuming y = 0");
 											}	
 
-											scaleSpecs.push (y);
-
 											//z
 											var z = this.reader.getFloat (transfChildren[k],'z');
 											if (z == null || isNaN (z))
@@ -1792,9 +1778,8 @@ class MySceneGraph {
 												this.onXMLMinorErro ("unable to parse z component of scale, assuming z = 0");
 											}	
 
-											scaleSpecs.push (z);
-
-											transfSpecs.push(scaleSpecs);
+											mat4.scale(this.components[componentId].matrixTransf, this.components[componentId].matrixTransf, [x,y,z]);
+											
 											break;
 										}
 										default:
@@ -1808,8 +1793,6 @@ class MySceneGraph {
 
 					case "materials":
 					{
-
-						var materialsSpecs = [];
 						
 						var materialsChildren = grandChildren[j].children;
 						
@@ -1828,9 +1811,6 @@ class MySceneGraph {
             				}
             				else
             				{
-								//pushes type
-								matSpecs.push("material");
-
 								var materialId = this.reader.getString(materialsChildren[h], 'id');
 								if (materialId == null)
 									return "unable to parse id value for materialId";
@@ -1841,18 +1821,13 @@ class MySceneGraph {
 								matSpecs.push(materialId);
             				}
 							
-							materialsSpecs.push(matSpecs);
+							this.components[componentId].material = materialId;
 						}
 						break;
 					}
 				
 					case "texture":
 					{
-						var textureSpecs = [];
-						
-						//pushes type
-						textureSpecs.push("texture");
-
 						var textureId = this.reader.getString(grandChildren[j], 'id');
 						if (textureId == null)
 							return "unable to parse id value for textureId";
@@ -1860,7 +1835,7 @@ class MySceneGraph {
 						if(this.textures [textureId] == null)
 							return "unable to parse textureref " + textureId;
 						
-						textureSpecs.push(textureId);
+						this.components [componentId].textureId = textureId;
 
 						//length_s 
 						var length_s = this.reader.getFloat (grandChildren[j],'length_s');
@@ -1869,8 +1844,7 @@ class MySceneGraph {
 							length_s = 1;
 							this.onXMLMinorErro ("unable to parse length_s component of texture, assuming length_s = 1");
 						}	
-
-						textureSpecs.push (length_s);
+						this.components [componentId].texS = length_s;
 
 						//length_t 
 						var length_t = this.reader.getFloat (grandChildren[j],'length_t');
@@ -1880,21 +1854,19 @@ class MySceneGraph {
 							this.onXMLMinorErro ("unable to parse length_t component of texture, assuming length_t = 1");
 						}	
 
-						textureSpecs.push (length_t);
+						this.components [componentId].texT = length_t;
+						
+						
 						break;
 					}
 
 					case "children":
-					{
-						var childrenSpecs = [];
-						
+					{						
 						var childrenChildren = grandChildren[j].children;
 						
 						if(childrenChildren.length == 0)
 							return "unable to parse components' children: there must be at least one children in the component node";
-						
-						var chilSpecs = [];
-						
+												
 						for (var l = 0; l < childrenChildren.length; l++)
 						{
 							if (childrenChildren[l].nodeName != "componentref" && childrenChildren[l].nodeName != "primitiveref")
@@ -1913,21 +1885,17 @@ class MySceneGraph {
 								{
 									if (this.components [childId] == null)
 										return "unable to parse componentref " + childId;
-									chilSpecs.push("componentref");
 								}
 								else
 								{
 									if (this.primitives [childId] == null)
 										return "unable to parse primitiveref " + childId;									
-									chilSpecs.push("primitiveref");
 								}
 								
-
-								chilSpecs.push(childId);
             				}
+						this.components [componentId].pushChild(childId);						
+							
 						}
-						
-						childrenSpecs.push(chilSpecs);
 						break;
 					}
 
@@ -1937,14 +1905,14 @@ class MySceneGraph {
 				}
 			}
 
-			this.components [componentId] = [transfSpecs, materialsSpecs, textureSpecs, childrenSpecs];
+//			this.components [componentId] = [transfSpecs, materialsSpecs, textureSpecs, childrenSpecs];
 		}
 	
-		for(var key in this.components)
+/*		for(var key in this.components)
 		{
-			var component = this.components [key];
-			this.log(component[0]);
-		}
+			var component = this.components[key];
+			this.log(component.children.length);
+		}*/
 		
         this.log("Parsed components");
         return null;

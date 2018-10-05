@@ -74,12 +74,12 @@
         <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
     </primitive>
 	
-<!--	<primitive id="triangle">
+	<primitive id="triangle">
         <triangle x1="0" y1="0" z1="0"
                 x2="1" y2="0" z2="0"
                 x3="0.5" y3="1" z3="0" />
     </primitive>
-
+<!--
     <primitive id="cylinder">
        <cylinder base="1" top="1" height="2" slices="12" stacks="4" />
     </primitive>
@@ -118,6 +118,7 @@
 
             <!-- <componentref id="luzes" /> -->   
             <primitiveref id="rectangle" /> 
+			<primitiveref id="triangle" />
             <!-- <componentref id="arvores" />   -->
             <!-- <componentref id="chao" /> -->
             <!-- <componentref id="bancos" /> -->
