@@ -41,6 +41,9 @@ class MySceneGraph {
 //		var argsSphere = [1,20,20];
 //		this.sphere = new MySphere (this.scene,argsSphere);
 
+		this.scene.texture = new CGFappearance(this.scene);
+		this.scene.texture.loadTexture("scenes/images/usatexture.jpg");
+
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
         this.axisCoords['y'] = [0, 1, 0];
@@ -1929,17 +1932,35 @@ class MySceneGraph {
      */
     displayScene() {
         // entry point for graph rendering
-		var i;
-		this.sphere.display();
+
+		
 		for (var key in this.components)
 		{
 			this.scene.pushMatrix();
-			this.scene.multMatrix (this.components[key].matrixTransf);
-//			this.rectangle.display();
+			for (i = 0; i < this.components[key].children.length; i++)
+			{
+				this.scene.multMatrix(this.components[key].matrixTransf);
+				switch(this.components[key].children[i])
+				{
+					case "rectangle":
+						this.rectangle.display();
+						break;
+					case "triangle":
+						this.triangle.display();
+						break;		
+					case "cylinder":
+						this.cylinder.display();
+						break;
+					case "sphere":
+						this.sphere.display();
+						break;						
+				}
+				
+			}
 			this.scene.popMatrix();
+			
 		}
 		
-		//this.log (this.primitives["rectangle1"][3]);
         //TODO: Render loop starting at root of graph
     }
 }
