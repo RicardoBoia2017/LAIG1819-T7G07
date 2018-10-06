@@ -13,8 +13,6 @@ function MyCylinder(scene, args) {
   this.stacks = args[3];
   this.slices = args[4];
 
-  console.log("Stacks: " + this.stacks);
-
   this.initBuffers();
 };
 
@@ -38,10 +36,8 @@ MyCylinder.prototype.initBuffers = function() {
 
   this.texCoords = [];
 
-
-
   var theAngleRad = (2*Math.PI)/this.slices;
-  this.radiusInc = (this.botRadius-this.topRadius)/this.stacks;
+  this.radiusInc = (this.topRadius-this.botRadius)/this.stacks;
   this.heightInc = this.height/this.stacks;
   var a = 0, b = 0;
   var verticesCounter = 0;

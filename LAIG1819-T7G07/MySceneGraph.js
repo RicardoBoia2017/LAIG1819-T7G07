@@ -28,17 +28,18 @@ class MySceneGraph {
         this.nodes = [];
 
         this.idRoot = null;                    // The id of the root element.
-		var argsQuad = [-0.5,-0.5, 0.5, 0.5];
-		this.quad = new MyQuad (this.scene, argsQuad);
+
+//		var argsQuad = [-0.5,-0.5, 0.5, 0.5];
+//		this.quad = new MyQuad (this.scene, argsQuad);
 		
-		var argsTri = [0,0,0,1,0,0,0.5,1,0];
-		this.triangle = new MyTriangle (this.scene, argsTri);
+//		var argsTri = [0,0,0,1,0,0,0.5,1,0];
+//		this.triangle = new MyTriangle (this.scene, argsTri);
 
-		var argsCyl = [1, 1, 1, 20, 20];
-		this.cylinder = new MySolidCylinder (this.scene,argsCyl);
+//		var argsCyl = [1, 1, 1, 20, 20];
+//		this.cylinder = new MySolidCylinder (this.scene,argsCyl);
 
-		var argsSphere = [1,20,20];
-		this.sphere = new MySphere (this.scene,argsSphere);
+//		var argsSphere = [1,20,20];
+//		this.sphere = new MySphere (this.scene,argsSphere);
 
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
@@ -1324,11 +1325,6 @@ class MySceneGraph {
 					case "rectangle":
 					{
 						
-						var rectangleSpecs = [];
-						
-						//pushes type
-						rectangleSpecs.push ("rectangle");
-						
 						//x1 
 						var x1 = this.reader.getFloat (primitiveSpecs[j],'x1');
 						if (x1 == null || isNaN (x1))
@@ -1336,9 +1332,7 @@ class MySceneGraph {
 							x1 = 0;
 							this.onXMLMinorErro ("unable to parse x1 component of primitive, assuming x1 = 0");
 						}	
-						
-						rectangleSpecs.push (x1);
-						
+												
 						//y1 
 						var y1 = this.reader.getFloat (primitiveSpecs[j],'y1');
 						if (y1 == null || isNaN (y1))
@@ -1346,8 +1340,6 @@ class MySceneGraph {
 							y1 = 0;
 							this.onXMLMinorErro ("unable to parse y1 component of primitive, assuming y1 = 0");
 						}	
-
-						rectangleSpecs.push (y1);						
 						
 						//x2 
 						var x2 = this.reader.getFloat (primitiveSpecs[j],'x2');
@@ -1359,8 +1351,6 @@ class MySceneGraph {
 												
 						else if (x1 >= x2)
 							return "x2 of primitive must be greater than x1";
-
-						rectangleSpecs.push (x2);						
 						
 						//y2 
 						var y2 = this.reader.getFloat (primitiveSpecs[j],'y2');
@@ -1372,20 +1362,18 @@ class MySceneGraph {
 						
 						else if (y1 >= y2)
 							return "y2 of primitive must be greater than y1";
-
-						rectangleSpecs.push (y2);
 						
-						specsArray = rectangleSpecs;
+						this.rectangle = new MyQuad (this.scene, [x1,y1,x2,y2]);
 						break;
 					}
 					
 					case "triangle":
 					{
 
-						var triangleSpecs = [];
+//						var triangleSpecs = [];
 						
 						//pushes type
-						triangleSpecs.push ("triangle");
+//						triangleSpecs.push ("triangle");
 						
 						//x1 
 						var x1 = this.reader.getFloat (primitiveSpecs[j],'x1');
@@ -1393,21 +1381,21 @@ class MySceneGraph {
 						if (x1 == null || isNaN (x1))
 							return "unable to x1 component of primitive";
 						
-						triangleSpecs.push (x1);					
+	//					triangleSpecs.push (x1);					
 					
 						//y1 
 						var y1 = this.reader.getFloat (primitiveSpecs[j],'y1');
 						if (y1 == null || isNaN (y1))
 							return "unable to y1 component of primitive";
 	
-						triangleSpecs.push (y1);	
+//						triangleSpecs.push (y1);	
 
 						//z1 
 						var z1 = this.reader.getFloat (primitiveSpecs[j],'z1');
 						if (z1 == null || isNaN (z1))
 							return "unable to z1 component of primitive";
 	
-						triangleSpecs.push (z1);
+//						triangleSpecs.push (z1);
 						
 						//x2
 						var x2 = this.reader.getFloat (primitiveSpecs[j],'x2');
@@ -1415,21 +1403,21 @@ class MySceneGraph {
 						if (x2 == null || isNaN (x2))
 							return "unable to x2 component of primitive";
 						
-						triangleSpecs.push (x2);							
+//						triangleSpecs.push (x2);							
 						
 						//y2
 						var y2 = this.reader.getFloat (primitiveSpecs[j],'y2');
 						if (y2 == null || isNaN (y2))
 							return "unable to y2 component of primitive";
 	
-						triangleSpecs.push (y2);
+//						triangleSpecs.push (y2);
 
 						//z2 
 						var z2 = this.reader.getFloat (primitiveSpecs[j],'z2');
 						if (z2 == null || isNaN (z2))
 							return "unable to z2 component of primitive";
 	
-						triangleSpecs.push (z2);
+//						triangleSpecs.push (z2);
 					
 						//x3
 						var x3 = this.reader.getFloat (primitiveSpecs[j],'x3');
@@ -1437,32 +1425,32 @@ class MySceneGraph {
 						if (x3 == null || isNaN (x3))
 							return "unable to x3 component of primitive";
 						
-						triangleSpecs.push (x3);
+//						triangleSpecs.push (x3);
 
 						//y3
 						var y3 = this.reader.getFloat (primitiveSpecs[j],'y3');
 						if (y3 == null || isNaN (y3))
 							return "unable to y3 component of primitive";
 	
-						triangleSpecs.push (y3);						
+//						triangleSpecs.push (y3);						
 
 						//z3 
 						var z3 = this.reader.getFloat (primitiveSpecs[j],'z3');
 						if (z3 == null || isNaN (z3))
 							return "unable to z3 component of primitive";
 	
-						triangleSpecs.push (z3); 
-						
-						specsArray = triangleSpecs;			
+//						triangleSpecs.push (z3); 
+						this.triangle = new MyTriangle(this.scene, [x1,y1,z1,x2,y2,z2,x3,y3,z3]);
+//						specsArray = triangleSpecs;			
 						break;
 					}
 					
 					case "cylinder":
 					{
-						var cylinderSpecs = [];
+//						var cylinderSpecs = [];
 						
 						//pushes type
-						cylinderSpecs.push ("cylinder");
+//						cylinderSpecs.push ("cylinder");
 						
 						//base
 						var base = this.reader.getFloat (primitiveSpecs[j],'base');
@@ -1472,17 +1460,17 @@ class MySceneGraph {
 							this.onXMLMinorErro ("unable to parse base component of primitive, assuming base = 1");
 						}	
 						
-						cylinderSpecs.push (base);
+//						cylinderSpecs.push (base);
 						
 						//top 
-						var top = this.reader.getFloat (primitiveSpecs[j],'top');
-						if (top == null || isNaN (top))
+						var cTop = this.reader.getFloat (primitiveSpecs[j],'top');
+						if (cTop == null || isNaN (cTop))
 						{
-							top = 1;
+							cTop = 1;
 							this.onXMLMinorErro ("unable to parse top component of primitive, assuming top = 1");
 						}	
 
-						cylinderSpecs.push (y1);						
+//						cylinderSpecs.push (y1);						
 						
 						//height 
 						var height = this.reader.getFloat (primitiveSpecs[j],'height');
@@ -1492,7 +1480,7 @@ class MySceneGraph {
 							this.onXMLMinorErro ("unable to parse height component of primitive, assuming height = 1");
 						}	
 
-						cylinderSpecs.push (height);						
+//						cylinderSpecs.push (height);						
 						
 						//slices 
 						var slices = this.reader.getFloat (primitiveSpecs[j],'slices');
@@ -1502,7 +1490,7 @@ class MySceneGraph {
 							this.onXMLMinorErro ("unable to parse slices component of primitive, assuming slices = 12");
 						}	
 					
-						cylinderSpecs.push (slices);
+//						cylinderSpecs.push (slices);
 
 						//stacks 
 						var stacks = this.reader.getFloat (primitiveSpecs[j],'stacks');
@@ -1512,19 +1500,20 @@ class MySceneGraph {
 							this.onXMLMinorErro ("unable to parse stacks component of primitive, assuming stacks = 20");
 						}	
 					
-						cylinderSpecs.push (stacks);
-						
-						specsArray = cylinderSpecs;
+//						cylinderSpecs.push (stacks);
+						this.cylinder = new MySolidCylinder (this.scene,[height,base,cTop, stacks, slices]);
+		
+//						specsArray = cylinderSpecs;
 						break;
 					}	
 					
 					case "sphere":
 					{
 						
-						var sphereSpecs = [];
+//						var sphereSpecs = [];
 						
 						//pushes type
-						sphereSpecs.push ("sphere");
+//						sphereSpecs.push ("sphere");
 						
 						//radius
 						var radius = this.reader.getFloat (primitiveSpecs[j],'radius');
@@ -1534,7 +1523,7 @@ class MySceneGraph {
 							this.onXMLMinorErro ("unable to parse radius component of primitive, assuming radius = 1");
 						}	
 						
-						sphereSpecs.push (radius);
+//						sphereSpecs.push (radius);
 												
 						
 						//slices 
@@ -1545,7 +1534,7 @@ class MySceneGraph {
 							this.onXMLMinorErro ("unable to parse slices component of primitive, assuming slices = 12");
 						}	
 					
-						sphereSpecs.push (slices);
+//						sphereSpecs.push (slices);
 
 						//stacks 
 						var stacks = this.reader.getFloat (primitiveSpecs[j],'stacks');
@@ -1555,9 +1544,9 @@ class MySceneGraph {
 							this.onXMLMinorErro ("unable to parse stacks component of primitive, assuming stacks = 20");
 						}	
 					
-						sphereSpecs.push (stacks);
-						
-						specsArray = sphereSpecs;
+//						sphereSpecs.push (stacks);
+						this.sphere = new MySphere (this.scene,[radius, slices, stacks]);		
+//						specsArray = sphereSpecs;
 						break;
 					}
 					
@@ -1905,13 +1894,7 @@ class MySceneGraph {
 				}
 			}
 		}
-	
-		for(var key in this.components)
-		{
-			var component = this.components[key];
-			this.log(component.matrixTransf);
-		}
-		
+			
         this.log("Parsed components");
         return null;
     }
@@ -1947,14 +1930,12 @@ class MySceneGraph {
     displayScene() {
         // entry point for graph rendering
 		var i;
-		
-		//Chao
+		this.sphere.display();
 		for (var key in this.components)
 		{
-//			this.log(key);
 			this.scene.pushMatrix();
 			this.scene.multMatrix (this.components[key].matrixTransf);
-			this.quad.display();
+//			this.rectangle.display();
 			this.scene.popMatrix();
 		}
 		
