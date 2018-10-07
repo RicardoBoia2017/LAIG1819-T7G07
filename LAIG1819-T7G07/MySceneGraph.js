@@ -2009,6 +2009,7 @@
 						case "cone":
 							this.cone.display();
 							primitive = 1;
+							break;
 						case "sphere":
 							this.sphere.display();
 							primitive = 1;
