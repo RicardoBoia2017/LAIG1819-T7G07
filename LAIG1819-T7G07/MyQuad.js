@@ -3,7 +3,7 @@
 * @constructor
 */
 function MyQuad(scene, args) {
-    CGFobject.call(this,scene);
+		CGFobject.call(this,scene);
     this.args = args;
     this.initBuffers();
 };

@@ -98,12 +98,13 @@ class MySceneGraph {
 
         for (var i = 0; i < nodes.length; i++) {
             nodeNames.push(nodes[i].nodeName);
+			this.log(i +"   " +nodes[i].nodeName)
         }
 
         var error;
 
         // Processes each node, verifying errors.
-
+		
         // <scene>
         var index;
         if ((index = nodeNames.indexOf("scene")) == -1)
