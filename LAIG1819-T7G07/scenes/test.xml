@@ -61,7 +61,6 @@
     <transformation id="trans">
         <!-- instrucoes a usar sem limite nem ordem -->
         <!-- deve existir pelo menos uma transformacao -->
-		<rotate axis="x" angle="30"  />
         <translate x="0" y="0" z="0" />
     </transformation>
 	
@@ -117,8 +116,10 @@
         <children>
 
             <!-- <componentref id="luzes" /> -->   
-            <primitiveref id="rectangle" /> 
-			<primitiveref id="triangle" />
+			<componentref id="floor" />
+			<componentref id="z wall" />
+			<componentref id="x wall" />
+			
             <!-- <componentref id="arvores" />   -->
             <!-- <componentref id="chao" /> -->
             <!-- <componentref id="bancos" /> -->

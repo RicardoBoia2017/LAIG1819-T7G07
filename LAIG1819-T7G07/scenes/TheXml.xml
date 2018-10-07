@@ -2,7 +2,7 @@
 <!-- deve definir-se um objeto para raiz da arvore, assim -->
 <!-- como o comprimento dos tres eixos (cilindros) -->
 
-<scene root="r" axis_length="1" />
+<scene root="root" axis_length="1" />
 
 <views default="default">
     <!-- tem de existir, pelo menos, uma vista de -->
@@ -221,9 +221,9 @@
         <children>
 
            <componentref id="lampada" />  
-            <componentref id="armario" /> 
+           <componentref id="armario" /> 
             <componentref id="bandeira" /> 
-            <componentref id="chao" />
+			<componentref id="chao" />	
             
         </children>
 
@@ -233,8 +233,8 @@
 	    <component id="chao">  
 
         <transformation>
+            <translate x="0" y="0" z="5" />		
             <scale x="6" y="1" z="5" />
-            <translate x="0" y="0" z="4" />
             <rotate axis="x" angle="-90" />
         </transformation>
 
