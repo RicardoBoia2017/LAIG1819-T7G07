@@ -619,7 +619,8 @@
     <component id="faceCaixa1">
 
         <transformation>
-            <translate x="1000" y="4" z="7.5" />
+            <translate x="2.5" y="4" z="2.5" />
+            <rotate axis="y" angle="-90" />	
         </transformation>
 
         <materials>             
@@ -632,13 +633,14 @@
         <primitiveref id="rectangle"/>
       </children>
 
-    </component>
+    </component> 
 
     <!-- Another box face -->
     <component id="faceCaixa2">
 
         <transformation>
-            <translate x="0" y="0" z="0" />
+            <translate x="2.5" y="4" z="2.5" />
+            <rotate axis="y" angle="-90" />			
         </transformation>
 
         <materials>             
