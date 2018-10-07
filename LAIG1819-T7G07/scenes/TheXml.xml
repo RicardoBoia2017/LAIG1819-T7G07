@@ -101,6 +101,8 @@
     <!-- Light Wood -->
     <texture id="lightwood" file="images/lightwoodtexture.jpg"/>
 
+	<!-- Wall -->
+	<texture id="wall" file="images/wall.jpg"/>
 </textures>
 
 
@@ -187,8 +189,9 @@
 
     <primitive id="cylinder">
         <cylinder base="2" top="1" height="1.8" slices="20" stacks="20" />
-
     </primitive>
+	
+	
 
     <primitive id="sphere">
          <sphere radius="2" slices="10" stacks="10" />
@@ -208,7 +211,7 @@
     <component id="root"> 
 
         <transformation>
-            <translate x="0" y="0" z="0"/>
+            <scale x="0.5" y="0.5" z="0.5"/>
             <!-- <transformationref id="default"/>  -->
         </transformation>
 
@@ -222,14 +225,17 @@
 
            <componentref id="lampada" />  
            <componentref id="armario" /> 
-            <componentref id="bandeira" /> 
-			<componentref id="chao" />	
+           <componentref id="bandeira" /> 
+		   <componentref id="chao" />
+		   <componentref id="parede1" />
+		   <componentref id="parede2" />
+		   <componentref id="porta" />
+<!--		   <componentref id="cama" /> -->
             
         </children>
 
-    <!-- The floor -->
     </component>	
-
+    <!-- The floor -->
 	    <component id="chao">  
 
         <transformation>
@@ -250,7 +256,67 @@
 		</children>
 
     </component>
+	
+    <!-- parede1 -->
+	    <component id="parede1">  
 
+        <transformation>
+            <scale x="6" y="3" z="0" />		
+        </transformation>
+
+        <materials>
+            <material id="defaultMaterial" />  
+        </materials>  
+
+        <texture id="wall" length_s="1" length_t="1"/>       			
+
+        <children>
+			<primitiveref id="rectangle"/>        
+		</children>
+
+    </component>
+
+    <!-- parede2 -->
+	    <component id="parede2">  
+
+        <transformation>
+			<scale x="0" y="3" z="4" />
+			<translate x="0" y="0" z="5"/>
+            <rotate axis="y" angle="90" />
+        </transformation>
+
+        <materials>
+            <material id="defaultMaterial" />  
+        </materials>  
+
+        <texture id="wall" length_s="1" length_t="1"/>       			
+
+        <children>
+			<primitiveref id="rectangle"/>        
+		</children>
+
+    </component>	
+
+	<!-- porta -->
+	    <component id="porta">  
+
+        <transformation>
+			<translate x="20" y="0" z="0.2"/>
+			<scale x="1" y ="2.5" z="0" />
+        </transformation>
+
+        <materials>
+            <material id="defaultMaterial" />  
+        </materials>  
+
+        <texture id="lightwood" length_s="1" length_t="1"/>       			
+
+        <children>
+			<primitiveref id="rectangle"/>        
+		</children>
+
+    </component>		
+	
     <!-- The lamp -->
     <component id="lampada">
 
@@ -294,6 +360,33 @@
       </children>
 
     </component>
+	
+		 <!-- cama -->
+
+<!--	<component id="cama">
+
+        <transformation>
+			<translate x="-5" y="5" z="0" />
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id="armario_caixa" />
+		<componentref id="cama_perna2" />
+        <componentref id="cama_perna3" />
+        <componentref id="cama_perna4" />
+        <componentref id="colchao" />
+        <componentref id="face_traseira_cama1" />
+        <componentref id="face_traseira_cama2" />	
+		
+      </children>
+
+    </component> -->
 
 	<!-- The lamp's cone -->
     <component id="lampada_cone">
@@ -416,9 +509,6 @@
       </children>
 
     </component>
-
-    
-
 
     <!-- The wardrobe -->
     <component id="armario">
@@ -942,6 +1032,43 @@
 
     </component>
 
+<!--	<component id="cama_perna1">
+
+        <transformation>
+			
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial"/>         
+        </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id = "cama_perna" />
+      </children>
+
+     </component>
+
+	
+	<component id="cama_perna">
+
+        <transformation>
+			<scale x ="0.1" y ="0.3" z = "0.5" /> 
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref  id="rectangle"/>
+      </children>
+
+    </component> -->
+	
 </components>
 
 </yas>
