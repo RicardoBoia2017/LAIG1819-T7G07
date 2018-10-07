@@ -1505,8 +1505,11 @@
 							}	
 						
 	//						cylinderSpecs.push (stacks);
-							this.cylinder = new MySolidCylinder (this.scene,[height,base,cTop, stacks, slices]);
+							if (primitiveId == "cone")
+								this.cone = new MySolidCylinder (this.scene,[height,base,cTop, stacks, slices]);
 			
+							else
+								this.cylinder = new MySolidCylinder (this.scene,[height,base,cTop, stacks, slices]);								
 	//						specsArray = cylinderSpecs;
 							break;
 						}	
@@ -2003,6 +2006,9 @@
 							this.cylinder.display();
 							primitive = 1;
 							break;
+						case "cone":
+							this.cone.display();
+							primitive = 1;
 						case "sphere":
 							this.sphere.display();
 							primitive = 1;
@@ -2028,6 +2034,9 @@
 							break;		
 						case "cylinder":
 							this.cylinder.display();
+							break;
+						case "cone":
+							this.cone.display();
 							break;
 						case "sphere":
 							this.sphere.display();
