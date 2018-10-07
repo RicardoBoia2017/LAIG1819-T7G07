@@ -202,7 +202,7 @@
             <material id="defaultMaterial"/> 
         </materials>   
 
-        <texture id= "null" length_s="1" length_t="1"/>  
+        <texture id= "trunk" length_s="1" length_t="1"/>  
 
         <children>
 
@@ -595,7 +595,7 @@
             <material id="null" />     
         </materials>
 
-        <texture id="null" length_s="1" length_t="1"/>       			
+        <texture id="trunk" length_s="1" length_t="1"/>       			
 
         <children>
 			<primitiveref  id="rectangle1" />        
@@ -614,7 +614,7 @@
             <material id="null" />
         </materials> 
 
-        <texture id="null" length_s="1" length_t="1"/>       			
+        <texture id="trunk" length_s="1" length_t="1"/>       			
 
         <children>
             <componentref id="meiaPiramide" />      
@@ -634,7 +634,7 @@
             <material id="null" />
         </materials>  
 
-        <texture id="null" length_s="1" length_t="1"/>       			
+        <texture id="trunk" length_s="1" length_t="1"/>       			
 
 		
 
@@ -656,7 +656,7 @@
             <material id="null" />
         </materials>   
 
-        <texture id="null" length_s="1" length_t="1"/>       			
+        <texture id="trunk" length_s="1" length_t="1"/>       			
 
         <children>
             <componentref id="facePiramide1" />       
@@ -678,7 +678,7 @@
             <material id="null" /> 
         </materials>  
 
-        <texture id="null" length_s="1" length_t="1"/>       			
+        <texture id="trunk" length_s="1" length_t="1"/>       			
 
         <children>
 				<primitiveref id="triangle1" />
@@ -700,7 +700,7 @@
             <material id="null" />  
         </materials> 
          
-        <texture id="null" length_s="1" length_t="1"/>       			
+        <texture id="trunk" length_s="1" length_t="1"/>       			
 
         <children>
 				<primitiveref id="triangle1"/>

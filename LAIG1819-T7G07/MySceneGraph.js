@@ -110,7 +110,7 @@ class MySceneGraph {
             return "tag <scene> missing";
         else {
             if (index != SCENE_INDEX)
-                this.onXMLMinorError("tag <scene> out of order");
+                this.onXMLMinorErro("tag <scene> out of order");
 
             //Parse scene block
             if ((error = this.parseScene(nodes[index])) != null)
@@ -122,7 +122,7 @@ class MySceneGraph {
             return "tag <views> missing";
         else {
             if (index != VIEWS_INDEX)
-                this.onXMLMinorError("tag <views> out of order");
+                this.onXMLMinorErro("tag <views> out of order");
 
             //Parse views block
             if ((error = this.parseViews(nodes[index])) != null)
@@ -134,7 +134,7 @@ class MySceneGraph {
             return "tag <ambient> missing";
         else {
             if (index != AMBIENT_INDEX)
-                this.onXMLMinorError("tag <ambient> out of order");
+                this.onXMLMinorErro("tag <ambient> out of order");
 
             //Parse ambient block
             if ((error = this.parseAmbient(nodes[index])) != null)
@@ -146,7 +146,7 @@ class MySceneGraph {
             return "tag <lights> missing";
         else {
             if (index != LIGHTS_INDEX)
-                this.onXMLMinorError("tag <lights> out of order");
+                this.onXMLMinorErro("tag <lights> out of order");
 
             //Parse lights block
             if ((error = this.parseLights(nodes[index])) != null)
@@ -158,7 +158,7 @@ class MySceneGraph {
             return "tag <textures> missing";
         else {
             if (index != TEXTURES_INDEX)
-                this.onXMLMinorError("tag <textures> out of order");
+                this.onXMLMinorErro("tag <textures> out of order");
 
             //Parse textures block
             if ((error = this.parseTextures(nodes[index])) != null)
@@ -170,7 +170,7 @@ class MySceneGraph {
             return "tag <materials> missing";
         else {
             if (index != MATERIALS_INDEX)
-                this.onXMLMinorError("tag <materials> out of order");
+                this.onXMLMinorErro("tag <materials> out of order");
 
             //Parse materials block
             if ((error = this.parseMaterials(nodes[index])) != null)
@@ -182,7 +182,7 @@ class MySceneGraph {
             return "tag <transformations> missing";
         else {
             if (index != TRANSF_INDEX)
-                this.onXMLMinorError("tag <transformations> out of order");
+                this.onXMLMinorErro("tag <transformations> out of order");
 
             //Parse transformations block
             if ((error = this.parseTransf(nodes[index])) != null)
@@ -194,7 +194,7 @@ class MySceneGraph {
             return "tag <primitives> missing";
         else {
             if (index != PRIMITIVE_INDEX)
-                this.onXMLMinorError("tag <primitives> out of order");
+                this.onXMLMinorErro("tag <primitives> out of order");
 
             //Parse primitives block
             if ((error = this.parsePrimitives(nodes[index])) != null)
@@ -206,7 +206,7 @@ class MySceneGraph {
             return "tag <components> missing";
         else {
             if (index != COMPONENTS_INDEX)
-                this.onXMLMinorError("tag <components> out of order");
+                this.onXMLMinorErro("tag <components> out of order");
 
             //Parse components block
             if ((error = this.parseComponents(nodes[index])) != null)
@@ -227,14 +227,14 @@ class MySceneGraph {
 			
 		if (this.root == null) {
             this.root = "root";
-            this.onXMLMinorError("unable to parse value for root; assuming 'root = root'");
+            this.onXMLMinorErro("unable to parse value for root; assuming 'root = root'");
         }
 		
 		this.axis_length = this.reader.getFloat(sceneNode, 'axis_length');
 
         if (!(this.axis_length != null && !isNaN(this.axis_length))) {
             this.axis_length = 1;
-            this.onXMLMinorError("unable to parse value for axis_length; assuming 'axis_length = 1'");
+            this.onXMLMinorErro("unable to parse value for axis_length; assuming 'axis_length = 1'");
         }
 		
         this.log("Parsed scene node");
@@ -266,7 +266,7 @@ class MySceneGraph {
 				id = this.reader.getString(children[j], 'id');
 				
 				if (id == null) { // acrescentar conversão para o default
-					this.onXMLMinorError("unable to parse id value for view");
+					this.onXMLMinorErro("unable to parse id value for view");
 				}
 				
 				//near
@@ -274,17 +274,17 @@ class MySceneGraph {
 				
 				if (this.near == null ) {
 					this.near = 0.1;
-					this.onXMLMinorError("unable to parse value for near plane; assuming 'near = 0.1'");
+					this.onXMLMinorErro("unable to parse value for near plane; assuming 'near = 0.1'");
 				}
 				
 				else if (isNaN(this.near)) {
 					this.near = 0.1;
-					this.onXMLMinorError("non-numeric value found for near plane; assuming 'near = 0.1'");
+					this.onXMLMinorErro("non-numeric value found for near plane; assuming 'near = 0.1'");
 				}
 				
 				else if (this.near <= 0) {
 					this.near = 0.1;
-					this.onXMLMinorError("'near' must be positive; assuming 'near = 0.1'");
+					this.onXMLMinorErro("'near' must be positive; assuming 'near = 0.1'");
 				}	
 
 				//far
@@ -293,12 +293,12 @@ class MySceneGraph {
 				
 				if (this.far == null ) {
 					this.far = 500;
-					this.onXMLMinorError("unable to parse value for far plane; assuming 'far = 500'");
+					this.onXMLMinorErro("unable to parse value for far plane; assuming 'far = 500'");
 				}
 				
 				else if (isNaN(this.far)) {
 					this.far = 500;
-					this.onXMLMinorError("non-numeric value found for far plane; assuming 'far = 500'");
+					this.onXMLMinorErro("non-numeric value found for far plane; assuming 'far = 500'");
 				}
 				
 				if (this.near >= this.far)
@@ -310,12 +310,12 @@ class MySceneGraph {
 				
 				if (angle == null ) {
 					angle = 0;
-					this.onXMLMinorError("unable to parse value for angle plane; assuming 'angle = 500'");
+					this.onXMLMinorErro("unable to parse value for angle plane; assuming 'angle = 500'");
 				}
 				
 				else if (isNaN(angle)) {
 					angle = 0;
-					this.onXMLMinorError("non-numeric value found for angle plane; assuming 'angle = 500'");
+					this.onXMLMinorErro("non-numeric value found for angle plane; assuming 'angle = 500'");
 				}				
 				
 				//specifications of view				
@@ -335,32 +335,32 @@ class MySceneGraph {
 									
 						if (fromX == null ) {
 							fromX = 0.1;
-							this.onXMLMinorError("unable to parse value for near plane; assuming 'fromX = 0.1'");
+							this.onXMLMinorErro("unable to parse value for near plane; assuming 'fromX = 0.1'");
 						}
 						
 						else if (isNaN(fromX)) {
 							fromX = 0.1;
-							this.onXMLMinorError("non-numeric value found for near plane; assuming 'fromX = 0.1'");
+							this.onXMLMinorErro("non-numeric value found for near plane; assuming 'fromX = 0.1'");
 						}
 						
 						if (fromY == null ) {
 							fromY = 0.1;
-							this.onXMLMinorError("unable to parse value for near plane; assuming 'fromY = 0.1'");
+							this.onXMLMinorErro("unable to parse value for near plane; assuming 'fromY = 0.1'");
 						}
 						
 						else if (isNaN(fromY)) {
 							fromY = 0.1;
-							this.onXMLMinorError("non-numeric value found for near plane; assuming 'fromY = 0.1'");
+							this.onXMLMinorErro("non-numeric value found for near plane; assuming 'fromY = 0.1'");
 						}	
 						
 						if (fromZ == null ) {
 							fromZ = 0.1;
-							this.onXMLMinorError("unable to parse value for near plane; assuming 'fromZ = 0.1'");
+							this.onXMLMinorErro("unable to parse value for near plane; assuming 'fromZ = 0.1'");
 						}
 						
 						else if (isNaN(fromZ)) {
 							fromZ = 0.1;
-							this.onXMLMinorError("non-numeric value found for near plane; assuming 'fromZ = 0.1'");
+							this.onXMLMinorErro("non-numeric value found for near plane; assuming 'fromZ = 0.1'");
 						}			
 
 						from.push (fromX);
@@ -376,32 +376,32 @@ class MySceneGraph {
 									
 						if (toX == null ) {
 							toX = 20;
-							this.onXMLMinorError("unable to parse value for near plane; assuming 'toX = 20'");
+							this.onXMLMinorErro("unable to parse value for near plane; assuming 'toX = 20'");
 						}
 						
 						else if (isNaN(toX)) {
 							toX = 20;
-							this.onXMLMinorError("non-numeric value found for near plane; assuming 'toX = 20'");
+							this.onXMLMinorErro("non-numeric value found for near plane; assuming 'toX = 20'");
 						}
 						
 						if (toY == null ) {
 							toY = 20;
-							this.onXMLMinorError("unable to parse value for near plane; assuming 'toY = 20'");
+							this.onXMLMinorErro("unable to parse value for near plane; assuming 'toY = 20'");
 						}
 						
 						else if (isNaN(toY)) {
 							toY = 20;
-							this.onXMLMinorError("non-numeric value found for near plane; assuming 'toY = 20'");
+							this.onXMLMinorErro("non-numeric value found for near plane; assuming 'toY = 20'");
 						}	
 						
 						if (toZ == null ) {
 							toZ = 20;
-							this.onXMLMinorError("unable to parse value for near plane; assuming 'toZ = 20'");
+							this.onXMLMinorErro("unable to parse value for near plane; assuming 'toZ = 20'");
 						}
 						
 						else if (isNaN(toZ)) {
 							toZ = 20;
-							this.onXMLMinorError("non-numeric value found for near plane; assuming 'toZ = 20'");
+							this.onXMLMinorErro("non-numeric value found for near plane; assuming 'toZ = 20'");
 						}	
 						
 						to.push (toX);
@@ -557,7 +557,7 @@ class MySceneGraph {
 		var ambientIndex = nodeNames.indexOf("ambient");
 		
 		if (ambientIndex == -1)
-            this.onXMLMinorError("unable to parse ambient component of ambient; assuming ambient = [0,0,0,1]");
+            this.onXMLMinorErro("unable to parse ambient component of ambient; assuming ambient = [0,0,0,1]");
 		
 		//r (red)
 		var r = this.reader.getFloat(children[ambientIndex], 'r');
@@ -565,13 +565,13 @@ class MySceneGraph {
 		if (!(r != null && !isNaN(r)))
 		{
 			r = 0;
-            this.onXMLMinorError("unable to parse red component of ambient; assuming r = 0");	
+            this.onXMLMinorErro("unable to parse red component of ambient; assuming r = 0");	
 		}			
 		
 		else if (r < 0 || r > 1)
 		{
 			r = 0;
-            this.onXMLMinorError("red component value of ambient must be between 0 and 1");				
+            this.onXMLMinorErro("red component value of ambient must be between 0 and 1");				
 		}
 			
 		this.ambientSpecs [0] = r;
@@ -582,13 +582,13 @@ class MySceneGraph {
 		if (!(g != null && !isNaN(g)))
 		{
 			r = 0;
-            this.onXMLMinorError("unable to parse green component of ambient; assuming g = 0");	
+            this.onXMLMinorErro("unable to parse green component of ambient; assuming g = 0");	
 		}			
 		
 		else if (g < 0 || g > 1)
 		{
 			r = 0;
-            this.onXMLMinorError("green component value of ambient must be between 0 and 1");				
+            this.onXMLMinorErro("green component value of ambient must be between 0 and 1");				
 		}
 			
 		this.ambientSpecs [1] = g;		
@@ -599,13 +599,13 @@ class MySceneGraph {
 		if (!(b != null && !isNaN(b)))
 		{
 			b = 0;
-            this.onXMLMinorError("unable to parse blue component of ambient; assuming b = 0");	
+            this.onXMLMinorErro("unable to parse blue component of ambient; assuming b = 0");	
 		}			
 		
 		else if (b < 0 || b > 1)
 		{
 			b = 0;
-            this.onXMLMinorError("blue component value of ambient must be between 0 and 1");				
+            this.onXMLMinorErro("blue component value of ambient must be between 0 and 1");				
 		}
 			
 		this.ambientSpecs [2] = b;
@@ -616,13 +616,13 @@ class MySceneGraph {
 		if (!(a != null && !isNaN(a)))
 		{
 			a = 0;
-            this.onXMLMinorError("unable to parse alpha component of ambient; assuming a = 0");	
+            this.onXMLMinorErro("unable to parse alpha component of ambient; assuming a = 0");	
 		}			
 		
 		else if (a < 0 || a > 1)
 		{
 			a = 0;
-            this.onXMLMinorError("alpha component value of ambient must be between 0 and 1");				
+            this.onXMLMinorErro("alpha component value of ambient must be between 0 and 1");				
 		}
 			
 		this.ambientSpecs [3] = a;
@@ -632,7 +632,7 @@ class MySceneGraph {
 		var backgroundIndex = nodeNames.indexOf("background");
 		
 		if (backgroundIndex == -1)
-            this.onXMLMinorError("unable to parse background component of ambient; assuming background = [0,0,0,1]");
+            this.onXMLMinorErro("unable to parse background component of ambient; assuming background = [0,0,0,1]");
 		
 		//r (red)
 		var r = this.reader.getFloat(children[backgroundIndex], 'r');
@@ -640,13 +640,13 @@ class MySceneGraph {
 		if (!(r != null && !isNaN(r)))
 		{
 			r = 0;
-            this.onXMLMinorError("unable to parse red component of background; assuming r = 0");	
+            this.onXMLMinorErro("unable to parse red component of background; assuming r = 0");	
 		}			
 		
 		else if (r < 0 || r > 1)
 		{
 			r = 0;
-            this.onXMLMinorError("red component value of background must be between 0 and 1");				
+            this.onXMLMinorErro("red component value of background must be between 0 and 1");				
 		}
 			
 		this.backgroundSpecs [0] = r;
@@ -657,13 +657,13 @@ class MySceneGraph {
 		if (!(g != null && !isNaN(g)))
 		{
 			r = 0;
-            this.onXMLMinorError("unable to parse green component of background; assuming g = 0");	
+            this.onXMLMinorErro("unable to parse green component of background; assuming g = 0");	
 		}			
 		
 		else if (g < 0 || g > 1)
 		{
 			r = 0;
-            this.onXMLMinorError("green component value of background must be between 0 and 1");				
+            this.onXMLMinorErro("green component value of background must be between 0 and 1");				
 		}
 			
 		this.backgroundSpecs [1] = g;		
@@ -674,13 +674,13 @@ class MySceneGraph {
 		if (!(b != null && !isNaN(b)))
 		{
 			b = 0;
-            this.onXMLMinorError("unable to parse blue component of background; assuming b = 0");	
+            this.onXMLMinorErro("unable to parse blue component of background; assuming b = 0");	
 		}			
 		
 		else if (b < 0 || b > 1)
 		{
 			b = 0;
-            this.onXMLMinorError("blue component value of background must be between 0 and 1");				
+            this.onXMLMinorErro("blue component value of background must be between 0 and 1");				
 		}
 			
 		this.backgroundSpecs [2] = b;
@@ -691,13 +691,13 @@ class MySceneGraph {
 		if (!(a != null && !isNaN(a)))
 		{
 			a = 0;
-            this.onXMLMinorError("unable to parse alpha component of background; assuming a = 0");	
+            this.onXMLMinorErro("unable to parse alpha component of background; assuming a = 0");	
 		}			
 		
 		else if (a < 0 || a > 1)
 		{
 			a = 0;
-            this.onXMLMinorError("alpha component value of background must be between 0 and 1");				
+            this.onXMLMinorErro("alpha component value of background must be between 0 and 1");				
 		}
 			
 		this.backgroundSpecs [3] = a;	
@@ -726,7 +726,7 @@ class MySceneGraph {
         for (var i = 0; i < children.length; i++) {
 
             if (children[i].nodeName != "omni"){ //TODO ALTERAR DEPOIS{
-                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                this.onXMLMinorErro("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
 
@@ -749,7 +749,7 @@ class MySceneGraph {
 			if (enableLight == null || isNaN (enableLight) || (enableLight != 0 && enableLight != 1))
 			{
 				enableLight = 1;
-                this.onXMLMinorError("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
+                this.onXMLMinorErro("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
 			}
 			
             nodeNames = [];
@@ -908,7 +908,7 @@ class MySceneGraph {
         if (numLights == 0)
             return "at least one light must be defined";
         else if (numLights > 8)
-            this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
+            this.onXMLMinorErro("too many lights defined; WebGL imposes a limit of 8 lights");
 
             
         this.log("Parsed lights");
@@ -929,7 +929,7 @@ class MySceneGraph {
 		for (var i = 0; i < children.length; i++)
 		{
 			if (children[i].nodeName != "texture")
-				this.onXMLMinorError("unable to parse texture id");
+				this.onXMLMinorErro("unable to parse texture id");
 			
 			else
 			{ 
@@ -978,7 +978,7 @@ class MySceneGraph {
 			
 			if (children[i].nodeName != "material")
 			{
-			    this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+			    this.onXMLMinorErro("unknown tag <" + children[i].nodeName + ">");
                 continue;
 			}
 					
@@ -998,7 +998,7 @@ class MySceneGraph {
 			if (shininessMaterial == null || isNaN(shininessMaterial) )
 			{
 				shininessMaterial = 1;
-                this.onXMLMinorError("unable to parse value component of the 'shininess' field for ID = " + lightId + "; assuming 'value = 1'");				
+                this.onXMLMinorErro("unable to parse value component of the 'shininess' field for ID = " + lightId + "; assuming 'value = 1'");				
 			}
 			
 			grandChildren = children[i].children;
@@ -1181,7 +1181,7 @@ class MySceneGraph {
 		for (var i = 0; i < children.length; i++)
 		{
             if (children[i].nodeName != "transformation"){
-                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                this.onXMLMinorErro("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
 
@@ -1807,6 +1807,10 @@ class MySceneGraph {
 								if (materialId == null)
 									return "unable to parse id value for materialId";
 
+								//TODO: make "none" and "inherit" special cases
+								if(materialId == "inherit")
+									continue;
+
 								if(this.materials[materialId] == null)
 									return "unable to parse materialref " + materialId;
 								
@@ -1823,7 +1827,11 @@ class MySceneGraph {
 						var textureId = this.reader.getString(grandChildren[j], 'id');
 						if (textureId == null)
 							return "unable to parse id value for textureId";
-
+	
+						//TODO: make "none" and "inherit" special cases
+						if(textureId == "none" || textureId == "inherit")
+							continue;
+						
 						if(this.textures [textureId] == null)
 							return "unable to parse textureref " + textureId;
 						
@@ -1875,8 +1883,9 @@ class MySceneGraph {
 								
 								if(childrenChildren[l].nodeName == "componentref")
 								{
-									if (this.components [childId] == null)
-										return "unable to parse componentref " + childId;
+									//TODO: comentei por agora. Isto costuma dar erro pois os componentes "filhos" so aparecem depois dos pais.
+									//if (this.components [childId] == null)
+										//return "unable to parse componentref " + childId;
 								}
 								else
 								{
