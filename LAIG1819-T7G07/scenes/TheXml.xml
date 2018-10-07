@@ -54,6 +54,13 @@
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
     </omni>
+
+    <omni id="light5" enabled="1">                                                      	       
+        <location x="10" y="10" z="10" w="1" />       		   
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />      
+        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
+        <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
+    </omni>
     
 </lights>
 
@@ -183,8 +190,8 @@
 
     <primitive id="triangle">
         <triangle x1="0" y1="0" z1="0"
-                x2="7" y2="0" z2="1"
-                x3="1" y3="0" z3="5" />
+                x2="7" y2="0" z2="2.5"
+                x3="0" y3="0" z3="5" />
     </primitive>
 
     <primitive id="cone">
@@ -227,7 +234,7 @@
 
 <!--           <componentref id="lampada" />   -->
            <componentref id="armario" /> 
- <!--          <componentref id="bandeira" /> -->
+ 		   <componentref id="bandeira" />
 		   <componentref id="chao" />
 		   <componentref id="parede1" />
 		   <componentref id="parede2" /> 
@@ -342,7 +349,7 @@
     </component>	-->
 	
     <!-- The flag -->
-  <!--  <component id="bandeira">
+    <component id="bandeira">
 
         <transformation>
             <translate x="12.7" y="4.1" z="1.5" />
@@ -361,7 +368,7 @@
         <componentref id="bandeira_triangulo" />
       </children>
 
-    </component> -->
+    </component>
 	
 		 <!-- cama -->
 
@@ -451,10 +458,10 @@
     </component> -->
 
   <!-- The flag's support -->
-  <!--  <component id="bandeira_suporte">
+    <component id="bandeira_suporte">
 
         <transformation>
-            <scale x="0.5" y="2.02" z="0.5" />
+            <scale x="0.3" y="7.02" z="0.3" />
             <rotate axis="x" angle="-90" />
         </transformation>
 
@@ -465,17 +472,18 @@
       <texture id="plastic" length_s="1" length_t="1"/>
 
       <children>
-        <primitiveref id="cone"/>
+        <primitiveref id="cylinder"/>
       </children>
 
-    </component> -->
+    </component>
 
     <!-- The flag's base -->
-   <!-- <component id="bandeira_base">
+    <component id="bandeira_base">
 
         <transformation>
-            <scale x="0.5" y="2.02" z="0.5" />
+            <scale x="1" y="0.2" z="1" />
             <rotate axis="x" angle="-90" />
+            <translate x="" y="0" z="0" />
         </transformation>
 
         <materials>             
@@ -485,17 +493,18 @@
       <texture id="plastic" length_s="1" length_t="1"/>
 
       <children>
-        <primitiveref id="cone"/>
+        <primitiveref id="cylinder"/>
       </children>
 
-    </component>-->
+    </component>
 
     <!-- The flag's triangle -->
-  <!--  <component id="bandeira_triangulo">
+    <component id="bandeira_triangulo">
 
         <transformation>
             <translate x="-0.6" y="8" z="0.4" />
-            <rotate axis="x" angle="90" />
+            <rotate axis="x" angle="270" />
+            <translate x="0.5" y="0" z="-4" />
         </transformation>
 
         <materials>            
@@ -508,7 +517,7 @@
         <primitiveref id="triangle"/>
       </children>
 
-    </component> -->
+    </component>
 
     <!-- The wardrobe -->
     <component id="armario">
