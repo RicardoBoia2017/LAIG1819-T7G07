@@ -951,7 +951,8 @@
 					if (file == null)
 						return "unable to parse file for texture " + id;
 					
-					this.textures[id] = [file];
+					var texture = new CGFtexture(this.scene,"./scenes/" + file);
+					this.textures[id] = texture;
 				}
 			}
 			
@@ -1839,7 +1840,7 @@
 								return "unable to parse id value for textureId";
 		
 							//TODO: make "none" and "inherit" special cases
-							if(textureId == "none" || textureId == "inherit")
+							if(textureId == "nones" || textureId == "inherit")
 								continue;
 							
 							if(this.textures [textureId] == null)
@@ -2029,16 +2030,19 @@
 					this.displayComponent (this.components[childrenId]);
 				}
 			}
-						
-/*			if (component.textureId != null)
-			{
-				var texture = this.textures[component.textureId];
-				texture.bind ();
-			}*/
+					
+			var material;// = this.materials [component.materialId];
+			var texture;
 			
 			if (component.material != null)
-				this.materials[component.material].apply();
+				material = this.materials[component.material];
 			
+			if (component.textureId != null)
+				texture = this.textures[component.textureId];	
+			
+			material.setTexture (texture);
+			material.apply();
+
 			for (var j = 0; j < component.children.length; j++)
 			{
 					switch(component.children[j])
