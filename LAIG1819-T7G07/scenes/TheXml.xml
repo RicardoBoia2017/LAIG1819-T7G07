@@ -228,7 +228,7 @@
         </transformation>
 
         <materials>
-            <material id="leavesTreeMaterial"/> 
+            <material id="defaultMaterial"/> 
         </materials>   
 
         <texture id= "usa" length_s="1" length_t="1"/>  
@@ -236,7 +236,7 @@
         <children>
 
  
- <componentref id="lampada" /> 
+ 		   <componentref id="lampada" /> 
            <componentref id="armario" /> 
  		   <componentref id="bandeira" />
 		   <componentref id="chao" />
@@ -265,7 +265,7 @@
             <material id="none" />  
         </materials>  
 
-        <texture id="none" length_s="1" length_t="1"/>       			
+        <texture id="plastic" length_s="1" length_t="1"/>       			
 
         <children>
 			<primitiveref id="rectangle"/>        
@@ -284,7 +284,7 @@
             <material id="inherit" />  
         </materials>  
 
-        <texture id="none" length_s="1" length_t="1"/>       			
+        <texture id="wall" length_s="1" length_t="1"/>       			
 
         <children>
 			<primitiveref id="rectangle"/>        
@@ -302,10 +302,10 @@
         </transformation>
 
         <materials>
-            <material id="defaultMaterial" />  
+            <material id="inherit" />  
         </materials>  
 
-        <texture id="inherit" length_s="1" length_t="1"/>       			
+        <texture id="wall" length_s="1" length_t="1"/>       			
 
         <children>
 			<primitiveref id="rectangle"/>        
@@ -325,7 +325,7 @@
             <material id="defaultMaterial" />  
         </materials>  
 
-        <texture id="lightwood" length_s="1" length_t="1"/>       			
+        <texture id="none" length_s="1" length_t="1"/>       			
 
         <children>
         	<componentref id="porta_caixa"/>
@@ -345,7 +345,7 @@
             <material id="defaultMaterial" />  
         </materials>  
 
-        <texture id="lightwood" length_s="1" length_t="1"/>       			
+        <texture id="wood" length_s="1" length_t="1"/>       			
 
         <children>
         	<primitiveref id="rectangle"/>      
@@ -364,7 +364,7 @@
             <material id="defaultMaterial" />  
         </materials>  
 
-        <texture id="lightwood" length_s="1" length_t="1"/>       			
+        <texture id="iron" length_s="1" length_t="1"/>       			
 
         <children>
         	<primitiveref id="sphere"/>      
@@ -627,7 +627,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="furniture" length_s="1" length_t="1"/>
 
       <children>
         <componentref id="gaveta1" />
@@ -647,7 +647,7 @@
             <material id="defaultMaterial" />        
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <componentref id="gaveta" />
@@ -667,7 +667,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <componentref id="gaveta" />
@@ -687,7 +687,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <componentref id="gaveta_caixa" />
@@ -749,7 +749,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="furniture" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <componentref id="faceGaveta1" />
@@ -777,7 +777,7 @@
             <material id="defaultMaterial" />        
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref id="rectangle"/>
@@ -797,7 +797,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref id="rectangle"/>
@@ -817,7 +817,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref id="rectangle"/>
@@ -837,7 +837,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref id="rectangle"/>
@@ -858,7 +858,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref  id="rectangle"/>
@@ -879,7 +879,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref  id="rectangle"/>
@@ -900,7 +900,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref  id="rectangle"/>
@@ -919,7 +919,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref  id="rectangle"/>
@@ -940,7 +940,7 @@
             <material id="lightMaterial" />
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
   
       <children>
         <primitiveref  id="rectangle"/>
@@ -959,7 +959,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref  id="rectangle"/>
@@ -980,7 +980,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref  id="rectangle"/>
@@ -1000,7 +1000,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref  id="rectangle"/>
@@ -1021,7 +1021,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref  id="rectangle"/>
@@ -1042,7 +1042,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref  id="rectangle"/>
@@ -1064,7 +1064,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref  id="rectangle"/>
@@ -1084,7 +1084,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref  id="rectangle"/>
@@ -1101,7 +1101,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 		
       <children>
         <componentref id = "colchao_face1"/>
@@ -1127,7 +1127,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 		
       <children>
 		<primitiveref id ="rectangle"/>
@@ -1149,7 +1149,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 		
       <children>
 		<primitiveref id ="rectangle"/>
@@ -1169,7 +1169,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 		
       <children>
 		<primitiveref id ="rectangle"/>
@@ -1190,7 +1190,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 		
       <children>
 		<primitiveref id ="rectangle"/>
@@ -1211,7 +1211,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 		
       <children>
 		<primitiveref id ="rectangle"/>
@@ -1233,7 +1233,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 		
       <children>
 		<primitiveref id ="rectangle"/>
@@ -1402,7 +1402,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <componentref id = "cama_perna" />
@@ -1420,7 +1420,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <componentref id = "cama_perna" />
@@ -1456,7 +1456,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <componentref id = "cama_perna" />
@@ -1518,7 +1518,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="lightwood" length_s="1" length_t="1"/>
 
       <children>
         <componentref id="colchao"/>	
@@ -1536,7 +1536,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="wood" length_s="1" length_t="1"/>
 
       <children>
         <componentref id="cama_perna1" />
