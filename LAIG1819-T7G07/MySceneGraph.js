@@ -1801,9 +1801,7 @@
 							
 							if(materialsChildren.length == 0)
 								return "unable to parse materials: there must be at least one material in the component node";
-							
-							var matSpecs = [];
-							
+														
 							for (var h = 0; h < materialsChildren.length; h++)
 							{
 								
@@ -1818,14 +1816,9 @@
 									if (materialId == null)
 										return "unable to parse id value for materialId";
 
-									//TODO: make "none" and "inherit" special cases
-									if(materialId == "inherit")
-										continue;
-
-									if(this.materials[materialId] == null)
+									if(this.materials[materialId] == null && materialId != "none" && materialId != "inherit")
 										return "unable to parse materialref " + materialId;
 									
-									matSpecs.push(materialId);
 								}
 								
 								this.components[componentId].material = materialId;
@@ -1838,12 +1831,8 @@
 							var textureId = this.reader.getString(grandChildren[j], 'id');
 							if (textureId == null)
 								return "unable to parse id value for textureId";
-		
-							//TODO: make "none" and "inherit" special cases
-							if(textureId == "nones" || textureId == "inherit")
-								continue;
 							
-							if(this.textures [textureId] == null)
+							if(this.textures [textureId] == null && textureId != "none" && textureId != "inherit")
 								return "unable to parse textureref " + textureId;
 							
 							this.components [componentId].textureId = textureId;
@@ -1954,7 +1943,8 @@
 			// entry point for graph rendering
 
 		//	this.log (this.root);
-		this.displayComponent(this.components[this.root]);
+		var root = this.components [this.root];
+		this.displayComponent(root, root.materialId, root.texture, root.texS, root.texT);	
 			
 		/*	for (var key in this.components)
 			{
@@ -1986,18 +1976,30 @@
 			//TODO: Render loop starting at root of graph
 		}
 		
-		displayComponent (component) {
+		displayComponent (component, parentMat, parentTex, parentTexS, parentTexT) {
 			
 			this.scene.pushMatrix();
-//			this.log (component.id);	
+			
 			this.scene.multMatrix(component.matrixTransf);
 			
 			var primitive = 0
+										
+			var texture = parentTex;
+			var material = parentMat;
+			var texS = parentTexS;
+			var texT = parentTexT;
+			
+			if (component.material != "inherit")
+				material = this.materials[component.material];
+			
+			if (component.textureId != "inherit")
+				texture = this.textures[component.textureId];	
+			
+			material.setTexture (texture);
+			material.apply();
 			
 			for (var i = 0; i < component.children.length; i++)
-			{
-	//				this.log(component.children[j]);
-	
+			{	
 					primitive = 0;
 					
 					switch(component.children[i])
@@ -2027,21 +2029,9 @@
 				if (primitive == 0)
 				{
 					var childrenId = component.children [i];
-					this.displayComponent (this.components[childrenId]);
+					this.displayComponent (this.components[childrenId], material, texture, texS, texT);
 				}
 			}
-					
-			var material;// = this.materials [component.materialId];
-			var texture;
-			
-			if (component.material != null)
-				material = this.materials[component.material];
-			
-			if (component.textureId != null)
-				texture = this.textures[component.textureId];	
-			
-			material.setTexture (texture);
-			material.apply();
 
 			for (var j = 0; j < component.children.length; j++)
 			{
