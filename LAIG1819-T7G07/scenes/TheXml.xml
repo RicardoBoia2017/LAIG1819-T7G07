@@ -228,14 +228,15 @@
         </transformation>
 
         <materials>
-            <material id="defaultMaterial"/> 
+            <material id="leavesTreeMaterial"/> 
         </materials>   
 
-        <texture id= "trunk" length_s="1" length_t="1"/>  
+        <texture id= "usa" length_s="1" length_t="1"/>  
 
         <children>
 
-           <componentref id="lampada" /> 
+ 
+ <componentref id="lampada" /> 
            <componentref id="armario" /> 
  		   <componentref id="bandeira" />
 		   <componentref id="chao" />
@@ -261,10 +262,10 @@
         </transformation>
 
         <materials>
-            <material id="defaultMaterial" />  
+            <material id="none" />  
         </materials>  
 
-        <texture id="lightwood" length_s="1" length_t="1"/>       			
+        <texture id="none" length_s="1" length_t="1"/>       			
 
         <children>
 			<primitiveref id="rectangle"/>        
@@ -280,10 +281,10 @@
         </transformation>
 
         <materials>
-            <material id="defaultMaterial" />  
+            <material id="inherit" />  
         </materials>  
 
-        <texture id="wall" length_s="1" length_t="1"/>       			
+        <texture id="none" length_s="1" length_t="1"/>       			
 
         <children>
 			<primitiveref id="rectangle"/>        
@@ -304,7 +305,7 @@
             <material id="defaultMaterial" />  
         </materials>  
 
-        <texture id="wall" length_s="1" length_t="1"/>       			
+        <texture id="inherit" length_s="1" length_t="1"/>       			
 
         <children>
 			<primitiveref id="rectangle"/>        
@@ -431,7 +432,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="usa" length_s="1" length_t="1"/>
 
       <children>
         <componentref id="colchao" />	  
@@ -1437,7 +1438,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <componentref id = "cama_perna" />
@@ -1476,7 +1477,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref  id="cylinder"/>
@@ -1666,4 +1667,4 @@
 	
 </components>
 
-</yas>
+</yas>>

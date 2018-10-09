@@ -1990,13 +1990,22 @@
 			var texT = parentTexT;
 			
 			if (component.material != "inherit")
-				material = this.materials[component.material];
+			{
+				if (component.material == "none")
+					material = null;
+				
+				else
+					material = this.materials[component.material];
+			}
 			
 			if (component.textureId != "inherit")
-				texture = this.textures[component.textureId];	
-			
-			material.setTexture (texture);
-			material.apply();
+			{
+				if (component.textureId == "none")
+					texture = null;
+				
+				else
+					texture = this.textures[component.textureId];	
+			}
 			
 			for (var i = 0; i < component.children.length; i++)
 			{	
@@ -2005,23 +2014,23 @@
 					switch(component.children[i])
 					{
 						case "rectangle":
-							this.rectangle.display();
+//							this.rectangle.display();
 							primitive = 1;
 							break;
 						case "triangle":
-							this.triangle.display();
+	//						this.triangle.display();
 							primitive = 1;
 							break;		
 						case "cylinder":
-							this.cylinder.display();
+	//						this.cylinder.display();
 							primitive = 1;
 							break;
 						case "cone":
-							this.cone.display();
+		//					this.cone.display();
 							primitive = 1;
 							break;
 						case "sphere":
-							this.sphere.display();
+		//					this.sphere.display();
 							primitive = 1;
 							break;						
 					}
@@ -2032,7 +2041,13 @@
 					this.displayComponent (this.components[childrenId], material, texture, texS, texT);
 				}
 			}
-
+			
+			if (material != null)
+				material.apply();
+			
+			if (texture != null)
+				texture.bind();
+			
 			for (var j = 0; j < component.children.length; j++)
 			{
 					switch(component.children[j])
