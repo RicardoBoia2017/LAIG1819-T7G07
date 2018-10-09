@@ -951,7 +951,7 @@
 					if (file == null)
 						return "unable to parse file for texture " + id;
 					
-					this.textures [id] = [file];
+					this.textures[id] = [file];
 				}
 			}
 			
@@ -1152,7 +1152,13 @@
 				else
 					return "specular component undefined for ID = " + materialId;		
 
-				this.materials[materialId] = [shininessMaterial, emissionMaterial, ambientIllumination, diffuseIllumination, specularIllumination];
+				var material = new CGFappearance (this.scene);
+				material.setShininess (shininessMaterial);
+				material.setEmission (emissionMaterial[0], emissionMaterial[1], emissionMaterial[2], emissionMaterial[3]);
+				material.setAmbient (ambientIllumination[0], ambientIllumination[1], ambientIllumination[2], ambientIllumination[3]);
+				material.setDiffuse (diffuseIllumination[0], diffuseIllumination[1], diffuseIllumination[2], diffuseIllumination[3]);
+				material.setSpecular (specularIllumination[0], specularIllumination[1], specularIllumination [2], specularIllumination[3]);
+				this.materials[materialId] = material;
 				
 				numMaterials++;
 			}
@@ -1982,8 +1988,9 @@
 		displayComponent (component) {
 			
 			this.scene.pushMatrix();
-//			this.log (component.id);
+//			this.log (component.id);	
 			this.scene.multMatrix(component.matrixTransf);
+			
 			var primitive = 0
 			
 			for (var i = 0; i < component.children.length; i++)
@@ -2022,6 +2029,15 @@
 					this.displayComponent (this.components[childrenId]);
 				}
 			}
+						
+/*			if (component.textureId != null)
+			{
+				var texture = this.textures[component.textureId];
+				texture.bind ();
+			}*/
+			
+			if (component.material != null)
+				this.materials[component.material].apply();
 			
 			for (var j = 0; j < component.children.length; j++)
 			{
@@ -2045,6 +2061,7 @@
 					}
 					
 			}
+		
 			this.scene.popMatrix();
 		}
 	}
