@@ -41,8 +41,6 @@
 	//		var argsSphere = [1,20,20];
 	//		this.sphere = new MySphere (this.scene,argsSphere);
 
-			this.torus = new Torus (this.scene, 1, 2, 20, 20);
-	
 			this.scene.texture = new CGFappearance(this.scene);
 			this.scene.texture.loadTexture("scenes/images/usatexture.jpg");
 
@@ -1948,14 +1946,6 @@
 		var root = this.components [this.root];
 		this.displayComponent(root, root.materialId, root.texture, root.texS, root.texT);	
 			
-		var material = this.materials ["defaultMaterial"];
-		var texture = this.textures["usa"];
-		this.scene.pushMatrix();	
-		this.scene.translate (5,5,5);
-		material.apply();
-		texture.bind();
-		this.torus.display();	
-		this.scene.popMatrix();
 		/*	for (var key in this.components)
 			{
 				this.scene.pushMatrix();
