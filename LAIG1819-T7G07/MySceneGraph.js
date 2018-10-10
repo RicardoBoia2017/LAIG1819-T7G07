@@ -41,7 +41,8 @@
 	//		var argsSphere = [1,20,20];
 	//		this.sphere = new MySphere (this.scene,argsSphere);
 
-			this.torus = new Torus (this.scene, 1, 2, 20, 20);
+			var argsTorus = [1,2,20,20];
+			this.torus = new MyTorus (this.scene, argsTorus);
 	
 			this.scene.texture = new CGFappearance(this.scene);
 			this.scene.texture.loadTexture("scenes/images/usatexture.jpg");
@@ -98,10 +99,8 @@
 			// Reads the names of the nodes to an auxiliary buffer.
 			var nodeNames = [];
 
-			for (var i = 0; i < nodes.length; i++) {
+			for (var i = 0; i < nodes.length; i++) 
 				nodeNames.push(nodes[i].nodeName);
-				this.log(i +"   " +nodes[i].nodeName)
-			}
 
 			var error;
 

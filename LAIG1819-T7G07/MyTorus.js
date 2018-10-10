@@ -2,54 +2,56 @@
  * Torus
  * @constructor
  */
-function Torus(scene, inner, outer, slices, loops) {
+function MyTorus(scene, args) {
     CGFobject.call(this, scene);
-
-    var torusRadius = (outer - inner) / 2;
-
-    this.r = torusRadius;
-    this.R = inner + torusRadius;
-    this.slices = slices;
-    this.stacks = loops;
+	
+	this.inner = args[0];
+	this.outer = args[1];
+    this.slices = args[2];
+    this.loops = args[3];	
+	
+    this.torusRadius = (this.outer - this.inner) / 2;
+    this.fullRadius = this.inner + this.torusRadius;
 
     this.initBuffers();
 };
 
-Torus.prototype = Object.create(CGFobject.prototype);
-Torus.prototype.constructor = Torus;
+MyTorus.prototype = Object.create(CGFobject.prototype);
+MyTorus.prototype.constructor = MyTorus;
 
-Torus.prototype.initBuffers = function() {
+MyTorus.prototype.initBuffers = function() {
 
     this.vertices = [];
     this.indices = [];
     this.normals = [];
     this.texCoords = [];
 
-    for (var stack = 0; stack <= this.stacks; stack++) {
-        var theta = stack * 2 * Math.PI / this.stacks;
-        var sinTheta = Math.sin(theta);
-        var cosTheta = Math.cos(theta);
+    for (var i = 0; i <= this.loops; i++) {
+		
+        var theta = i * 2 * Math.PI / this.loops;
 
-        for (var slice = 0; slice <= this.slices; slice++) {
-            var phi = slice * 2 * Math.PI / this.slices;
-            var sinPhi = Math.sin(phi);
-            var cosPhi = Math.cos(phi);
+        for (var j = 0; j <= this.slices; j++) {
+			
+            var phi = j * 2 * Math.PI / this.slices;
 
-            var x = (this.R + (this.r * cosTheta)) * cosPhi;
-            var y = (this.R + (this.r * cosTheta)) * sinPhi
-            var z = this.r * sinTheta;
-            var s = 1 - (stack / this.stacks);
-            var t = 1 - (slice / this.slices);
-
+            var x = (this.fullRadius + this.torusRadius * Math.cos(theta)) * Math.cos(phi);
+            var y = (this.fullRadius + this.torusRadius * Math.cos(theta)) * Math.sin(phi)
+            var z = this.torusRadius * Math.sin(theta);
+			
             this.vertices.push(x, y, z);
-            this.normals.push(x, y, z);
-            this.texCoords.push(s, t);
+            this.normals.push(x, y, z);			
+			
+            var texS = 1 - (i / this.loops);
+            var texT = 1 - (j / this.slices);
+
+            this.texCoords.push(texS, texT);
         }
     }
 
-    for (var stack = 0; stack < this.stacks; stack++) {
-        for (var slice = 0; slice < this.slices; slice++) {
-            var first = (stack * (this.slices + 1)) + slice;
+	//indexs
+    for (var i = 0; i < this.loops; i++) {
+        for (var j = 0; j < this.slices; j++) {
+            var first = (i * (this.slices + 1)) + j;
             var second = first + this.slices + 1;
 
             this.indices.push(first, second + 1, second);
