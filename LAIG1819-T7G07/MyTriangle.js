@@ -36,15 +36,32 @@ MyTriangle.prototype.initBuffers = function() {
     0,0,1
   ];
 
+
+  var edge1 = Math.sqrt(Math.pow(this.args[3] - this.args[0], 2) + Math.pow(this.args[4] - this.args[1], 2) + Math.pow(this.args[5] - this.args[2], 2));
+  var edge2 = Math.sqrt(Math.pow(this.args[3] - this.args[6], 2) + Math.pow(this.args[4] - this.args[7], 2) + Math.pow(this.args[5] - this.args[8], 2));
+  var edge3 = Math.sqrt(Math.pow(this.args[0] - this.args[6], 2) + Math.pow(this.args[1] - this.args[7], 2) + Math.pow(this.args[2] - this.args[8], 2));
+  
+  var theAngle = Math.acos((Math.pow(edge2, 2) + Math.pow(edge1, 2) - Math.pow(edge3, 2)) / (2 * edge1 * edge2));
+  
+  var textureCoord1 = (edge1 - edge2 * Math.cos(theAngle)) / edge1;
+  var textureCoord2 = edge2 * Math.sin(theAngle) / edge1;
+
+
+
+
   this.baseTexCoords = [
-    this.minS, this.minT,
-		this.maxS, this.minT,
-		(ab - bc*Math.cos(beta))/ab, bc*Math.sin(beta)/ab
+    	this.maxS, this.minT,
+		this.minS, this.minT,
+		textureCoord1, textureCoord2
   ];
 
-  this.texCoords = this.baseTexCoords.slice();
+
+  this.texCoords = [];
+  this.texCoords = this.baseTexCoords;
+
 
   this.primitiveType = this.scene.gl.TRIANGLES;
+
   this.initGLBuffers();
 };
 
