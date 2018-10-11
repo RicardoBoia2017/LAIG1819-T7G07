@@ -267,8 +267,8 @@
 					var id;
 					id = this.reader.getString(children[j], 'id');
 					
-					if (id == null) { // acrescentar conversão para o default
-						this.onXMLMinorErro("unable to parse id value for view");
+					if (id == null) { 
+						return "unable to parse id value for view";
 					}
 					
 					//near
@@ -423,9 +423,8 @@
 					var id;
 					id = this.reader.getString(children[j], 'id');
 					
-					if (id == null) { // acrescentar conversão para o default
-						this.onXMLMinorErro("unable to parse id value for view");
-					}
+					if (id == null) 
+						return "unable to parse id value for view";
 					
 					//near
 					this.near = this.reader.getFloat(children[j], 'near');
@@ -534,6 +533,9 @@
 						
 					this.views[id] = ["ortho", this.near, this.far, this.left, this.right, this.top, this.bottom];	
 				}
+				
+				else 
+					return "view cant be " + nodeNames[j] + ". It must be perspective or ortho.";
 				
 			}
 			
@@ -1189,6 +1191,7 @@
 			
 			for (var i = 0; i < children.length; i++)
 			{
+				
 				if (children[i].nodeName != "transformation"){
 					this.onXMLMinorErro("unknown tag <" + children[i].nodeName + ">");
 					continue;
@@ -1208,6 +1211,9 @@
 				//Retrieves transformation
 				for (var j = 0; j < grandChildren.length; j++)
 				{
+					var matrix = mat4.create();
+					mat4.identity(matrix);
+					
 					switch (grandChildren[j].nodeName)
 					{
 						case "translate":
@@ -1237,7 +1243,10 @@
 							}
 													
 							//type, x, y, z
-							this.transformations [transfId] = ["t", x, y, z];
+//							this.transformations [transfId] = ["t", x, y, z];
+						
+							mat4.translate(matrix, matrix, [x,y,z]);
+							
 							
 							break;
 						}
@@ -1258,7 +1267,8 @@
 								this.onXMLMinorErro ("unable to parse angle of rotation, assuming angle = 0");
 							}	
 							
-							this.transformations [transfId] = ["r", angle, axis];
+//							this.transformations [transfId] = ["r", angle, axis];
+							mat4.rotate(matrix, matrix, angle * DEGREE_TO_RAD, axis);
 							
 							break;
 						}
@@ -1289,14 +1299,17 @@
 							}
 													
 							//type, x, y, z
-							this.transformations [transfId] = ["s", x, y, z];	
+	//						this.transformations [transfId] = ["s", x, y, z];	
+							mat4.scale(matrix, matrix, [x,y,z]);
+
 							break;
 						}
 						
 						default:
 							return "unable to parse type of transformation of '" + transfId + "'";
 					}
-					
+						this.transformations [transfId] = matrix;
+						this.log (transfId+"   "+this.transformations[transfId]);
 				}
 			}
 			
@@ -1689,7 +1702,7 @@
 									if(this.transformations[transId] == null)
 										return "unable to parse transformationref " + transId;							
 								
-									transfSpecs.push(transId);
+									mat4.multiply(this.components[componentId].matrixTransf, this.components[componentId].matrixTransf, this.transformations [transId]);
 								}
 								
 								else
