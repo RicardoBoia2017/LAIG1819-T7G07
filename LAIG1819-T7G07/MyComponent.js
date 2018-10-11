@@ -14,14 +14,20 @@ function MyComponent (scene, id){
 	this.texS = null;
 	this.texT = null;
 	
-	this.children = [];
+	this.childrenComp = [];
+	this.childrenPrim = [];
 	
 	this.matrixTransf = mat4.create();
 	mat4.identity(this.matrixTransf);
 }
 
 //TODO Pode ser preciso diferenciar primitivas e components nos childs
-MyComponent.prototype.pushChild = function (childId)
+MyComponent.prototype.pushComp = function (childId)
 {
-	this.children.push(childId);
+	this.childrenComp.push(childId);
+}
+
+MyComponent.prototype.pushPrim = function (childId)
+{
+	this.childrenPrim.push(childId);
 }

@@ -1330,23 +1330,21 @@
 				var primitiveSpecs = children[i].children;
 				var specsArray = [];
 				
-				for (var j = 0; j < primitiveSpecs.length; j++)
+				switch (primitiveSpecs[0].nodeName)
 				{
-					switch (primitiveSpecs[j].nodeName)
+					case "rectangle":
 					{
-						case "rectangle":
-						{
 							
-							//x1 
-							var x1 = this.reader.getFloat (primitiveSpecs[j],'x1');
-							if (x1 == null || isNaN (x1))
-							{
-								x1 = 0;
-								this.onXMLMinorErro ("unable to parse x1 component of primitive, assuming x1 = 0");
-							}	
+						//x1 
+						var x1 = this.reader.getFloat (primitiveSpecs[0],'x1');
+						if (x1 == null || isNaN (x1))
+						{
+							x1 = 0;
+							this.onXMLMinorErro ("unable to parse x1 component of primitive, assuming x1 = 0");
+						}	
 													
 							//y1 
-							var y1 = this.reader.getFloat (primitiveSpecs[j],'y1');
+							var y1 = this.reader.getFloat (primitiveSpecs[0],'y1');
 							if (y1 == null || isNaN (y1))
 							{
 								y1 = 0;
@@ -1354,7 +1352,7 @@
 							}	
 							
 							//x2 
-							var x2 = this.reader.getFloat (primitiveSpecs[j],'x2');
+							var x2 = this.reader.getFloat (primitiveSpecs[0],'x2');
 							if (x2 == null || isNaN (x2))
 							{
 								x2 = 1;
@@ -1365,7 +1363,7 @@
 								return "x2 of primitive must be greater than x1";
 							
 							//y2 
-							var y2 = this.reader.getFloat (primitiveSpecs[j],'y2');
+							var y2 = this.reader.getFloat (primitiveSpecs[0],'y2');
 							if (y2 == null || isNaN (y2))
 							{
 								y2 = 1;
@@ -1375,7 +1373,8 @@
 							else if (y1 >= y2)
 								return "y2 of primitive must be greater than y1";
 							
-							this.rectangle = new MyQuad (this.scene, [x1,y1,x2,y2]);
+							this.primitives [primitiveId] = new MyQuad (this.scene, [x1,y1,x2,y2]);
+//							this.rectangle = new MyQuad (this.scene, [x1,y1,x2,y2]);
 							break;
 						}
 						
@@ -1388,7 +1387,7 @@
 	//						triangleSpecs.push ("triangle");
 							
 							//x1 
-							var x1 = this.reader.getFloat (primitiveSpecs[j],'x1');
+							var x1 = this.reader.getFloat (primitiveSpecs[0],'x1');
 							
 							if (x1 == null || isNaN (x1))
 								return "unable to x1 component of primitive";
@@ -1396,21 +1395,21 @@
 		//					triangleSpecs.push (x1);					
 						
 							//y1 
-							var y1 = this.reader.getFloat (primitiveSpecs[j],'y1');
+							var y1 = this.reader.getFloat (primitiveSpecs[0],'y1');
 							if (y1 == null || isNaN (y1))
 								return "unable to y1 component of primitive";
 		
 	//						triangleSpecs.push (y1);	
 
 							//z1 
-							var z1 = this.reader.getFloat (primitiveSpecs[j],'z1');
+							var z1 = this.reader.getFloat (primitiveSpecs[0],'z1');
 							if (z1 == null || isNaN (z1))
 								return "unable to z1 component of primitive";
 		
 	//						triangleSpecs.push (z1);
 							
 							//x2
-							var x2 = this.reader.getFloat (primitiveSpecs[j],'x2');
+							var x2 = this.reader.getFloat (primitiveSpecs[0],'x2');
 							
 							if (x2 == null || isNaN (x2))
 								return "unable to x2 component of primitive";
@@ -1418,21 +1417,21 @@
 	//						triangleSpecs.push (x2);							
 							
 							//y2
-							var y2 = this.reader.getFloat (primitiveSpecs[j],'y2');
+							var y2 = this.reader.getFloat (primitiveSpecs[0],'y2');
 							if (y2 == null || isNaN (y2))
 								return "unable to y2 component of primitive";
 		
 	//						triangleSpecs.push (y2);
 
 							//z2 
-							var z2 = this.reader.getFloat (primitiveSpecs[j],'z2');
+							var z2 = this.reader.getFloat (primitiveSpecs[0],'z2');
 							if (z2 == null || isNaN (z2))
 								return "unable to z2 component of primitive";
 		
 	//						triangleSpecs.push (z2);
 						
 							//x3
-							var x3 = this.reader.getFloat (primitiveSpecs[j],'x3');
+							var x3 = this.reader.getFloat (primitiveSpecs[0],'x3');
 							
 							if (x3 == null || isNaN (x3))
 								return "unable to x3 component of primitive";
@@ -1440,19 +1439,22 @@
 	//						triangleSpecs.push (x3);
 
 							//y3
-							var y3 = this.reader.getFloat (primitiveSpecs[j],'y3');
+							var y3 = this.reader.getFloat (primitiveSpecs[0],'y3');
 							if (y3 == null || isNaN (y3))
 								return "unable to y3 component of primitive";
 		
 	//						triangleSpecs.push (y3);						
 
 							//z3 
-							var z3 = this.reader.getFloat (primitiveSpecs[j],'z3');
+							var z3 = this.reader.getFloat (primitiveSpecs[0],'z3');
 							if (z3 == null || isNaN (z3))
 								return "unable to z3 component of primitive";
 		
 	//						triangleSpecs.push (z3); 
-							this.triangle = new MyTriangle(this.scene, [x1,y1,z1,x2,y2,z2,x3,y3,z3]);
+							this.primitives [primitiveId] = new MyTriangle(this.scene, [x1,y1,z1,x2,y2,z2,x3,y3,z3]);
+	
+							//this.triangle = new MyTriangle(this.scene, [x1,y1,z1,x2,y2,z2,x3,y3,z3]);
+							
 	//						specsArray = triangleSpecs;			
 							break;
 						}
@@ -1465,7 +1467,7 @@
 	//						cylinderSpecs.push ("cylinder");
 							
 							//base
-							var base = this.reader.getFloat (primitiveSpecs[j],'base');
+							var base = this.reader.getFloat (primitiveSpecs[0],'base');
 							if (base == null || isNaN(base)) 
 							{
 								base = 1;
@@ -1475,7 +1477,7 @@
 	//						cylinderSpecs.push (base);
 							
 							//top 
-							var cTop = this.reader.getFloat (primitiveSpecs[j],'top');
+							var cTop = this.reader.getFloat (primitiveSpecs[0],'top');
 							if (cTop == null || isNaN (cTop))
 							{
 								cTop = 1;
@@ -1485,7 +1487,7 @@
 	//						cylinderSpecs.push (y1);						
 							
 							//height 
-							var height = this.reader.getFloat (primitiveSpecs[j],'height');
+							var height = this.reader.getFloat (primitiveSpecs[0],'height');
 							if (height == null || isNaN (height))
 							{
 								height = 1;
@@ -1495,7 +1497,7 @@
 	//						cylinderSpecs.push (height);						
 							
 							//slices 
-							var slices = this.reader.getFloat (primitiveSpecs[j],'slices');
+							var slices = this.reader.getFloat (primitiveSpecs[0],'slices');
 							if (slices == null || isNaN (slices)) //penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
 							{
 								slices = 12;
@@ -1505,19 +1507,21 @@
 	//						cylinderSpecs.push (slices);
 
 							//stacks 
-							var stacks = this.reader.getFloat (primitiveSpecs[j],'stacks');
+							var stacks = this.reader.getFloat (primitiveSpecs[0],'stacks');
 							if (stacks == null || isNaN (stacks)) //penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
 							{
 								stacks = 20;
 								this.onXMLMinorErro ("unable to parse stacks component of primitive, assuming stacks = 20");
 							}	
 						
+							this.primitives [primitiveId] = new MySolidCylinder (this.scene,[height,base,cTop, stacks, slices]);								
+							
 	//						cylinderSpecs.push (stacks);
-							if (primitiveId == "cone")
+	/*						if (primitiveId == "cone")
 								this.cone = new MySolidCylinder (this.scene,[height,base,cTop, stacks, slices]);
 			
 							else
-								this.cylinder = new MySolidCylinder (this.scene,[height,base,cTop, stacks, slices]);								
+							this.cylinder = new MySolidCylinder (this.scene,[height,base,cTop, stacks, slices]);*/							
 	//						specsArray = cylinderSpecs;
 							break;
 						}	
@@ -1531,7 +1535,7 @@
 	//						sphereSpecs.push ("sphere");
 							
 							//radius
-							var radius = this.reader.getFloat (primitiveSpecs[j],'radius');
+							var radius = this.reader.getFloat (primitiveSpecs[0],'radius');
 							if (radius == null || isNaN(radius)) 
 							{
 								radius = 1;
@@ -1542,7 +1546,7 @@
 													
 							
 							//slices 
-							var slices = this.reader.getFloat (primitiveSpecs[j],'slices');
+							var slices = this.reader.getFloat (primitiveSpecs[0],'slices');
 							if (slices == null || isNaN (slices)) //penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
 							{
 								slices = 12;
@@ -1552,7 +1556,7 @@
 	//						sphereSpecs.push (slices);
 
 							//stacks 
-							var stacks = this.reader.getFloat (primitiveSpecs[j],'stacks');
+							var stacks = this.reader.getFloat (primitiveSpecs[0],'stacks');
 							if (stacks == null || isNaN (stacks)) //penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
 							{
 								stacks = 20;
@@ -1560,7 +1564,8 @@
 							}	
 						
 	//						sphereSpecs.push (stacks);
-							this.sphere = new MySphere (this.scene,[radius, slices, stacks]);		
+	//						this.sphere = new MySphere (this.scene,[radius, slices, stacks]);	
+							this.primitives [primitiveId] = new MySphere (this.scene,[radius, slices, stacks]);	
 	//						specsArray = sphereSpecs;
 							break;
 						}
@@ -1573,7 +1578,7 @@
 							torusSpecs.push ("torus");
 							
 							//inner
-							var inner = this.reader.getFloat (primitiveSpecs[j],'inner');
+							var inner = this.reader.getFloat (primitiveSpecs[0],'inner');
 							if (inner == null || isNaN(inner)) 
 							{
 								inner = 1;
@@ -1584,7 +1589,7 @@
 													
 							
 							//outer 
-							var outer = this.reader.getFloat (primitiveSpecs[j],'outer');
+							var outer = this.reader.getFloat (primitiveSpecs[0],'outer');
 							if (outer == null || isNaN (outer)) 
 							{
 								outer = 2;
@@ -1594,7 +1599,7 @@
 							torusSpecs.push (outer);
 
 							//slices 
-							var slices = this.reader.getFloat (primitiveSpecs[j],'slices');
+							var slices = this.reader.getFloat (primitiveSpecs[0],'slices');
 							if (slices == null || isNaN (slices)) //TODO: penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
 							{
 								slices = 12;
@@ -1604,7 +1609,7 @@
 							torusSpecs.push (slices);
 
 							//loops 
-							var loops = this.reader.getFloat (primitiveSpecs[j],'loops');
+							var loops = this.reader.getFloat (primitiveSpecs[0],'loops');
 							if (loops == null || isNaN (loops)) //TODO: penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
 							{
 								loops = 20;
@@ -1613,6 +1618,8 @@
 						
 							torusSpecs.push (loops);
 							
+							this.primitives [primitiveId] = new MyTorus (this.scene, [inner,outer,slices,loops]);
+							
 							specsArray = torusSpecs;
 							break;
 						}
@@ -1620,9 +1627,7 @@
 						default:
 							return "unable to parse this type of primitive";
 					}
-				}
 				
-				this.primitives [primitiveId] = specsArray;
 			}
 			
 			this.log("Parsed primitives");
@@ -1887,15 +1892,18 @@
 										//TODO: comentei por agora. Isto costuma dar erro pois os componentes "filhos" so aparecem depois dos pais.
 										//if (this.components [childId] == null)
 											//return "unable to parse componentref " + childId;
+										this.components [componentId].pushComp(childId);						
 									}
 									else
 									{
 										if (this.primitives [childId] == null)
-											return "unable to parse primitiveref " + childId;									
+											return "unable to parse primitiveref " + childId;		
+
+										this.components [componentId].pushPrim(childId);						
+										
 									}
 									
 								}
-							this.components [componentId].pushChild(childId);						
 								
 							}
 							break;
@@ -1907,7 +1915,7 @@
 					}
 				}
 			}		
-				
+							
 			this.log("Parsed components");
 			return null;
 		}
@@ -1953,7 +1961,7 @@
 		this.scene.translate (5,5,5);
 		material.apply();
 		texture.bind();
-		this.torus.display();	
+//		this.torus.display();	
 		this.scene.popMatrix();
 		/*	for (var key in this.components)
 			{
@@ -2016,39 +2024,10 @@
 					texture = this.textures[component.textureId];	
 			}
 			
-			for (var i = 0; i < component.children.length; i++)
+			for (var i = 0; i < component.childrenComp.length; i++)
 			{	
-					primitive = 0;
-					
-					switch(component.children[i])
-					{
-						case "rectangle":
-//							this.rectangle.display();
-							primitive = 1;
-							break;
-						case "triangle":
-	//						this.triangle.display();
-							primitive = 1;
-							break;		
-						case "cylinder":
-	//						this.cylinder.display();
-							primitive = 1;
-							break;
-						case "cone":
-		//					this.cone.display();
-							primitive = 1;
-							break;
-						case "sphere":
-		//					this.sphere.display();
-							primitive = 1;
-							break;						
-					}
-				
-				if (primitive == 0)
-				{
-					var childrenId = component.children [i];
-					this.displayComponent (this.components[childrenId], material, texture, texS, texT);
-				}
+				var childrenId = component.childrenComp [i];
+				this.displayComponent (this.components[childrenId], material, texture, texS, texT);
 			}
 			
 			if (material != null)
@@ -2057,27 +2036,10 @@
 			if (texture != null)
 				texture.bind();
 			
-			for (var j = 0; j < component.children.length; j++)
+			for (var j = 0; j < component.childrenPrim.length; j++)
 			{
-					switch(component.children[j])
-					{
-						case "rectangle":
-							this.rectangle.display();
-							break;
-						case "triangle":
-							this.triangle.display();
-							break;		
-						case "cylinder":
-							this.cylinder.display();
-							break;
-						case "cone":
-							this.cone.display();
-							break;
-						case "sphere":
-							this.sphere.display();
-							break;						
-					}
-					
+				var primitiveId = component.childrenPrim[j];
+				this.primitives[primitiveId].display();					
 			}
 		
 			this.scene.popMatrix();
