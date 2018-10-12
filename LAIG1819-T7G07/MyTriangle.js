@@ -57,7 +57,7 @@ MyTriangle.prototype.initBuffers = function() {
 
 
   this.texCoords = [];
-  this.texCoords = this.baseTexCoords;
+  this.texCoords = this.baseTexCoords.slice();
 
 
   this.primitiveType = this.scene.gl.TRIANGLES;
