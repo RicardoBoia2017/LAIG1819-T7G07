@@ -6,10 +6,10 @@ function MyTriangle(scene, args) {
   CGFobject.call(this, scene);
 
   this.args = args;
-  this.minS = 0;
+/*  this.minS = 0;
 	this.minT = 0;
 	this.maxS = 1;
-	this.maxT = 1;
+	this.maxT = 1;*/
 
   this.initBuffers();
 };
@@ -50,8 +50,8 @@ MyTriangle.prototype.initBuffers = function() {
 
 
   this.baseTexCoords = [
-    	this.maxS, this.minT,
-		this.minS, this.minT,
+    	1, 0,
+		0, 0,
 		textureCoord1, textureCoord2
   ];
 

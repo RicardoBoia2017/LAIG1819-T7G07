@@ -1309,7 +1309,6 @@
 							return "unable to parse type of transformation of '" + transfId + "'";
 					}
 						this.transformations [transfId] = matrix;
-						this.log (transfId+"   "+this.transformations[transfId]);
 				}
 			}
 			
@@ -1963,47 +1962,9 @@
 		 */
 		displayScene() {
 			// entry point for graph rendering
-
-		//	this.log (this.root);
 		var root = this.components [this.root];
 		this.displayComponent(root, root.materialId, root.texture, root.texS, root.texT);	
 			
-		var material = this.materials ["defaultMaterial"];
-		var texture = this.textures["usa"];
-		this.scene.pushMatrix();	
-		this.scene.translate (5,5,5);
-		material.apply();
-		texture.bind();
-//		this.torus.display();	
-		this.scene.popMatrix();
-		/*	for (var key in this.components)
-			{
-				this.scene.pushMatrix();
-				for (i = 0; i < this.components[key].children.length; i++)
-				{
-					this.scene.multMatrix(this.components[key].matrixTransf);
-					switch(this.components[key].children[i])
-					{
-						case "rectangle":
-							this.rectangle.display();
-							break;
-						case "triangle":
-							this.triangle.display();
-							break;		
-						case "cylinder":
-							this.cylinder.display();
-							break;
-						case "sphere":
-							this.sphere.display();
-							break;						
-					}
-					
-				}
-				this.scene.popMatrix();
-				
-			}*/
-			
-			//TODO: Render loop starting at root of graph
 		}
 		
 		displayComponent (component, parentMat, parentTex, parentTexS, parentTexT) {
@@ -2011,9 +1972,7 @@
 			this.scene.pushMatrix();
 			
 			this.scene.multMatrix(component.matrixTransf);
-			
-			var primitive = 0
-										
+											
 			var texture = parentTex;
 			var material = parentMat;
 			var texS = parentTexS;
@@ -2052,6 +2011,10 @@
 			for (var j = 0; j < component.childrenPrim.length; j++)
 			{
 				var primitiveId = component.childrenPrim[j];
+				if(primitiveId == "rectangle" || primitiveId == "triangle" || primitiveId == "cylinder" || primitiveId == "cone")
+				{
+					this.primitives[primitiveId].updateTex (component.texS, component.texT);
+				}
 				this.primitives[primitiveId].display();					
 			}
 		
