@@ -117,6 +117,9 @@
 	<!-- Black -->
 	<texture id="blackText" file="images/black.jpg"/>
 
+	<!-- Mieic -->
+	<texture id="mieicTex" file="images/mieic.jpg"/>
+
 	<!-- None -->
 	<texture id="none" file="images/wall.jpg"/>
 </textures>
@@ -1259,7 +1262,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="wood" length_s="1" length_t="1"/>
 		
       <children>
         <componentref id = "cama_madeira_face1"/>
@@ -1285,7 +1288,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 		
       <children>
 		<primitiveref id ="rectangle"/>
@@ -1307,7 +1310,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 		
       <children>
 		<primitiveref id ="rectangle"/>
@@ -1327,7 +1330,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 		
       <children>
 		<primitiveref id ="rectangle"/>
@@ -1348,7 +1351,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 		
       <children>
 		<primitiveref id ="rectangle"/>
@@ -1369,7 +1372,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 		
       <children>
 		<primitiveref id ="rectangle"/>
@@ -1391,7 +1394,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="none" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 		
       <children>
 		<primitiveref id ="rectangle"/>
@@ -1408,7 +1411,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="inherit" length_s="1" length_t="1"/>
+      <texture id="wood" length_s="1" length_t="1"/>
 
       <children>
         <componentref id = "cama_perna" />
@@ -1426,7 +1429,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="inherit" length_s="1" length_t="1"/>
+      <texture id="wood" length_s="1" length_t="1"/>
 
       <children>
         <componentref id = "cama_perna" />
@@ -1444,7 +1447,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="inherit" length_s="1" length_t="1"/>
+      <texture id="wood" length_s="1" length_t="1"/>
 
       <children>
         <componentref id = "cama_perna" />
@@ -1462,7 +1465,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="inherit" length_s="1" length_t="1"/>
+      <texture id="wood" length_s="1" length_t="1"/>
 
       <children>
         <componentref id = "cama_perna" />
@@ -1607,6 +1610,7 @@
         <componentref id="monitor_base" />
         <componentref id="monitor_suporte" />
         <componentref id="monitor_ecra" />	
+        <componentref id="ecra_monitor" />
       </children>
 
     </component>
@@ -1696,6 +1700,26 @@
 
     </component>
 
+	<component id="ecra_monitor"> 
+
+    	<transformation>
+    		<rotate axis="y" angle="270"/>
+    		<translate x="-3" y="0" z="0.15"/>
+    		<scale x="0.85" y="0.60" z="0.90"/>
+			<translate x="1" y="1.35" z="0"/>
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="mieicTex" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle" />
+      </children>
+
+    </component>
 
 </components>
 
