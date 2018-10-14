@@ -18,7 +18,7 @@ MyCircle.prototype.constructor = MyCircle;
 MyCircle.prototype.initBuffers = function() 
 {
     this.vertices = [];
-    this.texCoords = [];
+    this.baseTexCoords = [];
     this.normals = [];
     this.indices = [];
     
@@ -31,14 +31,14 @@ MyCircle.prototype.initBuffers = function()
         theCos = Math.cos(theAngle * i);
         theSin = Math.sin(theAngle * i);
         this.vertices.push(this.radius * theCos, this.radius * theSin, 0);
-        this.texCoords.push(0.5 + (0.5 * theCos), 0.5 - (0.5 * theSin));
+        this.baseTexCoords.push(0.5 + (0.5 * theCos), 0.5 - (0.5 * theSin));
         this.normals.push(0, 0, 1);
     }
 
     //Agora falta adicionar o Vertice central
     this.vertices.push(0, 0, 0);
     this.normals.push(0, 0, 1);
-    this.texCoords.push(0.5, 0.5);
+    this.baseTexCoords.push(0.5, 0.5);
 
 
     var theIndex = 0;
@@ -51,13 +51,12 @@ MyCircle.prototype.initBuffers = function()
             break;
         } 
         else 
-        {
             this.indices.push(theIndex, theIndex + 1, this.slices);
-        }
+        
         theIndex++;
     }
 
-	this.baseTexCoords = this.texCoords.slice();
+	this.texCoords = this.baseTexCoords.slice();
 	
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
@@ -65,6 +64,8 @@ MyCircle.prototype.initBuffers = function()
 
 
 MyCircle.prototype.updateTex = function(S, T) {
+
+//	console.log (S +"  " + T)
 
     for (var i = 0; i < this.texCoords.length; i+=2) {
         this.texCoords[i] = this.baseTexCoords[i]/S;

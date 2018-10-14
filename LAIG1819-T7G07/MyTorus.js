@@ -24,7 +24,7 @@ MyTorus.prototype.initBuffers = function() {
     this.vertices = [];
     this.indices = [];
     this.normals = [];
-    this.texCoords = [];
+    this.baseTexCoords = [];
 
     for (var i = 0; i <= this.loops; i++) {
 		
@@ -44,7 +44,7 @@ MyTorus.prototype.initBuffers = function() {
             var texS = 1 - (i / this.loops);
             var texT = 1 - (j / this.slices);
 
-            this.texCoords.push(texS, texT);
+            this.baseTexCoords.push(texS, texT);
         }
     }
 
@@ -59,7 +59,20 @@ MyTorus.prototype.initBuffers = function() {
         }
     }
 
+	this.texCoords = this.baseTexCoords.slice();
 
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
+};
+
+MyTorus.prototype.updateTex = function(S, T) {
+	 	  
+	console.log (S + "   " + T);
+		
+    for (var i = 0; i < this.texCoords.length; i += 2) {
+        this.texCoords[i] = this.baseTexCoords[i] / (S * 2);
+        this.texCoords[i + 1] = this.baseTexCoords[i + 1] / (T * 2);
+    }
+
+    this.updateTexCoordsGLBuffers();
 };

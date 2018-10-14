@@ -28,21 +28,6 @@
 			this.nodes = [];
 
 			this.idRoot = null;                    // The id of the root element.
-
-	//		var argsQuad = [-0.5,-0.5, 0.5, 0.5];
-	//		this.quad = new MyQuad (this.scene, argsQuad);
-			
-	//		var argsTri = [0,0,0,1,0,0,0.5,1,0];
-	//		this.triangle = new MyTriangle (this.scene, argsTri);
-
-	//		var argsCyl = [1, 1, 1, 20, 20];
-	//		this.cylinder = new MySolidCylinder (this.scene,argsCyl);
-
-	//		var argsSphere = [1,20,20];
-	//		this.sphere = new MySphere (this.scene,argsSphere);
-
-			var argsTorus = [1,2,20,20];
-			this.torus = new MyTorus (this.scene, argsTorus);
 	
 			this.scene.texture = new CGFappearance(this.scene);
 			this.scene.texture.loadTexture("scenes/images/usatexture.jpg");
@@ -259,6 +244,8 @@
 			for (var i = 0; i < children.length; i++)
 				nodeNames.push(children[i].nodeName);
 		
+			var numViews = 0;
+		
 			for (var j = 0; j < nodeNames.length; j++)
 			{
 				if (nodeNames[j] == "perspective")
@@ -312,12 +299,12 @@
 					
 					if (angle == null ) {
 						angle = 0;
-						this.onXMLMinorErro("unable to parse value for angle plane; assuming 'angle = 500'");
+						this.onXMLMinorErro("unable to parse value for angle plane; assuming 'angle = 0'");
 					}
 					
 					else if (isNaN(angle)) {
 						angle = 0;
-						this.onXMLMinorErro("non-numeric value found for angle plane; assuming 'angle = 500'");
+						this.onXMLMinorErro("non-numeric value found for angle plane; assuming 'angle = 0'");
 					}				
 					
 					//specifications of view				
@@ -337,32 +324,32 @@
 										
 							if (fromX == null ) {
 								fromX = 0.1;
-								this.onXMLMinorErro("unable to parse value for near plane; assuming 'fromX = 0.1'");
+								this.onXMLMinorErro("unable to parse value for x; assuming 'fromX = 0.1'");
 							}
 							
 							else if (isNaN(fromX)) {
 								fromX = 0.1;
-								this.onXMLMinorErro("non-numeric value found for near plane; assuming 'fromX = 0.1'");
+								this.onXMLMinorErro("non-numeric value found for x; assuming 'fromX = 0.1'");
 							}
 							
 							if (fromY == null ) {
 								fromY = 0.1;
-								this.onXMLMinorErro("unable to parse value for near plane; assuming 'fromY = 0.1'");
+								this.onXMLMinorErro("unable to parse value for y; assuming 'fromY = 0.1'");
 							}
 							
 							else if (isNaN(fromY)) {
 								fromY = 0.1;
-								this.onXMLMinorErro("non-numeric value found for near plane; assuming 'fromY = 0.1'");
+								this.onXMLMinorErro("non-numeric value found for y; assuming 'fromY = 0.1'");
 							}	
 							
 							if (fromZ == null ) {
 								fromZ = 0.1;
-								this.onXMLMinorErro("unable to parse value for near plane; assuming 'fromZ = 0.1'");
+								this.onXMLMinorErro("unable to parse value for z; assuming 'fromZ = 0.1'");
 							}
 							
 							else if (isNaN(fromZ)) {
 								fromZ = 0.1;
-								this.onXMLMinorErro("non-numeric value found for near plane; assuming 'fromZ = 0.1'");
+								this.onXMLMinorErro("non-numeric value found for z; assuming 'fromZ = 0.1'");
 							}			
 
 							from.push (fromX);
@@ -378,32 +365,32 @@
 										
 							if (toX == null ) {
 								toX = 20;
-								this.onXMLMinorErro("unable to parse value for near plane; assuming 'toX = 20'");
+								this.onXMLMinorErro("unable to parse value for x; assuming 'toX = 20'");
 							}
 							
 							else if (isNaN(toX)) {
 								toX = 20;
-								this.onXMLMinorErro("non-numeric value found for near plane; assuming 'toX = 20'");
+								this.onXMLMinorErro("non-numeric value found for x; assuming 'toX = 20'");
 							}
 							
 							if (toY == null ) {
 								toY = 20;
-								this.onXMLMinorErro("unable to parse value for near plane; assuming 'toY = 20'");
+								this.onXMLMinorErro("unable to parse value for y; assuming 'toY = 20'");
 							}
 							
 							else if (isNaN(toY)) {
 								toY = 20;
-								this.onXMLMinorErro("non-numeric value found for near plane; assuming 'toY = 20'");
+								this.onXMLMinorErro("non-numeric value found for y; assuming 'toY = 20'");
 							}	
 							
 							if (toZ == null ) {
 								toZ = 20;
-								this.onXMLMinorErro("unable to parse value for near plane; assuming 'toZ = 20'");
+								this.onXMLMinorErro("unable to parse value for z; assuming 'toZ = 20'");
 							}
 							
 							else if (isNaN(toZ)) {
 								toZ = 20;
-								this.onXMLMinorErro("non-numeric value found for near plane; assuming 'toZ = 20'");
+								this.onXMLMinorErro("non-numeric value found for z; assuming 'toZ = 20'");
 							}	
 							
 							to.push (toX);
@@ -414,6 +401,7 @@
 					}
 					
 					this.views[id] = ["perspective", this.near, this.far, angle, from, to];
+					numViews++;
 				}	
 				
 				
@@ -471,13 +459,13 @@
 					this.left = this.reader.getFloat(children[j], 'left');
 					
 					if (this.left == null ) {
-						this.left = -30;
-						this.onXMLMinorErro("unable to parse value for left plane; assuming 'left = -30'");
+						this.left = -10;
+						this.onXMLMinorErro("unable to parse value for left plane; assuming 'left = -10'");
 					}
 					
 					else if (isNaN(this.left)) {
-						this.left = -30;
-						this.onXMLMinorErro("non-numeric value found for left plane; assuming 'left = -30'");
+						this.left = -10;
+						this.onXMLMinorErro("non-numeric value found for left plane; assuming 'left = -10'");
 					}
 						
 
@@ -486,13 +474,13 @@
 					this.right = this.reader.getFloat(children[j], 'right');
 					
 					if (this.right == null ) {
-						this.right = 30;
-						this.onXMLMinorErro("unable to parse value for right plane; assuming 'right = 30'");
+						this.right = 10;
+						this.onXMLMinorErro("unable to parse value for right plane; assuming 'right = 10'");
 					}
 					
 					else if (isNaN(this.right)) {
-						this.right = 30;
-						this.onXMLMinorErro("non-numeric value found for right plane; assuming 'right = 30'");
+						this.right = 10;
+						this.onXMLMinorErro("non-numeric value found for right plane; assuming 'right = 10'");
 					}
 					
 					if (this.left >= this.right)
@@ -503,13 +491,13 @@
 					this.top = this.reader.getFloat(children[j], 'top');
 					
 					if (this.top == null ) {
-						this.top = 30;
-						this.onXMLMinorErro("unable to parse value for top plane; assuming 'top = 30'");
+						this.top = 10;
+						this.onXMLMinorErro("unable to parse value for top plane; assuming 'top = 10'");
 					}
 					
 					else if (isNaN(this.top)) {
-						this.top = 30;
-						this.onXMLMinorErro("non-numeric value found for top plane; assuming 'top = 30'");
+						this.top = 10;
+						this.onXMLMinorErro("non-numeric value found for top plane; assuming 'top = 10'");
 					}
 						
 
@@ -518,13 +506,13 @@
 					this.bottom = this.reader.getFloat(children[j], 'bottom');
 					
 					if (this.bottom == null ) {
-						this.bottom = -30;
-						this.onXMLMinorErro("unable to parse value for bottom plane; assuming 'bottom = -30'");
+						this.bottom = -10;
+						this.onXMLMinorErro("unable to parse value for bottom plane; assuming 'bottom = -10'");
 					}
 					
 					else if (isNaN(this.bottom)) {
-						this.right = -30;
-						this.onXMLMinorErro("non-numeric value found for bottom plane; assuming 'bottom = -30'");
+						this.right = -10;
+						this.onXMLMinorErro("non-numeric value found for bottom plane; assuming 'bottom = -10'");
 					}
 					
 					if (this.bottom >= this.top)
@@ -532,12 +520,16 @@
 					
 						
 					this.views[id] = ["ortho", this.near, this.far, this.left, this.right, this.top, this.bottom];	
+					numViews++;
 				}
 				
 				else 
 					return "view cant be " + nodeNames[j] + ". It must be perspective or ortho.";
 				
 			}
+			
+			if (numViews == 0)
+				return "at least one view must be defined";
 			
 			this.log("Parsed views");
 
@@ -561,22 +553,17 @@
 			var ambientIndex = nodeNames.indexOf("ambient");
 			
 			if (ambientIndex == -1)
-				this.onXMLMinorErro("unable to parse ambient component of ambient; assuming ambient = [0,0,0,1]");
-			
+                return "ambient component undefined for ambient";		
+				
 			//r (red)
 			var r = this.reader.getFloat(children[ambientIndex], 'r');
 			
 			if (!(r != null && !isNaN(r)))
-			{
-				r = 0;
-				this.onXMLMinorErro("unable to parse red component of ambient; assuming r = 0");	
-			}			
+                    return "unable to parse R component of the ambient illumination for ambient";		
 			
 			else if (r < 0 || r > 1)
-			{
-				r = 0;
-				this.onXMLMinorErro("red component value of ambient must be between 0 and 1");				
-			}
+                    return "unable to parse R component of the ambient illumination for ambient";		
+
 				
 			this.ambientSpecs [0] = r;
 
@@ -584,16 +571,12 @@
 			var g = this.reader.getFloat(children[ambientIndex], 'g');
 			
 			if (!(g != null && !isNaN(g)))
-			{
-				r = 0;
-				this.onXMLMinorErro("unable to parse green component of ambient; assuming g = 0");	
-			}			
+                    return "unable to parse G component of the ambient illumination for ambient";		
+		
 			
 			else if (g < 0 || g > 1)
-			{
-				r = 0;
-				this.onXMLMinorErro("green component value of ambient must be between 0 and 1");				
-			}
+                    return "unable to parse G component of the ambient illumination for ambient";		
+
 				
 			this.ambientSpecs [1] = g;		
 			
@@ -601,33 +584,24 @@
 			var b = this.reader.getFloat(children[ambientIndex], 'b');
 			
 			if (!(b != null && !isNaN(b)))
-			{
-				b = 0;
-				this.onXMLMinorErro("unable to parse blue component of ambient; assuming b = 0");	
-			}			
+                    return "unable to parse G component of the ambient illumination for ambient";		
+		
 			
 			else if (b < 0 || b > 1)
-			{
-				b = 0;
-				this.onXMLMinorErro("blue component value of ambient must be between 0 and 1");				
-			}
-				
+                    return "unable to parse G component of the ambient illumination for ambient";		
+
 			this.ambientSpecs [2] = b;
 			
 			//a (alpha)
 			var a = this.reader.getFloat(children[ambientIndex], 'a');
 			
 			if (!(a != null && !isNaN(a)))
-			{
-				a = 0;
-				this.onXMLMinorErro("unable to parse alpha component of ambient; assuming a = 0");	
-			}			
+                    return "unable to parse A component of the ambient illumination for ambient";		
+			
 			
 			else if (a < 0 || a > 1)
-			{
-				a = 0;
-				this.onXMLMinorErro("alpha component value of ambient must be between 0 and 1");				
-			}
+                    return "unable to parse A component of the ambient illumination for ambient";		
+
 				
 			this.ambientSpecs [3] = a;
 			
@@ -642,16 +616,12 @@
 			var r = this.reader.getFloat(children[backgroundIndex], 'r');
 			
 			if (!(r != null && !isNaN(r)))
-			{
-				r = 0;
-				this.onXMLMinorErro("unable to parse red component of background; assuming r = 0");	
-			}			
+                    return "unable to parse R component of the background illumination for ambient";		
+		
 			
 			else if (r < 0 || r > 1)
-			{
-				r = 0;
-				this.onXMLMinorErro("red component value of background must be between 0 and 1");				
-			}
+                    return "unable to parse R component of the background illumination for ambient";		
+
 				
 			this.backgroundSpecs [0] = r;
 
@@ -659,16 +629,12 @@
 			var g = this.reader.getFloat(children[backgroundIndex], 'g');
 			
 			if (!(g != null && !isNaN(g)))
-			{
-				r = 0;
-				this.onXMLMinorErro("unable to parse green component of background; assuming g = 0");	
-			}			
+                    return "unable to parse G component of the background illumination for ambient";		
+			
 			
 			else if (g < 0 || g > 1)
-			{
-				r = 0;
-				this.onXMLMinorErro("green component value of background must be between 0 and 1");				
-			}
+                    return "unable to parse G component of the background illumination for ambient";		
+
 				
 			this.backgroundSpecs [1] = g;		
 			
@@ -676,16 +642,12 @@
 			var b = this.reader.getFloat(children[backgroundIndex], 'b');
 			
 			if (!(b != null && !isNaN(b)))
-			{
-				b = 0;
-				this.onXMLMinorErro("unable to parse blue component of background; assuming b = 0");	
-			}			
+                    return "unable to parse B component of the background illumination for ambient";		
+	
 			
 			else if (b < 0 || b > 1)
-			{
-				b = 0;
-				this.onXMLMinorErro("blue component value of background must be between 0 and 1");				
-			}
+                    return "unable to parse B component of the background illumination for ambient";		
+
 				
 			this.backgroundSpecs [2] = b;
 			
@@ -693,16 +655,12 @@
 			var a = this.reader.getFloat(children[backgroundIndex], 'a');
 			
 			if (!(a != null && !isNaN(a)))
-			{
-				a = 0;
-				this.onXMLMinorErro("unable to parse alpha component of background; assuming a = 0");	
-			}			
+                    return "unable to parse A component of the background illumination for ambient";		
+		
 			
 			else if (a < 0 || a > 1)
-			{
-				a = 0;
-				this.onXMLMinorErro("alpha component value of background must be between 0 and 1");				
-			}
+                    return "unable to parse A component of the background illumination for ambient";		
+
 				
 			this.backgroundSpecs [3] = a;	
 			
@@ -729,7 +687,7 @@
 			// Any number of lights.
 			for (var i = 0; i < children.length; i++) {
 
-				if (children[i].nodeName != "omni"){ //TODO ALTERAR DEPOIS{
+				if (children[i].nodeName != "omni" && children[i].nodeName != "spot"){ //TODO ALTERAR DEPOIS{
 					this.onXMLMinorErro("unknown tag <" + children[i].nodeName + ">");
 					continue;
 				}
@@ -903,9 +861,46 @@
 				}
 				else
 					return "specular component undefined for ID = " + lightId;
-				// TODO: Store Light global information.
-				this.lights[lightId] = [enableLight, locationLight, ambientIllumination, diffuseIllumination, specularIllumination];
+
+				var target = [];
 				
+				if (children[i].nodeName == "spot" )
+				{
+					//Retrieve the target component
+					
+					var targetIndex = nodeNames.indexOf("target");
+
+					if (targetIndex != -1) {
+						
+						// X
+						var x = this.reader.getFloat(grandChildren[targetIndex], 'x');
+						if (!(x != null && !isNaN(x)))
+							return "unable to parse x component of the target for ID = " + lightId;
+						else
+							target.push(x);
+
+						// Y
+						var y = this.reader.getFloat(grandChildren[targetIndex], 'y');
+						if (!(y != null && !isNaN(y)))
+							return "unable to parse y component of the target for ID = " + lightId;
+						else
+							target.push(y);
+
+						// Z
+						var z = this.reader.getFloat(grandChildren[targetIndex], 'z');
+						if (!(z != null && !isNaN(z)))
+							return "unable to parse z component of the target for ID = " + lightId;
+						else
+							target.push(r);
+					}
+					else
+						return "target component undefined for ID = " + lightId;
+				}
+					
+				if (children[i].nodeName == "omni")
+					this.lights[lightId] = [enableLight, locationLight, ambientIllumination, diffuseIllumination, specularIllumination];
+				else
+					this.lights[lightId] = [enableLight, locationLight, ambientIllumination, diffuseIllumination, specularIllumination, target];						
 				numLights++;
 			}
 
@@ -2011,10 +2006,8 @@
 			for (var j = 0; j < component.childrenPrim.length; j++)
 			{
 				var primitiveId = component.childrenPrim[j];
-				if(primitiveId == "rectangle" || primitiveId == "triangle" || primitiveId == "cylinder" || primitiveId == "cone")
-				{
-					this.primitives[primitiveId].updateTex (component.texS, component.texT);
-				}
+				
+				this.primitives[primitiveId].updateTex (component.texS, component.texT);
 				this.primitives[primitiveId].display();					
 			}
 		

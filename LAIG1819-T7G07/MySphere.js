@@ -22,7 +22,7 @@
  	this.vertices = [];
  	this.indices = [];
 	this.normals = [];
-	this.texCoords = [];
+	this.baseTexCoords = [];
 /*
 	var stack = 1/this.stacks;
 	//---------------stacks------------------
@@ -85,8 +85,8 @@
         this.normals.push(x);
         this.normals.push(y);
         this.normals.push(z);
-        this.texCoords.push(u);
-        this.texCoords.push(v);
+        this.baseTexCoords.push(u);
+        this.baseTexCoords.push(v);
         this.vertices.push(this.radius * x);
         this.vertices.push(this.radius * y);
         this.vertices.push(this.radius * z);
@@ -107,7 +107,20 @@
         this.indices.push(first + 1);
       }
     }
+	
+    this.texCoords = this.baseTexCoords.slice();
+
 
  	this.primitiveType = this.scene.gl.TRIANGLES;
  	this.initGLBuffers();
  };
+
+ MySphere.prototype.updateTex = function(S, T) {
+
+    for (var i = 0; i < this.texCoords.length; i+=2) {
+        this.texCoords[i] = this.baseTexCoords[i]/(2 * S);
+        this.texCoords[i+1] = this.baseTexCoords[i+1]/ (2 * T);
+    }
+	
+    this.updateTexCoordsGLBuffers();
+};
