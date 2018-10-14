@@ -238,7 +238,7 @@
         </transformation>
 
         <materials>
-            <material id="defaultMaterial"/> 
+           <material id="defaultMaterial"/> 
         </materials>   
 
         <texture id= "usa" length_s="1" length_t="1"/>  

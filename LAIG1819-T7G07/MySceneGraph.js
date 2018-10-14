@@ -1565,12 +1565,12 @@
 							
 				for (var j = 0; j < grandChildren.length; j++)
 				{
+					
 					switch (grandChildren[j].nodeName)
 					{
 						case "transformation":
 						{				
-							var transfSpecs = [];
-							
+					
 							var transfChildren = grandChildren[j].children;
 																									
 							if(transfChildren.length == 0)
@@ -1580,9 +1580,6 @@
 							{
 								if(transfChildren[k].nodeName == "transformationref")
 								{
-									//pushes type
-									transfSpecs.push("transformationref");
-
 									var transId = this.reader.getString(transfChildren[k], 'id');
 									
 									if (transId == null)
@@ -1600,31 +1597,23 @@
 									{
 											case "translate":
 											{			
-
-												//x 
+												//x
 												var x = this.reader.getFloat (transfChildren[k],'x');
+												
 												if (x == null || isNaN (x))
-												{
-													x = 0;
-													this.onXMLMinorErro ("unable to parse x component of translate, assuming x = 0");
-												}	
-
-												//y 
+													return "unable to parse x-coordinate of translation for ID = " + componentId;
+												
+												//y
 												var y = this.reader.getFloat (transfChildren[k],'y');
 												if (y == null || isNaN (y))
-												{
-													y = 0;
-													this.onXMLMinorErro ("unable to parse y component of translate, assuming y = 0");
-												}	
+													return "unable to parse y-coordinate of translation for ID = " + componentId;
 
+												
 												//z
 												var z = this.reader.getFloat (transfChildren[k],'z');
 												if (z == null || isNaN (z))
-												{
-													z = 0;
-													this.onXMLMinorErro ("unable to parse z component of translate, assuming z = 0");
-												}	
-												
+													return "unable to parse z-coordinate of translation for ID = " + componentId;
+										
 												mat4.translate(this.components[componentId].matrixTransf, this.components[componentId].matrixTransf, [x,y,z]);
 
 												break;
@@ -1632,15 +1621,13 @@
 
 											case "rotate":
 											{			
-												//axis
+												//axis of rotation
 												var axis = this.reader.getString (transfChildren[k],'axis');
-			
-												if (axis == null)
-												{
-													axis = "x";
-													this.onXMLMinorErro ("unable to parse axis component of rotate, assuming axis = 'x'");
-												}	
 												
+												if (axis == null || 
+												   (axis != "x" && axis != "y" && axis != "z") )
+														return "unable to parse axis of rotation for ID = " + componentId;
+
 												if (axis == "x")
 													axis =[1,0,0];
 												
@@ -1649,15 +1636,12 @@
 												
 												else if (axis == "z")	
 													axis =[0,0,1];
-											
-												//angle 
+												
+												//angle
 												var angle = this.reader.getFloat (transfChildren[k],'angle');
 												if (angle == null || isNaN (angle))
-												{
-													angle = 0;
-													this.onXMLMinorErro ("unable to parse angle component of rotate, assuming angle = 0");
-												}	
-
+													return "unable to parse angle of rotation for ID = " + componentId;
+												
 												mat4.rotate(this.components[componentId].matrixTransf, this.components[componentId].matrixTransf, angle * DEGREE_TO_RAD, axis);
 												
 												break;
@@ -1665,36 +1649,28 @@
 
 											case "scale":
 											{
-												//x 
+												//x
 												var x = this.reader.getFloat (transfChildren[k],'x');
 												if (x == null || isNaN (x))
-												{
-													x = 0;
-													this.onXMLMinorErro ("unable to parse x component of scale, assuming x = 0");
-												}	
-
-												//y 
+													return "unable to parse x-coordinate of scale for ID = " + componentId;
+												
+												//y
 												var y = this.reader.getFloat (transfChildren[k],'y');
 												if (y == null || isNaN (y))
-												{
-													y = 0;
-													this.onXMLMinorErro ("unable to parse y component of scale, assuming y = 0");
-												}	
+													return "unable to parse y-coordinate of scale for ID = " + componentId;
 
+												
 												//z
 												var z = this.reader.getFloat (transfChildren[k],'z');
 												if (z == null || isNaN (z))
-												{
-													z = 0;
-													this.onXMLMinorErro ("unable to parse z component of scale, assuming z = 0");
-												}	
+													return "unable to parse z-coordinate of scale for ID = " + componentId;
 
 												mat4.scale(this.components[componentId].matrixTransf, this.components[componentId].matrixTransf, [x,y,z]);
 												
 												break;
 											}
 											default:
-												return "unable to parse this type of transformation";
+												return "unable to parse this type of transformation for ID = " + componentId;
 										}
 									
 								}
@@ -1708,7 +1684,7 @@
 							var materialsChildren = grandChildren[j].children;
 							
 							if(materialsChildren.length == 0)
-								return "unable to parse materials: there must be at least one material in the component node";
+								return "at least one material must be defined for ID = " + componentId;
 														
 							for (var h = 0; h < materialsChildren.length; h++)
 							{
@@ -1722,10 +1698,10 @@
 								{
 									var materialId = this.reader.getString(materialsChildren[h], 'id');
 									if (materialId == null)
-										return "unable to parse id value for materialId";
+										return "unable to parse id value for material for ID = " + componentId;
 
 									if(this.materials[materialId] == null && materialId != "none" && materialId != "inherit")
-										return "unable to parse materialref " + materialId;
+										return "unable to get material '" + materialId + "' for ID = " + componentId;
 									
 								}
 								
@@ -1737,30 +1713,29 @@
 						case "texture":
 						{
 							var textureId = this.reader.getString(grandChildren[j], 'id');
+							
 							if (textureId == null)
-								return "unable to parse id value for textureId";
+								return "unable to parse id value for texture for ID = " + componentId;
 							
 							if(this.textures [textureId] == null && textureId != "none" && textureId != "inherit")
-								return "unable to parse textureref " + textureId;
+								return "unable to get texture '" + textureId + "' for ID = " + componentId;
 							
 							this.components [componentId].textureId = textureId;
 
 							//length_s 
 							var length_s = this.reader.getFloat (grandChildren[j],'length_s');
+							
 							if (length_s == null || isNaN (length_s))
-							{
-								length_s = 1;
-								this.onXMLMinorErro ("unable to parse length_s component of texture, assuming length_s = 1");
-							}	
+								return ("unable to parse length_s component of texture for ID = " + componentId);
+							
+							
 							this.components [componentId].texS = length_s;
 
 							//length_t 
 							var length_t = this.reader.getFloat (grandChildren[j],'length_t');
 							if (length_t == null || isNaN (length_t))
-							{
-								length_t = 1;
-								this.onXMLMinorErro ("unable to parse length_t component of texture, assuming length_t = 1");
-							}	
+								return ("unable to parse length_t component of texture for ID = " + componentId);
+	
 
 							this.components [componentId].texT = length_t;
 							
@@ -1773,7 +1748,7 @@
 							var childrenChildren = grandChildren[j].children;
 							
 							if(childrenChildren.length == 0)
-								return "unable to parse components' children: there must be at least one children in the component node";
+								return "at least one child must be defined for ID = " + componentId;
 													
 							for (var l = 0; l < childrenChildren.length; l++)
 							{
@@ -1782,20 +1757,22 @@
 									this.onXMLMinorErro("unknown tag <" + childrenChildren[l].nodeName + ">");
 									continue;
 								}
+								
 								else
 								{
 									var childId = this.reader.getString( childrenChildren[l], 'id');
 
 									if (childId == null)
-										return "unable to parse id value for childId";
+										return "unable to parse id value for child for ID = " + componentId;
 									
 									if(childrenChildren[l].nodeName == "componentref")
 									{
-										//TODO: comentei por agora. Isto costuma dar erro pois os componentes "filhos" so aparecem depois dos pais.
-										//if (this.components [childId] == null)
-											//return "unable to parse componentref " + childId;
-										this.components [componentId].pushComp(childId);						
-									}
+//										if (this.components [childId] == null)
+//											return "unable to parse componentref " + childId;	
+										
+										this.components [componentId].pushComp(childId);	
+									}										
+									
 									else
 									{
 										if (this.primitives [childId] == null)
@@ -1812,12 +1789,23 @@
 						}
 
 						default:
-							return "unable to parse this type of component";
-
+							this.onXMLMinorErro("unknown tag <" + children[i].nodeName + ">");
+							continue;
 					}
 				}
-			}		
-							
+			}
+
+			for (var key in this.components)
+			{
+				var currentComponent = this.components [key];
+				
+				for (var i = 0; i < currentComponent.childrenComp.length; i++)
+				{
+					if (this.components [currentComponent.childrenComp[i]] == null)
+						return "component '" + currentComponent.childrenComp[i] + "' does not exist";
+				}
+			}
+			
 			this.log("Parsed components");
 			return null;
 		}
