@@ -67,14 +67,14 @@
 
 <textures>
 	<!-- Tree trunk -->
-    <texture id="trunk" file="images/trunk-image.jpg"/>                                    
+	<texture id="trunk" file="images/trunk-image.jpg"/>                                    
 
      <!-- Tree leaves -->
     <texture id="folhas" file="images/leaves.jpg"/>
 
     <!-- Rocks -->
     <texture id="rocks" file="images/rocks.jpg"/>
-
+	
     <!-- Glass work -->
     <texture id="vidral" file="images/vidral.jpg"/>
 
@@ -183,13 +183,14 @@
 <!-- Os identificadores "id" nao podem ser repetidos -->
 <!-- Os angulos sao expressos em graus -->
 
-    <transformation id="default">
+		<transformation id="default">
         <!-- instrucoes a usar sem limite nem ordem -->
         <!-- deve existir pelo menos uma transformacao -->
-        <translate x="0" y="0" z="0" />
-        <rotate axis="x" angle="0" />
+		<translate x="0" y="0" z="0" />
+        <rotate axis="y" angle="0" />
         <scale x="1" y="1" z="1" />
     </transformation>
+
 
 </transformations>
 
