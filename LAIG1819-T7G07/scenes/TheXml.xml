@@ -21,19 +21,19 @@
 <!-- Illumination and clear colour -->
 <ambient>
     <ambient r="0.3" g="0.3" b="0.3" a="1" />       
-    <background r="0" g="0" b="0" a="1" />          
+    <background r="1" g="1" b="1" a="1" />          
 </ambient>
 
 
 <lights>	
-	<omni id="light1" enabled="1">                                                       	       
+	<omni id="light1" enabled="0">                                                       	       
         <location  x="0" y="10" z="0" w="1" />       	   
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />        	 
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />      
     </omni>
 	
-	<spot id="light2" enabled="1" angle="1.5" exponent="1">                                       	      
+	<spot id="light2" enabled="0" angle="1.5" exponent="1">                                       	      
         <location x="30" y="10" z="0" w="1" />  
         <target x="10" y="20" z="0"/>     	   
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />       
@@ -41,21 +41,21 @@
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
     </spot>
 	
-	<omni id="light3" enabled="0">                                                      	       
-        <location x="0" y="10" z="20" w="1" />       		   
-        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />      
+	<omni id="lamp" enabled="1">                                                      	       
+        <location x="1.5" y="3" z="9" w="1" />       		   
+        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />      
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
     </omni>
 
-    <omni id="light4" enabled="0">                                                      	       
-        <location x="10" y="0" z="0" w="1" />       		   
-        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />      
+    <omni id="walllamp" enabled="1">                                                      	       
+        <location x="7" y="5.2" z="1" w="1" />       		   
+        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />      
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
     </omni>
 
-    <omni id="light5" enabled="1">                                                      	       
+    <omni id="light5" enabled="0">                                                      	       
         <location x="10" y="10" z="10" w="1" />       		   
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />      
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
@@ -117,8 +117,20 @@
 	<!-- Black -->
 	<texture id="blackText" file="images/black.jpg"/>
 
-	<!-- Mieic -->
-	<texture id="mieicTex" file="images/mieic.jpg"/>
+	<!-- feupSigarra -->
+	<texture id="feupSigarra" file="images/feupSigarra.png"/>
+
+	<!-- mieic -->
+	<texture id="mieic" file="images/mieic.jpg"/>
+
+	<!-- Bordeaux -->
+	<texture id="bordeauxTex" file="images/bordeaux.jpg"/>
+
+	<!-- White -->
+	<texture id="whiteTexture" file="images/white.png"/>
+
+	<!-- Donut -->
+	<texture id="donutTexture" file="images/simpsonsDonut.jpg"/>
 
 	<!-- None -->
 	<texture id="none" file="images/wall.jpg"/>
@@ -221,7 +233,7 @@
     </primitive>
 
     <primitive id="torus">
-        <torus inner="1" outer="2" slices="12" loops="4" />
+        <torus inner="0.65" outer="2" slices="12" loops="4" />
     </primitive>
 </primitives>
 
@@ -257,6 +269,8 @@
 		   <componentref id="mesa"/>
 		   <componentref id="desktop"/>
 		   <componentref id="monitor"/>
+		   <componentref id="donutplate"/>
+		   <componentref id="walllamp"/>
             
         </children>
 
@@ -339,6 +353,7 @@
 
         <children>
         	<componentref id="porta_caixa"/>
+        	<componentref id="porta_caixa2"/>
         	<componentref id="porta_manipulo"/>       
 		</children>
 
@@ -349,6 +364,25 @@
 
         <transformation>
 			<scale x="1" y ="1" z="1" />
+        </transformation>
+
+        <materials>
+            <material id="defaultMaterial" />  
+        </materials>  
+
+        <texture id="wood" length_s="1" length_t="1"/>       			
+
+        <children>
+        	<primitiveref id="rectangle"/>      
+		</children>
+
+    </component> 
+
+    <component id="porta_caixa2">  
+
+        <transformation>
+			<rotate axis="y" angle="180"/>
+			<translate x="-5" y="0" z="0"/>
         </transformation>
 
         <materials>
@@ -413,7 +447,7 @@
             <translate x="12.7" y="4.1" z="1.5" />
             <scale x="0.3" y="0.3" z="0.3" />
             <rotate axis="y" angle="90"/>
-        	<translate x="-8" y="0" z="-36"/>
+        	<translate x="-4.5" y="0" z="-36"/>
         </transformation>
 
         <materials>             
@@ -442,7 +476,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="usa" length_s="1" length_t="1"/>
+      <texture id="bordeauxTex" length_s="1" length_t="1"/>
 
       <children>
         <componentref id="colchao" />	  
@@ -571,7 +605,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="usa" length_s="1" length_t="1"/>
+      <texture id="mieic" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref id="triangle"/>
@@ -1263,7 +1297,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="wood" length_s="1" length_t="1"/>
+      <texture id="furniture" length_s="1" length_t="1"/>
 		
       <children>
         <componentref id = "cama_madeira_face1"/>
@@ -1412,7 +1446,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="wood" length_s="1" length_t="1"/>
+      <texture id="furniture" length_s="1" length_t="1"/>
 
       <children>
         <componentref id = "cama_perna" />
@@ -1430,7 +1464,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="wood" length_s="1" length_t="1"/>
+      <texture id="furniture" length_s="1" length_t="1"/>
 
       <children>
         <componentref id = "cama_perna" />
@@ -1448,7 +1482,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="wood" length_s="1" length_t="1"/>
+      <texture id="furniture" length_s="1" length_t="1"/>
 
       <children>
         <componentref id = "cama_perna" />
@@ -1466,7 +1500,7 @@
             <material id="defaultMaterial"/>         
         </materials>
 
-      <texture id="wood" length_s="1" length_t="1"/>
+      <texture id="furniture" length_s="1" length_t="1"/>
 
       <children>
         <componentref id = "cama_perna" />
@@ -1714,10 +1748,168 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="mieicTex" length_s="1" length_t="1"/>
+      <texture id="feupSigarra" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref id="rectangle" />
+      </children>
+
+    </component>
+	
+	
+    <!-- The donut and plate -->
+    <component id="donutplate">
+
+        <transformation>
+        	<translate x="2" y="4" z="4.5"/>
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id="donut" />
+        <componentref id="plate" />
+      </children>
+
+    </component>
+
+    <component id="donut">
+
+        <transformation>
+        	<rotate axis="x" angle="90"/>
+        	<scale x="0.25" y="0.25" z="0.25"/>
+        	<translate x="0" y="0" z="-1"/>
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="donutTexture" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="torus"/>
+      </children>
+
+    </component>
+
+    <component id="plate">
+
+        <transformation>
+        	<scale x="0.50" y="0.15" z="0.50"/>
+        	<rotate axis="x" angle="270"/>
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="whiteTexture" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="cone"/>
+      </children>
+
+    </component>
+
+    <component id="walllamp">
+
+        <transformation>
+        	<translate x="13.5" y="8" z="0"/>
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id="walllampbase"/>
+        <componentref id="walllampsuport1"/>
+        <componentref id="walllampsuport2"/>
+        <componentref id="walllamplamp"/>
+      </children>
+
+    </component>
+
+    <component id="walllampbase">
+
+        <transformation>
+        	<scale x="0.75" y="0.75" z="0.25"/>
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="iron" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="cylinder"/>
+      </children>
+
+    </component>
+
+	<component id="walllampsuport1">
+
+        <transformation>
+        	<scale x="0.15" y="0.15" z="1.85"/>
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="iron" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="cylinder"/>
+      </children>
+
+    </component>
+
+    <component id="walllampsuport2">
+
+        <transformation>
+        	<rotate axis="x" angle="90"/>
+        	<scale x="0.15" y="0.15" z="2"/>
+
+        	<translate x="0" y="12" z="-0.95"/>
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="iron" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="cylinder"/>
+      </children>
+
+    </component>
+
+    <component id="walllamplamp">
+
+        <transformation>
+        	<translate x="0" y="3" z="1.85"/>
+			<scale x="0.85" y="1.35" z="0.85"/>
+        	<rotate axis="x" angle="90"/>
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="lamp" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="cone"/>
       </children>
 
     </component>
