@@ -874,11 +874,23 @@
 					return "specular component undefined for ID = " + lightId;
 
 				var target = [];
+				var angle;
+				var exponent;
 				
 				if (children[i].nodeName == "spot" )
 				{
-					//Retrieve the target component
+					//Retrieve the angle component
+					angle = this.reader.getFloat(children[i], 'angle');
+					if (!(angle != null && !isNaN(angle)))
+							return "unable to parse angle component for ID = " + lightId;					
 					
+					
+					//Retrieve the exponent component
+					exponent = this.reader.getFloat(children[i], 'exponent');
+					if (!(exponent != null && !isNaN(exponent)))
+							return "unable to parse exponent component for ID = " + lightId;
+						
+					//Retrieve the target component					
 					var targetIndex = nodeNames.indexOf("target");
 
 					if (targetIndex != -1) {
@@ -902,16 +914,18 @@
 						if (!(z != null && !isNaN(z)))
 							return "unable to parse z component of the target for ID = " + lightId;
 						else
-							target.push(r);
+							target.push(z);
 					}
 					else
 						return "target component undefined for ID = " + lightId;
 				}
 					
+				this.log (target);	
 				if (children[i].nodeName == "omni")
 					this.lights[lightId] = [enableLight, locationLight, ambientIllumination, diffuseIllumination, specularIllumination];
 				else
-					this.lights[lightId] = [enableLight, locationLight, ambientIllumination, diffuseIllumination, specularIllumination, target];						
+					this.lights[lightId] = [enableLight, locationLight, ambientIllumination, diffuseIllumination, specularIllumination, target, angle, exponent];						
+				
 				numLights++;
 			}
 
@@ -1509,12 +1523,12 @@
 
 							//slices 
 							var slices = this.reader.getFloat (primitiveSpecs[0],'slices');
-							if (slices == null || !Number.isInteger (slices)) //TODO: penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
+							if (slices == null || !Number.isInteger (slices)) 
 								return "unable to parse slices component for ID = " + primitiveId;
 
 							//loops 
 							var loops = this.reader.getFloat (primitiveSpecs[0],'loops');
-							if (loops == null || !Number.isInteger (loops)) //TODO: penso que seria melhor colocar !Number.isInteger(slices), mas tive medo que nao ficasse bem
+							if (loops == null || !Number.isInteger (loops)) 
 								return "unable to parse loops component for ID = " + primitiveId;
 
 							this.primitives [primitiveId] = new MyTorus (this.scene, [inner,outer,slices,loops]);
