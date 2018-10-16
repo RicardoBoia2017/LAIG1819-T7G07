@@ -2,19 +2,21 @@
 <!-- deve definir-se um objeto para raiz da arvore, assim -->
 <!-- como o comprimento dos tres eixos (cilindros) -->
 
-<scene root="root" axis_length="1" />
+<scene root="root" axis_length="5" />
 
 <views default="default">
     <!-- tem de existir, pelo menos, uma vista de -->
     <!-- entre as seguintes (perspective ou ortho) -->
 
-    <perspective id="default" near="0.1" far="500" angle="0">
-        <from x="0.1" y="0.1" z="0.1" />
-        <to x="20" y="20" z="20" />
+    <perspective id="default" near="0.1" far="5000" angle="20">
+        <from x="20" y="20" z="20" />
+        <to x="0" y="0" z="0" />
     </perspective>
-
-    <ortho id="ortho" near="0.1" far="500"
-        left="-10" right="10" top="10" bottom="-10" />
+	
+    <ortho id="ortho" near="0.1" far="5000" left="-10" right="15" top="5" bottom="-10" >
+        <from x="60" y="60" z="60" />
+        <to x="5" y="5" z="5" />
+	</ortho>
 </views>      
 
 
@@ -26,7 +28,7 @@
 
 
 <lights>	
-	<spot id="spot" enabled="1" angle="1.5" exponent="1">                                       	      
+	<spot id="spot" enabled="0" angle="1.5" exponent="1">                                       	      
         <location x="4.8" y="1.35" z="5.75" w="1" />  
         <target x="4.8" y="6.5" z="5.75"/>     	   
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />       

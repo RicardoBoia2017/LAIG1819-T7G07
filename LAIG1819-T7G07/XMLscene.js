@@ -41,7 +41,7 @@ class XMLscene extends CGFscene {
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-    }
+  }
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -68,7 +68,6 @@ class XMLscene extends CGFscene {
 					this.lights[i].setSpotDirection(light[5][0] - light[1][0], light[5][1] - light[1][1], light[5][2] - light[1][2], light[5][3] - light[1][3])
 					this.lights[i].setSpotCutOff (light[6]);
 					this.lights[i].setSpotExponent (light[7]);
-					console.log (this.lights[i]);
 				}
 				
                 this.lights[i].setVisible(true);
@@ -85,15 +84,49 @@ class XMLscene extends CGFscene {
 
     }
 
+	initViews()
+	{
+		this.cameras = [];
+		for (var key in this.graph.views)
+		{	
+			if (this.graph.views[key][0] == "perspective") 	
+			{
+			
+				var near = this.graph.views[key][1];	
+				var far = this.graph.views[key][2];	
+				var fov =  this.graph.views[key][3];
+				var from = this.graph.views[key][4];
+				var to = this.graph.views[key][5];
+				this.cameras[key] = new CGFcamera (fov, near, far, vec3.fromValues(from[0],from[1], from[2]), to);
+			}
+			
+			else
+			{
+				var near = this.graph.views[key][1];
+				var far = this.graph.views[key][2];
+				var left = this.graph.views[key][3];
+				var right = this.graph.views[key][4];
+				var top = this.graph.views[key][5];
+				var bottom = this.graph.views[key][6];
+				var from = this.graph.views[key][7];
+				var to = this.graph.views[key][8];
+				this.cameras[key] = new CGFcameraOrtho (left, right, bottom, top, near, far, from, to, [0,1,0]);
+			}	
+		}
+		
+	}
+	
     /* Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
+		
 		this.defaultView = this.graph.defaultView;
-        this.camera.near = this.graph.views[this.graph.defaultView][1];
-        this.camera.far = this.graph.views[this.graph.defaultView][2];
-        
-        //TODO: Change reference length according to parsed graph
+		this.initViews();
+		
+		this.camera = this.cameras[this.defaultView];
+		this.interface.setActiveCamera(this.camera);
+		
         this.axis = new CGFaxis(this, this.graph.referenceLength);
 
 		this.setGlobalAmbientLight (this.graph.ambientSpecs [0], this.graph.ambientSpecs [1], this.graph.ambientSpecs [2], this.graph.ambientSpecs [3]);
@@ -107,6 +140,33 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
     }
 
+	updateViews()
+	{
+		if (this.graph.views[this.defaultView][0] == "perspective") 	
+		{
+			var near = this.graph.views[this.defaultView][1];
+			var far = this.graph.views[this.defaultView][2];	
+			var fov =  this.graph.views[this.defaultView][3];
+			var from = this.graph.views[this.defaultView][4];
+			var to = this.graph.views[this.defaultView][5];
+			this.camera = new CGFcamera (fov, near, far, from, to);
+		}
+		
+		else
+		{
+			var near = this.graph.views[this.defaultView][1];
+			var far = this.graph.views[this.defaultView][2];
+			var left = this.graph.views[this.defaultView][3];
+			var right = this.graph.views[this.defaultView][4];
+			var top = this.graph.views[this.defaultView][5];
+			var bottom = this.graph.views[this.defaultView][6];
+			var from = this.graph.views[this.defaultView][7];
+			var to = this.graph.views[this.defaultView][8];
+			this.camera = new CGFcameraOrtho (left, right, bottom, top, near, far, from, to, [0,1,0]);
+		}		
+		
+		this.interface.setActiveCamera(this.camera);
+	}
 
     /**
      * Displays the scene.
@@ -146,10 +206,11 @@ class XMLscene extends CGFscene {
                     i++;
                 }
             }
-			
-			this.camera.near = this.graph.views[this.defaultView][1];
-			this.camera.far = this.graph.views[this.defaultView][2];
-			
+		if (this.defaultView != this.lastView) 
+			this.updateViews();
+
+		this.lastView = this.defaultView
+
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
         }
