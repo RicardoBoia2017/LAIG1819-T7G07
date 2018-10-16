@@ -26,14 +26,7 @@
 
 
 <lights>	
-	<omni id="light1" enabled="0">                                                       	       
-        <location  x="0" y="10" z="0" w="1" />       	   
-        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />        	 
-        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
-        <specular r="1.0" g="1.0" b="1.0" a="1.0" />      
-    </omni>
-	
-	<spot id="light2" enabled="0" angle="1.5" exponent="1">                                       	      
+	<spot id="spot" enabled="0" angle="1.5" exponent="1">                                       	      
         <location x="30" y="10" z="0" w="1" />  
         <target x="10" y="20" z="0"/>     	   
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />       
@@ -55,7 +48,7 @@
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
     </omni>
 
-    <omni id="light5" enabled="0">                                                      	       
+    <omni id="extra" enabled="0">                                                      	       
         <location x="10" y="10" z="10" w="1" />       		   
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />      
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
@@ -66,20 +59,6 @@
 
 
 <textures>
-	<!-- Tree trunk -->
-	<texture id="trunk" file="images/trunk-image.jpg"/>                                    
-
-     <!-- Tree leaves -->
-    <texture id="folhas" file="images/leaves.jpg"/>
-
-    <!-- Rocks -->
-    <texture id="rocks" file="images/rocks.jpg"/>
-	
-    <!-- Glass work -->
-    <texture id="vidral" file="images/vidral.jpg"/>
-
-    <!-- Street bench -->
-    <texture id="banco" file="images/bank.jpg"/>
 
     <!-- Basketball -->
     <texture id="basketball" file="images/basketballtexture.jpg"/>
@@ -98,12 +77,6 @@
 
     <!-- Plastic -->
     <texture id="plastic" file="images/plastictexture.jpg"/>
-
-    <!-- Soccer Ball -->
-    <texture id="soccerball" file="images/soccerballtexture.jpg"/>
-
-     <!-- Usa -->
-    <texture id="usa" file="images/usatexture.jpg"/>
 
     <!-- Light Wood -->
     <texture id="lightwood" file="images/lightwoodtexture.jpg"/>
@@ -132,8 +105,6 @@
 	<!-- Donut -->
 	<texture id="donutTexture" file="images/simpsonsDonut.jpg"/>
 
-	<!-- None -->
-	<texture id="none" file="images/wall.jpg"/>
 </textures>
 
 
@@ -141,36 +112,20 @@
     <!-- Deve existir um ou mais blocos "material" -->
     <!-- Os identificadores "id" nao podem ser repetidos -->
 
-	<!-- Pyramid material -->
-    <material id="piramideMaterial" shininess = "1">
+	<!-- Wall material -->
+    <material id="wallMaterial" shininess = "1">
         <emission r="0.0" g="0.0" b="0.0" a="1" />
-        <ambient r="0.2" g="0.2" b="0.2" a="1" /> 
-        <diffuse r="1.0" g="0.68" b="0.4" a="1" />                               
-        <specular r="0" g="0" b="0" a="1" />        
-    </material>
-	
-	<!-- Tree leaves material -->
-    <material id="leavesTreeMaterial" shininess = "1">
-        <emission r="0.0" g="0.0" b="0.0" a="1" />
-        <ambient r="0.1" g="0.1" b="0.1" a="1" />  
-        <diffuse r="0.0" g="0.207" b="0.0" a="1" />                               
-        <specular r="0.2" g="0.2" b="0.2" a="1" />                
-    </material>
-	
-	<!-- Tree trunk material -->    
-    <material id="trunkTreeMaterial" shininess = "1"> 
-        <emission r="0.0" g="0.0" b="0.0" a="1" />
-        <ambient r="0.1" g="0.1" b="0.1" a="1" /> 
-        <diffuse r="0.6" g="0.298" b="0.0" a="1" />                            
+        <ambient r="0.25" g="0.25" b="0.25" a="1" /> 
+        <diffuse r="0.25" g="0.25" b="0.25" a="1" />                               
         <specular r="0.0" g="0.0" b="0.0" a="1" />        
     </material>
 
-    <!-- Lamp post material -->
-    <material id="lightPostMaterial" shininess = "100"> 
-        <emission r="0.0" g="0.0" b="0.0" a="1" /> 
-        <ambient r="0.0" g="0.0" b="0.0" a="1" />
-        <diffuse r="0.447" g="0.416" b="0.416" a="1" />                                
-        <specular r="0.0" g="0.0" b="0.0" a="1" />                
+    <!-- Wood material -->
+    <material id="woodMaterial" shininess = "1">
+        <emission r="0.0" g="0.0" b="0.0" a="1" />
+        <ambient r="0.35" g="0.35" b="0.35" a="1" /> 
+        <diffuse r="0.35" g="0.35" b="0.35" a="1" />                               
+        <specular r="0.0" g="0.0" b="0.0" a="1" />        
     </material>
 
     <!-- Light bulb material -->
@@ -195,12 +150,10 @@
 <!-- Os identificadores "id" nao podem ser repetidos -->
 <!-- Os angulos sao expressos em graus -->
 
-		<transformation id="default">
+	<transformation id="default">
         <!-- instrucoes a usar sem limite nem ordem -->
         <!-- deve existir pelo menos uma transformacao -->
-		<translate x="0" y="0" z="0" />
-        <rotate axis="y" angle="0" />
-        <scale x="1" y="1" z="1" />
+		 <scale x="0.5" y="0.5" z="0.5"/>
     </transformation>
 
 
@@ -245,15 +198,14 @@
     <component id="root"> 
 
         <transformation>
-            <scale x="0.5" y="0.5" z="0.5"/>
-            <!-- <transformationref id="default"/>  -->
+           <transformationref id="default"/>
         </transformation>
 
         <materials>
            <material id="defaultMaterial"/> 
         </materials>   
 
-        <texture id= "usa" length_s="1" length_t="1"/>  
+        <texture id= "none" length_s="1" length_t="1"/>  
 
         <children>
 
@@ -286,7 +238,7 @@
         </transformation>
 
         <materials>
-            <material id="none" />  
+            <material id="wallMaterial" />  
         </materials>  
 
         <texture id="plastic" length_s="1" length_t="1"/>       			
@@ -305,7 +257,7 @@
         </transformation>
 
         <materials>
-            <material id="inherit" />  
+            <material id="wallMaterial" />  
         </materials>  
 
         <texture id="wall" length_s="1" length_t="1"/>       			
@@ -326,7 +278,7 @@
         </transformation>
 
         <materials>
-            <material id="inherit" />  
+            <material id="wallMaterial" />  
         </materials>  
 
         <texture id="wall" length_s="1" length_t="1"/>       			
@@ -346,7 +298,7 @@
         </transformation>
 
         <materials>
-            <material id="defaultMaterial" />  
+            <material id="woodMaterial" />  
         </materials>  
 
         <texture id="none" length_s="1" length_t="1"/>       			
@@ -367,7 +319,7 @@
         </transformation>
 
         <materials>
-            <material id="defaultMaterial" />  
+            <material id="inherit" />  
         </materials>  
 
         <texture id="wood" length_s="1" length_t="1"/>       			
@@ -386,7 +338,7 @@
         </transformation>
 
         <materials>
-            <material id="defaultMaterial" />  
+            <material id="inherit" />  
         </materials>  
 
         <texture id="wood" length_s="1" length_t="1"/>       			
@@ -405,7 +357,7 @@
         </transformation>
 
         <materials>
-            <material id="defaultMaterial" />  
+            <material id="inherit" />  
         </materials>  
 
         <texture id="iron" length_s="1" length_t="1"/>       			
@@ -622,7 +574,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial" />        
+            <material id="woodMaterial" />        
         </materials>
 
       <texture id="none" length_s="1" length_t="1"/>
@@ -643,7 +595,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="furniture" length_s="1" length_t="1"/>
@@ -668,7 +620,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="furniture" length_s="1" length_t="1"/>
@@ -688,7 +640,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />        
+            <material id="inherit" />        
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -708,7 +660,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -728,7 +680,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -750,7 +702,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="iron" length_s="1" length_t="1"/>
@@ -770,7 +722,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="basketball" length_s="1" length_t="1"/>
@@ -790,7 +742,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -818,7 +770,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />        
+            <material id="inherit" />        
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -838,7 +790,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -858,7 +810,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -878,7 +830,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -899,7 +851,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -920,7 +872,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -941,7 +893,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -960,7 +912,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -981,7 +933,7 @@
         </transformation>
 
         <materials>
-            <material id="lightMaterial" />
+            <material id="inherit" />
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1000,7 +952,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1021,7 +973,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1041,7 +993,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1062,7 +1014,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1083,7 +1035,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1105,7 +1057,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1125,7 +1077,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1168,7 +1120,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1190,7 +1142,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1210,7 +1162,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1231,7 +1183,7 @@
        </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1252,7 +1204,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1274,7 +1226,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1294,7 +1246,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="woodMaterial"/>         
         </materials>
 
       <texture id="furniture" length_s="1" length_t="1"/>
@@ -1320,7 +1272,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1342,7 +1294,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1362,7 +1314,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1383,7 +1335,7 @@
        </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1404,7 +1356,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1426,7 +1378,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1443,7 +1395,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="furniture" length_s="1" length_t="1"/>
@@ -1461,7 +1413,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="furniture" length_s="1" length_t="1"/>
@@ -1479,7 +1431,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="furniture" length_s="1" length_t="1"/>
@@ -1497,7 +1449,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial"/>         
+            <material id="inherit"/>         
         </materials>
 
       <texture id="furniture" length_s="1" length_t="1"/>
@@ -1518,7 +1470,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="inherit" length_s="1" length_t="1"/>
@@ -1539,7 +1491,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial" />         
+            <material id="woodMaterial" />         
         </materials>
 
       <texture id="none" length_s="1" length_t="1"/>
@@ -1559,7 +1511,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="lightwood" length_s="1" length_t="1"/>
@@ -1577,7 +1529,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial" />         
+            <material id="inherit" />         
         </materials>
 
       <texture id="wood" length_s="1" length_t="1"/>
@@ -1723,7 +1675,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial" />         
+            <material id="lightMaterial" />         
         </materials>
 
       <texture id="tgDesktop" length_s="1" length_t="1"/>
@@ -1745,7 +1697,7 @@
         </transformation>
 
         <materials>            
-            <material id="defaultMaterial" />         
+            <material id="lightMaterial" />         
         </materials>
 
       <texture id="feupSigarra" length_s="1" length_t="1"/>
@@ -1805,7 +1757,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="lightMaterial" />         
         </materials>
 
       <texture id="whiteTexture" length_s="1" length_t="1"/>
@@ -1903,7 +1855,7 @@
         </transformation>
 
         <materials>             
-            <material id="defaultMaterial" />         
+            <material id="lightMaterial" />         
         </materials>
 
       <texture id="lamp" length_s="1" length_t="1"/>

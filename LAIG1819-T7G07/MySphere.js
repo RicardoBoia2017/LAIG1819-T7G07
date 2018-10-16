@@ -118,8 +118,8 @@
  MySphere.prototype.updateTex = function(S, T) {
 
     for (var i = 0; i < this.texCoords.length; i+=2) {
-        this.texCoords[i] = this.baseTexCoords[i]/(2 * S);
-        this.texCoords[i+1] = this.baseTexCoords[i+1]/ (2 * T);
+        this.texCoords[i] = this.baseTexCoords[i]/(S);
+        this.texCoords[i+1] = this.baseTexCoords[i+1]/ (T);
     }
 	
     this.updateTexCoordsGLBuffers();

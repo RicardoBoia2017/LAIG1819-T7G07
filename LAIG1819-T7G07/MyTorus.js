@@ -66,8 +66,6 @@ MyTorus.prototype.initBuffers = function() {
 };
 
 MyTorus.prototype.updateTex = function(S, T) {
-	 	  
-	console.log (S + "   " + T);
 		
     for (var i = 0; i < this.texCoords.length; i += 2) {
         this.texCoords[i] = this.baseTexCoords[i] / (S * 2);
