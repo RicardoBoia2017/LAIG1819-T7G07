@@ -55,7 +55,7 @@ class MyInterface extends CGFinterface {
 		for (var key in views)
 			viewsIds.push(key);
 		
-		this.gui.add(this.scene, 'c', viewsIds ).name("Views");
+		this.gui.add(this.scene, 'defaultView', viewsIds ).name("Views");
 
 	}
 	

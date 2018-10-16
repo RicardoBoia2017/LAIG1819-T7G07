@@ -216,10 +216,10 @@
 				this.onXMLMinorErro("unable to parse value for root; assuming 'root = root'");
 			}
 			
-			this.axis_length = this.reader.getFloat(sceneNode, 'axis_length');
+			this.referenceLength = this.reader.getFloat(sceneNode, 'axis_length');
 
-			if (!(this.axis_length != null && !isNaN(this.axis_length))) {
-				this.axis_length = 1;
+			if (!(this.referenceLength != null && !isNaN(this.referenceLength))) {
+				this.referenceLength = 1;
 				this.onXMLMinorErro("unable to parse value for axis_length; assuming 'axis_length = 1'");
 			}
 			

@@ -25,7 +25,7 @@ class XMLscene extends CGFscene {
         this.sceneInited = false;
 
         this.initCameras();
-		this.c = 0;
+		this.defaultView = 0;
         this.enableTextures(true);
 
         this.gl.clearDepth(100.0);
@@ -76,28 +76,22 @@ class XMLscene extends CGFscene {
         }
 
     }
-	
-	initViews()
-	{
-
-			
-	}
-
 
     /* Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
-        this.camera.near = this.graph.views["default"][1];
-        this.camera.far = this.graph.views["default"][2];
+		this.defaultView = this.graph.defaultView;
+        this.camera.near = this.graph.views[this.graph.defaultView][1];
+        this.camera.far = this.graph.views[this.graph.defaultView][2];
         
         //TODO: Change reference length according to parsed graph
-        //this.axis = new CGFaxis(this, this.graph.referenceLength);
+        this.axis = new CGFaxis(this, this.graph.referenceLength);
 
-        // TODO: Change ambient and background details according to parsed graph
+		this.setGlobalAmbientLight (this.graph.ambientSpecs [0], this.graph.ambientSpecs [1], this.graph.ambientSpecs [2], this.graph.ambientSpecs [3]);
+		this.gl.clearColor(this.graph.backgroundSpecs[0], this.graph.backgroundSpecs[1], this.graph.backgroundSpecs[2], this.graph.backgroundSpecs[3]);
 
         this.initLights();
-		this.initViews();
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
 		this.interface.addViewsGroup (this.graph.views);
@@ -144,7 +138,10 @@ class XMLscene extends CGFscene {
                     i++;
                 }
             }
-
+			
+			this.camera.near = this.graph.views[this.defaultView][1];
+			this.camera.far = this.graph.views[this.defaultView][2];
+			
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
         }
