@@ -44,4 +44,20 @@ class MyInterface extends CGFinterface {
             }
         }
     }
+	
+	addViewsGroup(views) {
+	
+	    var group = this.gui.addFolder("View");
+        group.open();
+		
+		var viewsIds = [];
+		
+		for (var key in views)
+			viewsIds.push(key);
+		
+		this.gui.add(this.scene, 'c', viewsIds ).name("Views");
+
+	}
+	
+	
 }

@@ -238,6 +238,9 @@
 		
 			var children = viewsNode.children;
 			
+			this.defaultView = this.reader.getString(viewsNode, 'default');
+			this.log (this.	defaultView);
+			
 			var nodeNames = [];
 
 			for (var i = 0; i < children.length; i++)
@@ -262,38 +265,38 @@
 
 					
 					//near
-					this.near = this.reader.getFloat(children[j], 'near');
+					var near = this.reader.getFloat(children[j], 'near');
 					
-					if (this.near == null ) {
-						this.near = 0.1;
+					if (near == null ) {
+						near = 0.1;
 						this.onXMLMinorErro("unable to parse value for near plane; assuming 'near = 0.1'");
 					}
 					
-					else if (isNaN(this.near)) {
-						this.near = 0.1;
+					else if (isNaN(near)) {
+						near = 0.1;
 						this.onXMLMinorErro("non-numeric value found for near plane; assuming 'near = 0.1'");
 					}
 					
-					else if (this.near <= 0) {
-						this.near = 0.1;
+					else if (near <= 0) {
+						near = 0.1;
 						this.onXMLMinorErro("'near' must be positive; assuming 'near = 0.1'");
 					}	
 
 					//far
-					this.far;
-					this.far = this.reader.getFloat(children[j], 'far');
+					var far;
+					far = this.reader.getFloat(children[j], 'far');
 					
-					if (this.far == null ) {
-						this.far = 500;
+					if (far == null ) {
+						far = 500;
 						this.onXMLMinorErro("unable to parse value for far plane; assuming 'far = 500'");
 					}
 					
-					else if (isNaN(this.far)) {
-						this.far = 500;
+					else if (isNaN(far)) {
+						far = 500;
 						this.onXMLMinorErro("non-numeric value found for far plane; assuming 'far = 500'");
 					}
 					
-					if (this.near >= this.far)
+					if (near >= far)
 						return "'near' must be smaller than 'far'";	
 					
 					//angle
@@ -403,7 +406,7 @@
 						
 					}
 					
-					this.views[id] = ["perspective", this.near, this.far, angle, from, to];
+					this.views[id] = ["perspective", near, far, angle, from, to];
 					numViews++;
 				}	
 				
@@ -421,43 +424,42 @@
 					    return "ID must be unique for each view (conflict: ID = " + id + ")";
 					
 					//near
-					this.near = this.reader.getFloat(children[j], 'near');
+					var near = this.reader.getFloat(children[j], 'near');
 					
-					if (this.near == null ) {
-						this.near = 0.1;
+					if (near == null ) {
+						near = 0.1;
 						this.onXMLMinorErro("unable to parse value for near plane; assuming 'near = 0.1'");
 					}
 					
-					else if (isNaN(this.near)) {
-						this.near = 0.1;
+					else if (isNaN(near)) {
+						near = 0.1;
 						this.onXMLMinorErro("non-numeric value found for near plane; assuming 'near = 0.1'");
 					}
 					
-					else if (this.near <= 0) {
-						this.near = 0.1;
+					else if (near <= 0) {
+						near = 0.1;
 						this.onXMLMinorErro("'near' must be positive; assuming 'near = 0.1'");
 					}	
 
 					//far
-					this.far;
-					this.far = this.reader.getFloat(children[j], 'far');
+					var far = this.reader.getFloat(children[j], 'far');
 					
-					if (this.far == null ) {
-						this.far = 500;
+					if (far == null ) {
+						far = 500;
 						this.onXMLMinorErro("unable to parse value for far plane; assuming 'far = 500'");
 					}
 					
-					else if (isNaN(this.far)) {
-						this.far = 500;
+					else if (isNaN(far)) {
+						far = 500;
 						this.onXMLMinorErro("non-numeric value found for far plane; assuming 'far = 500'");
 					}
 
-					else if (this.far <= 0) {
-						this.far = 500;
+					else if (far <= 0) {
+						far = 500;
 						this.onXMLMinorErro("'far' must be positive; assuming 'far = 500'");
 					}
 
-					if (this.near >= this.far)
+					if (near >= far)
 						return "'near' must be smaller than 'far'";	
 
 
@@ -525,7 +527,7 @@
 						return "'bottom' must be smaller than 'top'";	
 					
 						
-					this.views[id] = ["ortho", this.near, this.far, this.left, this.right, this.top, this.bottom];	
+					this.views[id] = ["ortho", near, far, this.left, this.right, this.top, this.bottom];	
 					numViews++;
 				}
 				
@@ -533,6 +535,9 @@
 					return "view cant be " + nodeNames[j] + ". It must be perspective or ortho.";
 				
 			}
+			
+			if (this.views [this.defaultView] == null)
+				return "view '" + this.defaultView + "' does not exist";
 			
 			if (numViews == 0)
 				return "at least one view must be defined";
@@ -1839,7 +1844,7 @@
 		 * Displays the scene, processing each node, starting in the root node.
 		 */
 		displayScene() {
-			// entry point for graph rendering
+
 		var root = this.components [this.root];
 		this.displayComponent(root, root.materialId, root.texture, root.texS, root.texT);	
 			
