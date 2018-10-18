@@ -34,20 +34,12 @@ MyQuad.prototype.initBuffers = function () {
         0, 0, 1
     ];
 
-
- /*   this.baseTexCoords = [
-        0, 0,
-        Math.abs(this.args[2]-this.args[0]), 0,
-        0, Math.abs(this.args[1]-this.args[3]),
-        Math.abs(this.args[2]-this.args[0]), Math.abs(this.args[1]-this.args[3])
-    ];*/
-	
-    this.baseTexCoords = [
-		1, 0,
-        0, 0,
-        1, 1,     
-		0, 1,
-    ];	
+	this.baseTexCoords = [
+		0, 0,
+        1, 0,
+        0, 1,     
+		1, 1,
+    ];
 	
     this.texCoords = this.baseTexCoords.slice();
 
@@ -62,6 +54,6 @@ MyQuad.prototype.updateTex = function(S, T) {
         this.texCoords[i] = this.baseTexCoords[i]/S;
         this.texCoords[i+1] = this.baseTexCoords[i+1]/T;
     }
-	
+
     this.updateTexCoordsGLBuffers();
 };
