@@ -8,7 +8,8 @@ function MyComponent (scene, id){
 	this.scene = scene;
 	this.id = id;
 	
-	this.material = null;
+	this.materials = []
+	this.currentMaterial = 0;
 	
 	this.textureId = null;
 	this.texS = null;
@@ -30,4 +31,9 @@ MyComponent.prototype.pushComp = function (childId)
 MyComponent.prototype.pushPrim = function (childId)
 {
 	this.childrenPrim.push(childId);
+}
+
+MyComponent.prototype.pushMaterial = function (materialId)
+{
+	this.materials.push(materialId);
 }

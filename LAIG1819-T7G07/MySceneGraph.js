@@ -1797,7 +1797,7 @@
 														
 							for (var h = 0; h < materialsChildren.length; h++)
 							{
-								
+
 								if (materialsChildren[h].nodeName != "material")
 								{
 									this.onXMLMinorErro("unknown tag <" + materialsChildren[h].nodeName + ">");
@@ -1814,7 +1814,8 @@
 									
 								}
 								
-								this.components[componentId].material = materialId;
+								this.components[componentId].pushMaterial(materialId);
+								
 							}
 							break;
 						}
@@ -1949,9 +1950,26 @@
 		 */
 		displayScene() {
 
+		if (this.scene.interface.isKeyPressed("KeyM") == true)
+			this.changeMaterials ();
+
+		
 		var root = this.components [this.root];
-		this.displayComponent(root, root.materialId, root.texture, root.texS, root.texT);	
+		this.displayComponent(root, root.materials[root.currentMaterial], root.texture, root.texS, root.texT);	
 			
+		}
+		
+		changeMaterials()
+		{
+			for (var key in this.components)
+			{
+				var currentComponent = this.components[key];
+				if (currentComponent.currentMaterial + 1 == currentComponent.materials.length)
+					currentComponent.currentMaterial = 0;
+				else
+					currentComponent.currentMaterial++;
+				
+			}		
 		}
 		
 		displayComponent (component, parentMat, parentTex, parentTexS, parentTexT) {
@@ -1965,13 +1983,13 @@
 			var texS = parentTexS;
 			var texT = parentTexT;
 			
-			if (component.material != "inherit")
+			if (component.materials[component.currentMaterial] != "inherit")
 			{
-				if (component.material == "none")
+				if (component.materials[component.currentMaterial] == "none")
 					material = null;
 				
 				else
-					material = this.materials[component.material];
+					material = this.materials[component.materials[component.currentMaterial]];
 			}
 			
 			if (component.textureId != "inherit")
@@ -2005,4 +2023,5 @@
 		
 			this.scene.popMatrix();
 		}
+		
 	}

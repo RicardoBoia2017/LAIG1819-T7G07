@@ -21,7 +21,11 @@ class MyInterface extends CGFinterface {
         this.gui = new dat.GUI();
 
         // add a group of controls (and open/expand by defult)
-
+		
+//			this.scene.gui=this;
+//		this.processKeyboard=function(){};
+		this.activeKeys={};
+		
         return true;
     }
 
@@ -57,6 +61,28 @@ class MyInterface extends CGFinterface {
 		
 		this.gui.add(this.scene, 'defaultView', viewsIds ).name("Views");
 
+	}
+	
+	processKeyboard(event) {
+		super.processKeyboard(event);
+
+//		if (event.keyCode == 77 || event.keyCode == 109)
+//			console.log("M is pressed");
+
+
+	}
+		
+	processKeyDown(event) {
+		this.activeKeys[event.code]=true;
+	};
+	
+	processKeyUp(event) {
+		
+		this.activeKeys[event.code]=false;
+	};
+		
+	isKeyPressed (keyCode){
+		return this.activeKeys [keyCode];	
 	}
 	
 	
