@@ -95,9 +95,6 @@
 	<!-- feupSigarra -->
 	<texture id="feupSigarra" file="images/feupSigarra.png"/>
 
-	<!-- mieic -->
-	<texture id="mieic" file="images/mieic.jpg"/>
-
 	<!-- Bordeaux -->
 	<texture id="bordeauxTex" file="images/bordeaux.jpg"/>
 
@@ -565,7 +562,7 @@
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="mieic" length_s="1" length_t="1"/>
+      <texture id="bordeauxTex" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref id="triangle"/>

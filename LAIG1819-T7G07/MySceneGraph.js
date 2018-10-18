@@ -29,9 +29,6 @@
 
 			this.idRoot = null;                    // The id of the root element.
 	
-			this.scene.texture = new CGFappearance(this.scene);
-			this.scene.texture.loadTexture("scenes/images/usatexture.jpg");
-
 			this.axisCoords = [];
 			this.axisCoords['x'] = [1, 0, 0];
 			this.axisCoords['y'] = [0, 1, 0];
