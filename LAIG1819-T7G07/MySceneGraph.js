@@ -1318,12 +1318,11 @@
 
 				grandChildren = children[i].children;
 				
+				var matrix = mat4.create();
+				mat4.identity(matrix);
 				//Retrieves transformation
 				for (var j = 0; j < grandChildren.length; j++)
-				{
-					var matrix = mat4.create();
-					mat4.identity(matrix);
-					
+				{					
 					switch (grandChildren[j].nodeName)
 					{
 						case "translate":
@@ -1369,8 +1368,8 @@
 								axis =[0,1,0];
 												
 							else if (axis == "z")	
-								axis =[0,0,1];		
-							
+								axis =[0,0,1];
+
 							mat4.rotate(matrix, matrix, angle * DEGREE_TO_RAD, axis);
 							break;
 						}
@@ -1400,9 +1399,9 @@
 							return "unable to parse type of transformation for ID = " + transfId;
 					}
 						
-					this.transformations [transfId] = matrix;
-					numTransformations ++;	
 				}
+				this.transformations [transfId] = matrix;
+				numTransformations ++;	
 			}
 			
 			if (numTransformations == 0)
@@ -1462,19 +1461,11 @@
 						var x2 = this.reader.getFloat (primitiveSpecs[0],'x2');
 						if (x2 == null || isNaN (x2))
 							return "unable to parse x2-coordinate for ID = " + primitiveId;	
-
-													
-						else if (x1 >= x2)
-							return "x2 must be greater than x1 for ID = " + primitiveId;
 							
 						//y2 
 						var y2 = this.reader.getFloat (primitiveSpecs[0],'y2');
 						if (y2 == null || isNaN (y2))
 							return "unable to parse y2-coordinate for ID = " + primitiveId;	
-
-							
-						else if (y1 >= y2)
-							return "y2 must be greater than y1 for ID = " + primitiveId;
 							
 						this.primitives [primitiveId] = new MyQuad (this.scene, [x1,y1,x2,y2]);
 						numPrimitives++;
@@ -1790,6 +1781,7 @@
 									
 								}
 							}
+
 							break;
 						}
 
@@ -1841,12 +1833,14 @@
 							if (textureId == "none")
 								continue;
 							
+							if (!this.reader.hasAttribute (grandChildren[j], 'length_s'))
+								continue;
+
 							//length_s
 							var length_s = this.reader.getFloat (grandChildren[j],'length_s');
-							
+
 							if (length_s == null || isNaN (length_s))
 								return ("unable to parse length_s component of texture for ID = " + componentId);
-							
 							
 							this.components [componentId].texS = length_s;
 
@@ -1855,7 +1849,6 @@
 							if (length_t == null || isNaN (length_t))
 								return ("unable to parse length_t component of texture for ID = " + componentId);
 	
-
 							this.components [componentId].texT = length_t;
 							
 							
@@ -1962,9 +1955,8 @@
 		if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials ();
 
-		
 		var root = this.components [this.root];
-		this.displayComponent(root, root.materials[root.currentMaterial], root.texture, root.texS, root.texT);	
+		 this.displayComponent(root, root.materials[root.currentMaterial], root.texture, root.texS, root.texT);	
 			
 		}
 		
@@ -2007,7 +1999,11 @@
 					texture = null;
 				
 				else
+				{
 					texture = this.textures[component.textureId];	
+					texS = component.texS
+					texT = component.texT
+				}
 			}
 			
 			for (var i = 0; i < component.childrenComp.length; i++)
@@ -2024,9 +2020,9 @@
 			
 			for (var j = 0; j < component.childrenPrim.length; j++)
 			{
-				var primitiveId = component.childrenPrim[j];
-				
-				this.primitives[primitiveId].updateTex (component.texS, component.texT);
+				var primitiveId = component.childrenPrim[j];				
+				this.primitives[primitiveId].updateTex (texS, texT);
+					
 				this.primitives[primitiveId].display();					
 			}
 		
