@@ -122,6 +122,9 @@
 	<!-- Phone -->
 	<texture id="phone_image" file="images/phone_image.png"/>
 
+	<!-- Keyboard -->
+	<texture id="keyboardTexture" file="images/keyboardTexture.jpg"/>
+
 </textures>
 
 
@@ -238,6 +241,7 @@
 		   <componentref id="mesa"/>
 		   <componentref id="desktop"/>
 		   <componentref id="monitor"/>
+		   <componentref id="keyboard"/>
 		   <componentref id="donutplate"/>
 		   <componentref id="walllamp"/>
 		   <componentref id="phone"/>
@@ -1942,7 +1946,71 @@
       </children>
 
     </component>
+
+    <component id="keyboard">
+
+        <transformation>
+    
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id="keyboard_caixa"/>
+        <componentref id="keyboardKeys"/>
+      </children>
+
+    </component>
 	
+
+	<component id="keyboard_caixa">
+
+        <transformation>
+        	<translate x="25.5" y="4.7" z="11"/>
+        	<scale x="0.20" y="0.05" z="0.20"/>
+    		<rotate axis="y" angle="90"/>
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="blackText" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id="colchao"/>
+      </children>
+
+    </component>
+
+	<component id="keyboardKeys">
+
+        <transformation>
+        	<translate x="25.5" y="4.87" z="9"/>
+        	<scale x="0.30" y="1" z="0.40"/>
+        	<rotate axis="y" angle="90"/>
+        	<rotate axis="x" angle="180"/>
+			<rotate axis="y" angle="180"/>
+    		<rotate axis="x" angle="90"/>
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="keyboardTexture" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle"/>
+      </children>
+
+    </component>
+
+
 </components>
 
 </yas>
