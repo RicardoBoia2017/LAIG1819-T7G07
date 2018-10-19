@@ -1362,6 +1362,15 @@
 							if (angle == null || isNaN (angle))
 								return "unable to parse angle of rotation for ID = " + transfId;
 
+							if (axis == "x")
+								axis =[1,0,0];
+									
+							else if (axis == "y")
+								axis =[0,1,0];
+												
+							else if (axis == "z")	
+								axis =[0,0,1];		
+							
 							mat4.rotate(matrix, matrix, angle * DEGREE_TO_RAD, axis);
 							break;
 						}
@@ -1829,7 +1838,10 @@
 							
 							this.components [componentId].textureId = textureId;
 
-							//length_s 
+							if (textureId == "none")
+								continue;
+							
+							//length_s
 							var length_s = this.reader.getFloat (grandChildren[j],'length_s');
 							
 							if (length_s == null || isNaN (length_s))
@@ -1971,15 +1983,15 @@
 		
 		displayComponent (component, parentMat, parentTex, parentTexS, parentTexT) {
 			
-			this.scene.pushMatrix();
-			
-			this.scene.multMatrix(component.matrixTransf);
-											
 			var texture = parentTex;
 			var material = parentMat;
 			var texS = parentTexS;
 			var texT = parentTexT;
 			
+			this.scene.pushMatrix();
+			
+			this.scene.multMatrix(component.matrixTransf);
+													
 			if (component.materials[component.currentMaterial] != "inherit")
 			{
 				if (component.materials[component.currentMaterial] == "none")
