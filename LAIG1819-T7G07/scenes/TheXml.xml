@@ -4,13 +4,28 @@
 
 <scene root="root" axis_length="5" />
 
-<views default="default">
+<views default="commode">
     <!-- tem de existir, pelo menos, uma vista de -->
     <!-- entre as seguintes (perspective ou ortho) -->
 
     <perspective id="default" near="0.1" far="5000" angle="20">
         <from x="20" y="20" z="20" />
         <to x="0" y="0" z="0" />
+    </perspective>
+	
+	<perspective id="computer" near="0.1" far="5000" angle="20">
+        <from x="10" y="4" z="5" />
+        <to x="20" y="4" z="5" />
+    </perspective>
+	
+	<perspective id="phone" near="0.1" far="50" angle="20">
+        <from x="5" y="3" z="5.5" />
+        <to x="4.5" y="0" z="5.5" />
+    </perspective>
+	
+	<perspective id="commode" near="0.1" far="50" angle="20">
+        <from x="5" y="5" z="2" />
+        <to x="0" y="0" z="2" />
     </perspective>
 	
     <ortho id="ortho" near="0.1" far="5000" left="-10" right="15" top="5" bottom="-10" >
