@@ -1,5 +1,7 @@
 /**
 * MyCylinder
+* @param {scene} scene
+* @param {args} primitive's arguments
 * @constructor
 */
 function MyCylinder(scene, args) {
@@ -19,14 +21,10 @@ function MyCylinder(scene, args) {
 MyCylinder.prototype = Object.create(CGFobject.prototype);
 MyCylinder.prototype.constructor = MyCylinder;
 
+/**
+ * Initializes the buffers
+ */
 MyCylinder.prototype.initBuffers = function() {
-  /*
-  * TODO:
-  * Replace the following lines in order to build a prism with a **single mesh**.
-  *
-  * How can the vertices, indices and normals arrays be defined to
-  * build a prism with varying number of slices and stacks?
-  */
 
   this.vertices = [];
 
@@ -119,7 +117,11 @@ MyCylinder.prototype.initBuffers = function() {
   this.primitiveType = this.scene.gl.TRIANGLES;
   this.initGLBuffers();
   };
-
+  /**
+	* Updates texture scale factors
+	* @param {scale factor S} S
+	* @param {scale factor T} T
+	*/
   MyCylinder.prototype.updateTex = function(S, T) {
 	 	  
     for (var i = 0; i < this.texCoords.length; i += 2) {

@@ -22,17 +22,28 @@ function MyComponent (scene, id){
 	mat4.identity(this.matrixTransf);
 }
 
-//TODO Pode ser preciso diferenciar primitivas e components nos childs
+/**
+* Pushes component into array
+* @param {component's id} childId
+*/
 MyComponent.prototype.pushComp = function (childId)
 {
 	this.childrenComp.push(childId);
 }
 
+/**
+* Pushes primitive into array
+* @param {primitive's id} childId
+*/
 MyComponent.prototype.pushPrim = function (childId)
 {
 	this.childrenPrim.push(childId);
 }
 
+/**
+* Pushes material into array
+* @param {material's id} materialId
+*/
 MyComponent.prototype.pushMaterial = function (materialId)
 {
 	this.materials.push(materialId);

@@ -1,7 +1,9 @@
 /**
 * MyQuad
+* @param {scene} scene
+* @param {args} primitive's arguments
 * @constructor
-*/
+*/	
 function MyQuad(scene, args) {
 	CGFobject.call(this,scene);
     this.args = args;
@@ -13,6 +15,9 @@ function MyQuad(scene, args) {
 MyQuad.prototype = Object.create(CGFobject.prototype);
 MyQuad.prototype.constructor=MyQuad;
 
+/**
+ * Initializes the buffers
+ */
 MyQuad.prototype.initBuffers = function () {
 
     this.vertices = [
@@ -47,7 +52,11 @@ MyQuad.prototype.initBuffers = function () {
     this.initGLBuffers();
 };
 
-
+/**
+* Updates texture scale factors
+* @param {scale factor S} S
+* @param {scale factor T} T
+*/
 MyQuad.prototype.updateTex = function(S, T) {
 
     for (var i = 0; i < this.texCoords.length; i+=2) {

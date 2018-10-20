@@ -83,7 +83,10 @@ class XMLscene extends CGFscene {
         }
 
     }
-
+	
+    /**
+     * Initializes the scene views with the values read from the XML file.
+     */
 	initViews()
 	{
 		this.cameras = [];
@@ -140,6 +143,9 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
     }
 
+	/**
+	* Updates active view to the one selected
+	*/
 	updateViews()
 	{
 		if (this.graph.views[this.defaultView][0] == "perspective") 	

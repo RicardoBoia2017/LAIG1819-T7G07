@@ -1,6 +1,8 @@
 /**
- * Torus
- * @constructor
+ * MyTorus
+ * @param {scene} scene
+ * @param {args} primitive's arguments
+ * @constructor 
  */
 function MyTorus(scene, args) {
     CGFobject.call(this, scene);
@@ -16,9 +18,13 @@ function MyTorus(scene, args) {
     this.initBuffers();
 };
 
+
 MyTorus.prototype = Object.create(CGFobject.prototype);
 MyTorus.prototype.constructor = MyTorus;
 
+/**
+ * Initializes the buffers
+ */
 MyTorus.prototype.initBuffers = function() {
 
     this.vertices = [];
@@ -65,6 +71,11 @@ MyTorus.prototype.initBuffers = function() {
     this.initGLBuffers();
 };
 
+/**
+* Updates texture scale factors
+* @param {scale factor S} S
+* @param {scale factor T} T
+*/
 MyTorus.prototype.updateTex = function(S, T) {
 		
     for (var i = 0; i < this.texCoords.length; i += 2) {

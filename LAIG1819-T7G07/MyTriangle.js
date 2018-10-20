@@ -1,5 +1,7 @@
 /**
 * MyTriangle
+* @param {scene} scene
+* @param {args} primitive's arguments
 * @constructor
 */
 function MyTriangle(scene, args) {
@@ -13,6 +15,9 @@ function MyTriangle(scene, args) {
 MyTriangle.prototype = Object.create(CGFobject.prototype);
 MyTriangle.prototype.constructor = MyTriangle;
 
+/**
+ * Initializes the buffers
+ */
 MyTriangle.prototype.initBuffers = function() {
 
   this.vertices = this.args;
@@ -56,6 +61,11 @@ MyTriangle.prototype.initBuffers = function() {
   this.initGLBuffers();
 };
 
+/**
+* Updates texture scale factors
+* @param {scale factor S} S
+* @param {scale factor T} T
+*/
 MyTriangle.prototype.updateTex = function(S, T) {
   for (var i = 0; i < this.texCoords.length; i+=2) {
     this.texCoords[i] = this.baseTexCoords[i]/S;

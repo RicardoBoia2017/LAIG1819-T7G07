@@ -49,6 +49,10 @@ class MyInterface extends CGFinterface {
         }
     }
 	
+	/**
+	* Adds a folder containing a combo box with the views passas as parameter 
+	* @param {array} views
+	*/
 	addViewsGroup(views) {
 	
 	    var group = this.gui.addFolder("View");
@@ -63,24 +67,35 @@ class MyInterface extends CGFinterface {
 
 	}
 	
+	/**
+	* Event handler called when the user types a key
+	* @param {event} event
+	*/
 	processKeyboard(event) {
 		super.processKeyboard(event);
-
-//		if (event.keyCode == 77 || event.keyCode == 109)
-//			console.log("M is pressed");
-
-
 	}
-		
+
+	/**
+	* Event handler called when the user presses down a key
+	* @param {event} event
+	*/
 	processKeyDown(event) {
 		this.activeKeys[event.code]=true;
 	};
 	
+	/**
+	* Event handler called when the user releases a key
+	* @param {event} event
+	*/
 	processKeyUp(event) {
 		
 		this.activeKeys[event.code]=false;
 	};
-		
+	
+	/**
+	* Checks if key is pressed
+	* {keyCode} key being pressed's code
+	*/
 	isKeyPressed (keyCode){
 		return this.activeKeys [keyCode];	
 	}

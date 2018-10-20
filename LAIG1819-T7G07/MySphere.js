@@ -1,5 +1,7 @@
 /**
  * MySphere
+ * @param {scene} scene
+ * @param {args} primitive's arguments
  * @constructor
  */
  function MySphere(scene, args) {
@@ -17,55 +19,16 @@
  MySphere.prototype = Object.create(CGFobject.prototype);
  MySphere.prototype.constructor = MySphere;
 
+ /**
+ * Initializes the buffers
+ */
  MySphere.prototype.initBuffers = function() {
 
  	this.vertices = [];
  	this.indices = [];
 	this.normals = [];
 	this.baseTexCoords = [];
-/*
-	var stack = 1/this.stacks;
-	//---------------stacks------------------
-	for (var q = 0; q <= 1;) {
-		//---------------slices------------------
-		for (var i = 0; i < this.slices; i++) {
-			var s = i*(2*Math.PI)/this.slices;
-			var t = Math.sqrt(1-(q*q));
-			this.vertices.push(this.radius * t * Math.cos(s));
-			this.vertices.push(this.radius * t * Math.sin(s));
-			this.vertices.push(this.radius * t );
 
-			this.normals.push(t * Math.cos(s));
-			this.normals.push(t * Math.sin(s));
-			this.normals.push(q);
-		}
-
-		q = q + stack;
-	}
-
-	for (var q = 0; q < this.stacks; q++) {
-		//---------------slices------------------
-		for (var i = 0; i < this.slices; i++) {
-
-			this.indices.push(this.slices*q+i);
-			this.indices.push(this.slices*q+i+1);
-			this.indices.push(this.slices*(q+1)+i);
-			if (i != (this.slices - 1)) {
-				this.indices.push(this.slices*(q+1)+i+1);
-				this.indices.push(this.slices*(q+1)+i);
-				this.indices.push(this.slices*q+i+1);
-				}
-			else {
-				this.indices.push(this.slices*q);
-				this.indices.push(this.slices*q+i+1)
-				this.indices.push(this.slices*q+i);
-				}
-		}
-	} */
-
-	//var vertices = [];
-   // var normals = [];
-   // var texCoords = [];
     for (var latNumber = 0; latNumber <= this.slices; latNumber++) {
       var theta = latNumber * Math.PI / this.slices;
       var sinTheta = Math.sin(theta);
@@ -114,7 +77,12 @@
  	this.primitiveType = this.scene.gl.TRIANGLES;
  	this.initGLBuffers();
  };
-
+ 
+/**
+* Updates texture scale factors
+* @param {scale factor S} S
+* @param {scale factor T} T
+*/
  MySphere.prototype.updateTex = function(S, T) {
 
     for (var i = 0; i < this.texCoords.length; i+=2) {

@@ -228,6 +228,7 @@
 
 		/**
 		 * Parses the <views> block.
+		 * @param {views block elements} viewsNode
 		 */
 		parseViews(viewsNode) {
 
@@ -1960,6 +1961,9 @@
 			
 		}
 		
+		/**
+		* Changes materials of components who have more than one
+		*/
 		changeMaterials()
 		{
 			for (var key in this.components)
@@ -1973,6 +1977,14 @@
 			}		
 		}
 		
+		/**
+		* Recursive function to display components
+		* @param {component to be displayed} component 
+		* @param {parent's material} parenMat
+		* @param {parent's texture} parentTex
+		* @param {parent's scale factor S} parentTexS
+		* @param {parent's scale factor T} parentTexT
+		*/
 		displayComponent (component, parentMat, parentTex, parentTexS, parentTexT) {
 			
 			var texture = parentTex;
