@@ -80,8 +80,7 @@ class LinearAnimation  extends Animation
 		if (section < sectionTime.lenght - 1)
 		{
 			mat4.identity(this.matrixTransf);
-
-			
+	
 			let dx = currentSectionTime * movValues[section][0];
 			let dy = currentSectionTime * movValues[section][1];
 			let dz = currentSectionTime * movValues[section][2];	

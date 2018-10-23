@@ -34,6 +34,8 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
+				
+		this.setUpdatePeriod(100);
     }
 
     /**
@@ -228,4 +230,10 @@ class XMLscene extends CGFscene {
         this.popMatrix();
         // ---- END Background, camera and axis setup
     }
+	
+	update(currentTime)
+	{
+//		for (var key in this.graph.components)
+//			this.graph.components[key].updateAnimation();	
+	}
 }
