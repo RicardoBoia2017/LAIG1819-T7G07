@@ -8,8 +8,9 @@
 	var TEXTURES_INDEX = 4;
 	var MATERIALS_INDEX = 5;
 	var TRANSF_INDEX = 6;
-	var PRIMITIVE_INDEX = 7;
-	var COMPONENTS_INDEX = 8;
+	var ANIMATIONS_INDEX = 7;
+	var PRIMITIVE_INDEX = 8;
+	var COMPONENTS_INDEX = 9;
 
 	/**
 	 * MySceneGraph class, representing the scene graph.
@@ -172,6 +173,18 @@
 				if ((error = this.parseTransf(nodes[index])) != null)
 					return error;
 			}
+
+			// <animations>
+			if ((index = nodeNames.indexOf("animations")) == -1)
+				return "tag <animations> missing";
+			else {
+				if (index != ANIMATIONS_INDEX)
+					this.onXMLMinorErro("tag <animations> out of order");
+
+				//Parse animations block
+				if ((error = this.parseAnimations(nodes[index])) != null)
+					return error;
+			}			
 
 			// <primitives>
 			if ((index = nodeNames.indexOf("primitives")) == -1)
@@ -1412,6 +1425,117 @@
 			return null;
 
 		}
+		/**
+		 * Parses the <animations> node.
+		 * @param {animations block element} animationsNode
+		 */
+		parseAnimations(animationsNode) {
+
+			this.animations = [];
+
+			var children = animationsNode.children;
+
+			for (var i = 0; i < children.length; i++)
+			{
+				if (children[i].nodeName != "linear" && children[i].nodeName != "circular") {
+					this.onXMLMinorErro("unknown tag <" + children[i].nodeName + ">");
+					continue;
+				}	
+
+				//Animation id
+				var animationId = this.reader.getString(children[i], 'id');
+				if (animationId == null)
+					return "unable to parse id value for animation";
+
+				// Checks for repeated IDs.
+				if (this.animations[animationId] != null)
+					return "ID must be unique for each animation (conflict: ID = " + animationId + ")";	
+
+				// Animation span
+				var animationSpan = this.reader.getFloat(children[i], 'span');
+
+				if(animationSpan == null || isNaN (animationSpan))
+					return "unable to parse span of the animation for ID = " + animationId;
+			
+				if (children[i].nodeName == "linear")
+				{
+					this.animations[animationId] = new LinearAnimation (this, animationSpan);
+
+					var grandChildren = children[i].children;
+
+					var numControlPoints = 0;
+
+					for(var j = 0; j < grandChildren.length; j++)
+					{
+						if (grandChildren[j].nodeName != "controlpoint")
+						{
+							this.onXMLMinorErro("unknown tag <" + grandChildren[j].nodeName + ">");
+							continue;
+						}
+
+						var x = this.reader.getFloat(grandChildren[j], 'xx');
+						if (!(x != null && !isNaN(x)))
+							return "unable to parse x-coordinate of the control point for animation ID = " + animationId;
+						
+						var y = this.reader.getFloat(grandChildren[j], 'yy');
+						if (!(y != null && !isNaN(y)))
+							return "unable to parse y-coordinate of the control point for animation ID = " + animationId;			
+						
+						var z = this.reader.getFloat(grandChildren[j], 'zz');
+						if (!(z != null && !isNaN(z)))
+							return "unable to parse z-coordinate of the control point for animation ID = " + animationId;				
+							
+						this.animations[animationId].pushControlPoint ([x,y,z]);
+
+						numControlPoints++;
+					}
+
+					if (numControlPoints < 2)
+						return "at least two control points should be defined for animation ID = " + animationId;
+				}
+
+				else if (children[i].nodeName == "circular")
+				{
+					//Center
+					var center = this.reader.getVector3(children[i], 'center');
+
+					if (!(center[0] != null && !isNaN(center[0])))
+						return "unable to parse x-coordinate of center for animation ID = " + animationId;
+
+					if (!(center[1] != null && !isNaN(center[1])))
+						return "unable to parse y-coordinate of center for animation ID = " + animationId;
+						
+					if (!(center[2] != null && !isNaN(center[2])))
+						return "unable to parse z-coordinate of center for animation ID = " + animationId;						
+
+					//Radius	
+					var radius = this.reader.getFloat(children[i], 'radius');
+
+					if (!(radius != null && !isNaN(radius)))
+						return "unable to parse radius for animation ID = " + animationId;
+					
+					//Start angle
+					var startAng = this.reader.getFloat(children[i], 'startang');
+
+					if (!(startAng != null && !isNaN(startAng)))
+						return "unable to parse start angle for animation ID = " + animationId;							
+
+					//Start angle
+					var rotAng = this.reader.getFloat(children[i], 'rotang');
+
+					if (!(rotAng != null && !isNaN(rotAng)))
+						return "unable to parse rotation angle for animation ID = " + animationId;	
+
+					this.animations[animationId] = new CircularAnimation (this, animationSpan, center, radius, startAng, rotAng);
+
+				}
+
+			}
+
+			this.log("Parsed animations");
+
+			return null;
+		}
 
 		 /**
 		 * Parses the <primitives> node.
@@ -1422,7 +1546,7 @@
 			this.primitives = [];
 			
 			var children = primitivesNode.children;
-			var numPrimitives;
+			var numPrimitives = 0;
 			
 			for (var i = 0; i < children.length; i++)
 			{				

@@ -2,7 +2,7 @@
 
 class Animation {
 	
-	constructor (scene, id, time){
+	constructor (scene, time){
 		this.time = time;
 	}
 }
