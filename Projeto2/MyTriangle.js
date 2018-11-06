@@ -15,7 +15,7 @@ function MyTriangle(scene, args) {
 MyTriangle.prototype = Object.create(CGFobject.prototype);
 MyTriangle.prototype.constructor = MyTriangle;
 
-/**
+/** 
  * Initializes the buffers
  */
 MyTriangle.prototype.initBuffers = function() {

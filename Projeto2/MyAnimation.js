@@ -2,7 +2,9 @@
 
 class Animation {
 	
-	constructor (scene, time){
-		this.time = time;
+	constructor (scene, time)
+	{
+		this.time = time
+		this.finishAnimation = false;
 	}
 }

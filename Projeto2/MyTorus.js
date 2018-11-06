@@ -14,7 +14,7 @@ function MyTorus(scene, args) {
 	
     this.torusRadius = (this.outer - this.inner) / 2;
     this.fullRadius = this.inner + this.torusRadius;
-
+ 
     this.initBuffers();
 };
 

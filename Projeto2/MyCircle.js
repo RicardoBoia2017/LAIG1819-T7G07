@@ -7,7 +7,7 @@ function MyCircle(scene, radius, slices)
     CGFobject.call(this, scene);
 
     this.radius = radius;// || 1;
-    this.slices = slices;// || 8; 
+    this.slices = slices;// || 8;  
 
     this.initBuffers();
 };

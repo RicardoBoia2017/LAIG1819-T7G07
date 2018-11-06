@@ -11,7 +11,7 @@ function MyQuad(scene, args) {
     this.initBuffers();
 
 };
-
+ 
 MyQuad.prototype = Object.create(CGFobject.prototype);
 MyQuad.prototype.constructor=MyQuad;
 

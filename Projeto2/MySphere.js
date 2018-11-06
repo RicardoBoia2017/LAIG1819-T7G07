@@ -13,7 +13,7 @@
 	this.slices = args[1];
 	this.stacks = args[2];
 
- 	this.initBuffers();
+ 	this.initBuffers(); 
  };
 
  MySphere.prototype = Object.create(CGFobject.prototype);

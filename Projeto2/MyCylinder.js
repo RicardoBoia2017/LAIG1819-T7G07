@@ -66,7 +66,7 @@ MyCylinder.prototype.initBuffers = function() {
       this.normals.push(0);
       //		normalsCounter++;
 
-      this.normals.push(Math.cos(i*theAngleRad));
+      this.normals.push(Math.cos(i*theAngleRad)); 
       this.normals.push(Math.sin(i*theAngleRad));
       this.normals.push(0);
       //		normalsCounter++;

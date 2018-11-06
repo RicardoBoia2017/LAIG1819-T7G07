@@ -11,7 +11,7 @@ function MySolidCylinder(scene, args)
 
     args = args;//.split(" ").map(x => parseInt(x, 10));
  
-    this.height = args[0];
+    this.height = args[0]; 
     this.bot = args[1];
     this.top = args[2];
     this.stacks = args[3];
