@@ -1910,6 +1910,32 @@
 							break;
 						}
 
+						case "animations":
+						{
+							var animationsChildren = grandChildren[j].children;
+
+							for (var h = 0; h < animationsChildren.length; h++)
+							{
+								if (animationsChildren[h].nodeName != "animationref")
+								{
+									this.onXMLMinorErro("unknown tag <" + animationsChildren[h].nodeName + ">");
+									continue;
+								}
+
+								var animationId = this.reader.getString(animationsChildren[h], 'id');
+
+								if (animationId == null)
+									return "unable to parse id value for animation for ID = " + componentId;
+
+								if(this.animations[animationId] == null)
+									return "unable to get animation '" + animationId + "' for ID = " + componentId;
+
+								this.components[componentId].pushAnimation(animationId);
+							}
+
+							break;
+						}
+
 						case "materials":
 						{
 							
@@ -2004,9 +2030,6 @@
 									
 									if(childrenChildren[l].nodeName == "componentref")
 									{
-//										if (this.components [childId] == null)
-//											return "unable to parse componentref " + childId;	
-										
 										this.components [componentId].pushComp(childId);	
 									}										
 									
@@ -2040,7 +2063,7 @@
 				{
 					if (this.components [currentComponent.childrenComp[i]] == null)
 						return "component '" + currentComponent.childrenComp[i] + "' does not exist";
-				}
+				}				
 			}
 			
 			this.log("Parsed components");

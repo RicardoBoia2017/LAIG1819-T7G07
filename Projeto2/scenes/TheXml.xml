@@ -270,6 +270,10 @@
 			<translate x="0" y="1" z="0" />
         </transformation>
 
+        <animations>
+            <animationref id="linear"/>
+        </animations>
+
         <materials>
             <material id="wallMaterial" /> 			
         </materials>  

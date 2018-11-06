@@ -18,6 +18,8 @@ function MyComponent (scene, id){
 	this.childrenComp = [];
 	this.childrenPrim = [];
 	
+	this.animations = []
+
 	this.matrixTransf = mat4.create();
 	mat4.identity(this.matrixTransf);
 }
@@ -47,4 +49,13 @@ MyComponent.prototype.pushPrim = function (childId)
 MyComponent.prototype.pushMaterial = function (materialId)
 {
 	this.materials.push(materialId);
+}
+
+/**
+* Pushes animation into array
+* @param {animation's id} animationId
+*/
+MyComponent.prototype.pushAnimation = function (animationId)
+{
+	this.animations.push(animationId);
 }
