@@ -26,9 +26,14 @@ class CircularAnimation extends Animation
 
 		this.matrixTransf = mat4.create();
 
-		this.totalDistance = 2 * this.radius * Math.PI * (Math.abs(this.rotationAngle - this.initialAngle)/360);
-		this.totalTime = this.totalDistance/this.time;
-		this.angleSpeed = (this.totalDistance/this.totalTime)/this.radius;
+		this.totalDistance = 2 * this.radius * Math.PI * (Math.abs(this.rotationAngle - this.initialAngle)/(2 * Math.PI));
+
+		this.angleSpeed = (this.totalDistance/this.time)/this.radius;
+
+		this.sectionTime = [];
+		this.sectionTime.push(this.time);
+
+		//console.log(center + " " + radius + " " + this.initialAngle + " " + this.rotationAngle);
 	}
 	
 	/**
@@ -48,7 +53,7 @@ class CircularAnimation extends Animation
 			mat4.translate(this.matrixTransf, this.matrixTransf, [this.center[0], this.center[1], this.center[2] ]);
 			mat4.rotate(this.matrixTransf, this.matrixTransf, angleFraction, [0, 1, 0]);
 			mat4.translate(this.matrixTransf, this.matrixTransf, [this.radius, 0, 0]);
-			mat4.rotate(this.matrixTransf, this.matrixTransf, Math.PI/2, [0, 1, 0]);
+		//	mat4.rotate(this.matrixTransf, this.matrixTransf, Math.PI/2, [0, 1, 0]);
     	}
 
 		return this.matrixTransf;

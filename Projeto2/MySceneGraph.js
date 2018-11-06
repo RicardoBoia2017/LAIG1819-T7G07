@@ -2140,9 +2140,9 @@
 			var texT = parentTexT;
 			
 			this.scene.pushMatrix();
-			
-			this.scene.multMatrix(component.matrixTransf);
+
 			this.scene.multMatrix(component.matrixAnimation);							
+			this.scene.multMatrix(component.matrixTransf);		
 			
 			if (component.materials[component.currentMaterial] != "inherit")
 			{
@@ -2170,7 +2170,7 @@
 			{	
 				var childrenId = component.childrenComp [i];
 				this.displayComponent (this.components[childrenId], material, texture, texS, texT);
-			}
+			} 
 			
 			if (material != null)
 				material.apply();

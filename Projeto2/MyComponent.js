@@ -79,9 +79,6 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 	let previousSectionTime = 0;
 	var animation = this.scene.graph.animations[this.animations[this.currentAnimation]];
 
-	if(this.animations[this.currentAnimation] == null)
-		return;
-
 	for(let i = 0; i < this.currentSection; i++)
 		previousSectionTime += animation.sectionTime[i];
 	
@@ -89,9 +86,7 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 
 	if (this.currentAnimation < this.animations.length)
 	{
-		this.matrixAnimation = animation.getMatrix(this.animationTime, this.currentSection);
-
-		//console.log(this.matrixAnimation);
+		this.matrixAnimation = animation.getMatrix(currentSectionTime, this.currentSection);
 
 		if(this.animationTime >= animation.time)
 		{
@@ -100,9 +95,9 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 			this.currentAnimation++;
 		}
 
+
 		else if (currentSectionTime >= animation.sectionTime[this.currentSection])
-		{
 			this.currentSection++;
-		}
+		
 	}
 }

@@ -8,7 +8,6 @@ class LinearAnimation extends Animation {
 		super(scene, time);
 		this.controlPoints = controlPoints;
 		this.matrixTransf = mat4.create();
-		this.finished = false;
 		this.movValues = [];
 
 		this.init();
@@ -18,9 +17,6 @@ class LinearAnimation extends Animation {
 
 		var totalDistance = 0;
 		this.sectionTime = [];
-
-		console.log("Hello");
-		console.log(this.controlPoints);
 
 		for (let i = 0; i < this.controlPoints.length - 1; i++) {
 			let controlPoint = this.controlPoints[i];
@@ -82,21 +78,16 @@ class LinearAnimation extends Animation {
 		for (let i = 0; i < section; i++)
 			previousSectionTime += this.sectionTime[i];
 
-			//ERRO
 		var currentSectionTime = time - previousSectionTime;
 
-	//	console.log(section);
-
 		if(section >= this.controlPoints.length - 1)
-			this.finished = true;
+			this.finishedAnimation = true;
 
 
 		else {
 
 			mat4.identity(this.matrixTransf);
 			
-			console.log(currentSectionTime);
-
 			let dx = currentSectionTime * this.movValues[section][0];
 			let dy = currentSectionTime * this.movValues[section][1];
 			let dz = currentSectionTime * this.movValues[section][2];

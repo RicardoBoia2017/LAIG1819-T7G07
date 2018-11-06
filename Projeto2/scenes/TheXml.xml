@@ -183,12 +183,17 @@
 
 <animations>
 
-    <linear id="linear" span="5">
+    <linear id="linear" span="3">
         <controlpoint xx="0" yy="0" zz="0"/>
-        <controlpoint xx="5" yy="0" zz="0"/> 
+        <controlpoint xx="1" yy="0" zz="0"/> 
     </linear>
 
-    <circular id="circular" span="5" center="1 2 3" radius="4.5" startang="5.5" rotang="6.9" />
+    <linear id="anti-linear" span="5">
+        <controlpoint xx="1" yy="0" zz="0"/>
+        <controlpoint xx="0" yy="0" zz="0"/> 
+    </linear>
+
+    <circular id="circular" span="5" center="0 0 0" radius="0.1" startang="0" rotang="360" />
 
 </animations>
 
@@ -271,7 +276,9 @@
         </transformation>
 
         <animations>
-            <animationref id="linear"/>
+            <animationref id="circular" />
+ <!-->      <animationref id="linear"/>
+            <animationref id="anti-linear"/>    -->        
         </animations>
 
         <materials>
@@ -299,6 +306,12 @@
 			
         </materials>  
 
+        <animations>
+            <animationref id="circular" />
+ <!-->      <animationref id="linear"/>
+            <animationref id="anti-linear"/>    -->        
+        </animations>
+        
         <texture id="wall" length_s="1" length_t="1"/>       			
 
         <children>
