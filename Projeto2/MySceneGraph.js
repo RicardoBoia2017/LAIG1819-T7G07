@@ -1459,11 +1459,10 @@
 			
 				if (children[i].nodeName == "linear")
 				{
-					this.animations[animationId] = new LinearAnimation (this, animationSpan);
-
 					var grandChildren = children[i].children;
 
 					var numControlPoints = 0;
+					var controlPoints = [];
 
 					for(var j = 0; j < grandChildren.length; j++)
 					{
@@ -1485,13 +1484,14 @@
 						if (!(z != null && !isNaN(z)))
 							return "unable to parse z-coordinate of the control point for animation ID = " + animationId;				
 							
-						this.animations[animationId].pushControlPoint ([x,y,z]);
-
+						controlPoints.push([x,y,z]);
 						numControlPoints++;
 					}
 
 					if (numControlPoints < 2)
 						return "at least two control points should be defined for animation ID = " + animationId;
+
+					this.animations[animationId] = new LinearAnimation (this, animationSpan, controlPoints);	
 				}
 
 				else if (children[i].nodeName == "circular")
@@ -2142,7 +2142,8 @@
 			this.scene.pushMatrix();
 			
 			this.scene.multMatrix(component.matrixTransf);
-													
+			this.scene.multMatrix(component.matrixAnimation);							
+			
 			if (component.materials[component.currentMaterial] != "inherit")
 			{
 				if (component.materials[component.currentMaterial] == "none")

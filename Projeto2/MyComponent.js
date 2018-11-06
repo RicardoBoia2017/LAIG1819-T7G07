@@ -11,6 +11,11 @@ function MyComponent (scene, id){
 	this.materials = []
 	this.currentMaterial = 0;
 	
+	this.animations = []
+	this.currentAnimation = 0;
+	this.animationTime = 0;
+	this.currentSection = 0;
+
 	this.textureId = null;
 	this.texS = null;
 	this.texT = null;
@@ -18,10 +23,11 @@ function MyComponent (scene, id){
 	this.childrenComp = [];
 	this.childrenPrim = [];
 	
-	this.animations = []
-
 	this.matrixTransf = mat4.create();
 	mat4.identity(this.matrixTransf);
+	
+	this.matrixAnimation = mat4.create();
+	mat4.identity(this.matrixAnimation);
 }
 
 /**
@@ -58,4 +64,45 @@ MyComponent.prototype.pushMaterial = function (materialId)
 MyComponent.prototype.pushAnimation = function (animationId)
 {
 	this.animations.push(animationId);
+}
+
+MyComponent.prototype.getAnimationsLenght = function ()
+{
+	var lenght = this.animations.length;
+
+	return lenght;
+}
+
+MyComponent.prototype.updateAnimation = function (timeVariation)
+{
+	this.animationTime += timeVariation;
+	let previousSectionTime = 0;
+	var animation = this.scene.graph.animations[this.animations[this.currentAnimation]];
+
+	if(this.animations[this.currentAnimation] == null)
+		return;
+
+	for(let i = 0; i < this.currentSection; i++)
+		previousSectionTime += animation.sectionTime[i];
+	
+	let currentSectionTime = this.animationTime - previousSectionTime;
+
+	if (this.currentAnimation < this.animations.length)
+	{
+		this.matrixAnimation = animation.getMatrix(this.animationTime, this.currentSection);
+
+		//console.log(this.matrixAnimation);
+
+		if(this.animationTime >= animation.time)
+		{
+			this.animationTime = 0;
+			this.currentSection = 0;
+			this.currentAnimation++;
+		}
+
+		else if (currentSectionTime >= animation.sectionTime[this.currentSection])
+		{
+			this.currentSection++;
+		}
+	}
 }

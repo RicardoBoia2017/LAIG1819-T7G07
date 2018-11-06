@@ -1,5 +1,8 @@
 
-
+/**
+ * Animation
+ * @constructor
+**/
 class Animation {
 	
 	constructor (scene, time)

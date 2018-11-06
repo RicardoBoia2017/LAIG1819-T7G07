@@ -1,20 +1,28 @@
 
-
+/**
+ * LinearAnimation
+ * @constructor
+**/
 class LinearAnimation extends Animation {
-	constructor(scene, time) {
+	constructor(scene, time, controlPoints) {
 		super(scene, time);
-		this.controlPoints = [];
+		this.controlPoints = controlPoints;
 		this.matrixTransf = mat4.create();
-		//this.end = false;
+		this.finished = false;
+		this.movValues = [];
+
+		this.init();
 	}
 
 	init() {
 
 		var totalDistance = 0;
-		this.movValues = [];
 		this.sectionTime = [];
 
-		for (let i = 0; i < this.controlPoints.lenght - 1; i++) {
+		console.log("Hello");
+		console.log(this.controlPoints);
+
+		for (let i = 0; i < this.controlPoints.length - 1; i++) {
 			let controlPoint = this.controlPoints[i];
 			let nextControlPoint = this.controlPoints[i + 1];
 
@@ -29,7 +37,7 @@ class LinearAnimation extends Animation {
 
 		var speed = totalDistance / this.time;
 
-		for (let i = 0; i < this.controlPoints.lenght - 1; i++) {
+		for (let i = 0; i < this.controlPoints.length - 1; i++) {
 			let controlPoint = this.controlPoints[i];
 			let nextControlPoint = this.controlPoints[i + 1];
 
@@ -70,26 +78,40 @@ class LinearAnimation extends Animation {
 
 	getMatrix(time, section) {
 		let previousSectionTime = 0;
+
 		for (let i = 0; i < section; i++)
 			previousSectionTime += this.sectionTime[i];
 
-		let currentSectionTime = time - previousSectionTime;
+			//ERRO
+		var currentSectionTime = time - previousSectionTime;
 
-		if (section < sectionTime.lenght - 1) {
+	//	console.log(section);
+
+		if(section >= this.controlPoints.length - 1)
+			this.finished = true;
+
+
+		else {
+
 			mat4.identity(this.matrixTransf);
+			
+			console.log(currentSectionTime);
 
-			let dx = currentSectionTime * movValues[section][0];
-			let dy = currentSectionTime * movValues[section][1];
-			let dz = currentSectionTime * movValues[section][2];
+			let dx = currentSectionTime * this.movValues[section][0];
+			let dy = currentSectionTime * this.movValues[section][1];
+			let dz = currentSectionTime * this.movValues[section][2];
+
 
 			let currentX = dx + this.controlPoints[section][0];
 			let currentY = dy + this.controlPoints[section][1];
 			let currentZ = dz + this.controlPoints[section][2];
 
-			mat4.translate(this.transformMatrix, this.transformMatrix, [currentX, currentY, currentZ]);
+
+			mat4.translate(this.matrixTransf, this.matrixTransf, [currentX, currentY, currentZ]); 
 			mat4.rotate(this.matrixTransf, this.matrixTransf, this.movValues[section][3], [0, 1, 0]);
+		
 		}
-		//		else
-		//			this.end = true;
+
+		return this.matrixTransf;
 	}
 }

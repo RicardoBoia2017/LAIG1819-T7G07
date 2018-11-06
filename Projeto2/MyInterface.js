@@ -24,7 +24,7 @@ class MyInterface extends CGFinterface {
 		
 //			this.scene.gui=this;
 //		this.processKeyboard=function(){};
-		this.activeKeys={};
+		this.activeKeys={}; 
 		
         return true;
     }
