@@ -2116,12 +2116,12 @@
 
 		this.surfaces[0].display();
 
-		/*if (this.scene.interface.isKeyPressed("KeyM") == true)
+		if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials ();
 
 		var root = this.components [this.root];
 		 this.displayComponent(root, root.materials[root.currentMaterial], root.texture, root.texS, root.texT);	
-		*/	
+			
 		}
 		
 		/**
