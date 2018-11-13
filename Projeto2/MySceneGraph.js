@@ -44,6 +44,9 @@
 			 * If any error occurs, the reader calls onXMLError on this object, with an error message
 			 */
 
+			this.surfaces = [];
+			this.plane = new Plane(this.scene, 1, 1);
+
 			this.reader.open('scenes/' + filename, this);
 		}
 
@@ -2074,10 +2077,10 @@
 			
 			var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
 	
-			var obj = new CGFnurbsObject(this, 20, 20, nurbsSurface ); // TODO must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
+			var surface = new CGFnurbsObject(this.scene, 20, 20, nurbsSurface ); // TODO must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
 			
-			this.surfaces.push(obj);	
-			this.translations.push(translation);
+			this.surfaces[id] = surface
+//			this.translations.push(translation);
 	
 		}
 
@@ -2111,12 +2114,14 @@
 		 */
 		displayScene() {
 
-		if (this.scene.interface.isKeyPressed("KeyM") == true)
+		this.surfaces[0].display();
+
+		/*if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials ();
 
 		var root = this.components [this.root];
 		 this.displayComponent(root, root.materials[root.currentMaterial], root.texture, root.texS, root.texT);	
-			
+		*/	
 		}
 		
 		/**
