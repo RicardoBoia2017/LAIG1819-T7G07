@@ -45,7 +45,7 @@
 			 */
 
 			this.surfaces = [];
-			this.plane = new Plane(this.scene, 1, 1);
+			this.plane = new Plane(this.scene, 5, 8);
 
 			this.reader.open('scenes/' + filename, this);
 		}
