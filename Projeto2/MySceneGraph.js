@@ -2070,6 +2070,17 @@
 			return null;
 		}
 
+		makeSurface(id, degree1, degree2, controlvertexes, translation) {
+			
+			var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
+	
+			var obj = new CGFnurbsObject(this, 20, 20, nurbsSurface ); // TODO must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
+			
+			this.surfaces.push(obj);	
+			this.translations.push(translation);
+	
+		}
+
 		/*
 		 * Callback to be executed on any read error, showing an error on the console.
 		 * @param {string} message
