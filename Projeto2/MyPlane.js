@@ -2,12 +2,10 @@
 
 class Plane extends CGFobject {
 
-    constructor(scene, divU, divV) {
+    constructor(scene, npartsU, npartsV) {
         super(scene);
-        this.divU = divU;
-        this.divV = divV;
-
-        this.surface = null;
+        this.npartsU = npartsU;
+        this.npartsV = npartsV;
 
         this.init();
     };
@@ -16,22 +14,22 @@ class Plane extends CGFobject {
 
         this.primitiveType = this.scene.gl.TRIANGLES;
 
-        var distanceU = 1 / this.divU;
-        var distanceV = 1 / this.divV;
+        var distanceU = 1 / this.npartsU;
+        var distanceV = 1 / this.npartsV;
 
         var allControlPoints = [];
 
-        for(let i = 0; i <= this.divU; i++) 
+        for(let i = 0; i <= this.npartsU; i++) 
         {
             var controlPoints = [];
 
-            for(let j = 0; j <= this.divV; j++)
+            for(let j = 0; j <= this.npartsV; j++)
                 controlPoints.push([distanceV * j - 0.5, 0 , distanceU * i - 0.5, 1]);
             
             allControlPoints.push(controlPoints);
         }    
         
-        this.scene.graph.makeSurface('0', this.divU, this.divV, allControlPoints, [0,0,0]);
+        this.scene.graph.makeSurface('0', this.npartsU, this.npartsV, allControlPoints, [0,0,0]);
 
     };
 

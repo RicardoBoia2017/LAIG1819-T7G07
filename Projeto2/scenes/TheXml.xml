@@ -234,6 +234,12 @@
     <primitive id="torus">
         <torus inner="0.65" outer="2" slices="12" loops="4" />
     </primitive>
+
+    <primitive id="patch">
+        <patch npointsU="1" npointsV="1" npartsU="1" npartsV="1">
+             <controlpoint xx="0" yy="0" zz="0" />
+        </patch>
+    </primitive>
 </primitives>
 
 
