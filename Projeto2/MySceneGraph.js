@@ -1774,7 +1774,7 @@ class MySceneGraph {
 							if (!(z != null && !isNaN(z)))
 								return "unable to parse z-coordinate of the control point for primitive ID = " + primitiveId;
 		
-							controlPoints.push([x, y, z]);
+							controlPoints.push([x, y, z, 1]);
 							numControlPoints++;
 						}	
 						
@@ -2093,7 +2093,7 @@ class MySceneGraph {
 
 		var surface = new CGFnurbsObject(this.scene, uDivs, vDivs, nurbsSurface); 
 
-		this.surfaces[id] = surface
+		this.surfaces[id] = surface;
 		//			this.translations.push(translation);
 
 	}
@@ -2128,7 +2128,7 @@ class MySceneGraph {
 	 */
 	displayScene() {
 
-		this.surfaces[0].display();
+		this.surfaces[1].display();
 
 		/*if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials();
