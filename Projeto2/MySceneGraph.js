@@ -2087,11 +2087,11 @@ class MySceneGraph {
 		return null;
 	}
 
-	makeSurface(id, degree1, degree2, controlvertexes, translation) {
+	makeSurface(id, degree1, degree2, uDivs, vDivs, controlvertexes, translation) {
 
 		var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
 
-		var surface = new CGFnurbsObject(this.scene, 20, 20, nurbsSurface); // TODO must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
+		var surface = new CGFnurbsObject(this.scene, uDivs, vDivs, nurbsSurface); 
 
 		this.surfaces[id] = surface
 		//			this.translations.push(translation);
@@ -2130,12 +2130,12 @@ class MySceneGraph {
 
 		this.surfaces[0].display();
 
-		if (this.scene.interface.isKeyPressed("KeyM") == true)
+		/*if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials();
 
 		var root = this.components[this.root];
 		this.displayComponent(root, root.materials[root.currentMaterial], root.texture, root.texS, root.texT);
-
+*/
 	}
 
 	/**
