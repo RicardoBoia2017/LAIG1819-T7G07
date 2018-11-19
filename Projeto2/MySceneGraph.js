@@ -1725,7 +1725,7 @@ class MySceneGraph {
 
 				case "plane":
 					{
-
+						break;
 					}
 
 				case "patch":
@@ -1782,6 +1782,45 @@ class MySceneGraph {
 							return "number of control points must be equal to npointsU * npointsV for primitive ID = " + primitiveId;
 
 						this.primitives[primitiveId] = new Patch(this.scene, npointsU, npointsV, npartsU, npartsV, controlPoints);
+						break;
+					}
+					case "terrain":
+					{
+						//idtexture
+						var idtexture = this.reader.getString(primitiveSpecs[0], 'idtexture');
+
+						if(idtexture == null)
+							return "unable to parse idtexture for primitive ID = " + primitiveId;
+
+						if(this.textures[idtexture] == null)
+							return "texture ID = " + idtexture + " not found for primitive ID = " + primitiveId;
+
+						//idheightmap
+						var idheightmap = this.reader.getString(primitiveSpecs[0], 'idheightmap');
+
+						if(idheightmap == null)
+							return "unable to parse idheightmap for primitive ID = " + primitiveId;
+
+						if(this.textures[idheightmap] == null)
+							return "texture ID = " + idheightmap + " not found for primitive ID = " + primitiveId;	
+						
+						//parts
+						var parts = this.reader.getFloat(primitiveSpecs[0],'parts');
+
+						if (!(parts != null && !isNaN(parts)))
+							return "unable to parse parts for primitive ID = " + primitiveId;
+
+						if(!Number.isInteger(parts))
+							return "parts must be an integer for primitive ID = " + primitiveId;
+
+						//heightscale
+
+						var heightscale = this.reader.getFloat(primitiveSpecs[0], 'heightscale');
+
+						if (!(heightscale != null && !isNaN(heightscale)))
+						return "unable to parse heightscale for primitive ID = " + primitiveId;
+
+						console.log(idtexture + " " + idheightmap + " " + parts + " " + heightscale);
 						break;
 					}
 

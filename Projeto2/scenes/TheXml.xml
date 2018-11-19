@@ -245,6 +245,10 @@
             <controlpoint xx="1.5" yy="1.5" zz="0"/>                  
         </patch>
     </primitive>
+
+    <primitive id="terrain">
+        <terrain idtexture="wall" idheightmap="phone_image" parts="20" heightscale="1" />
+    </primitive>    
 </primitives>
 
 
