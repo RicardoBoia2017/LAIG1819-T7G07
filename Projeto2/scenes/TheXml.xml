@@ -249,6 +249,10 @@
     <primitive id="terrain">
         <terrain idtexture="wall" idheightmap="phone_image" parts="20" heightscale="1" />
     </primitive>    
+
+    <primitive id="water">
+        <water idtexture="wall" idwavemap="phone_image" parts="20" heightscale="1" texscale="1" />
+    </primitive>
 </primitives>
 
 

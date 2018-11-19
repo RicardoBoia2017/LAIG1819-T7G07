@@ -1820,7 +1820,54 @@ class MySceneGraph {
 						if (!(heightscale != null && !isNaN(heightscale)))
 						return "unable to parse heightscale for primitive ID = " + primitiveId;
 
-						console.log(idtexture + " " + idheightmap + " " + parts + " " + heightscale);
+						this.primitives[primitiveId] = new Terrain (this.scene, idtexture, idheightmap, parts, heightscale);
+
+						break;
+					}
+					case "water" :
+					{
+						//idtexture
+						var idtexture = this.reader.getString(primitiveSpecs[0], 'idtexture');
+
+						if(idtexture == null)
+							return "unable to parse idtexture for primitive ID = " + primitiveId;
+
+						if(this.textures[idtexture] == null)
+							return "texture ID = " + idtexture + " not found for primitive ID = " + primitiveId;
+						
+						//idwavemap
+						var idwavemap = this.reader.getString(primitiveSpecs[0], 'idwavemap');
+
+						if(idwavemap == null)
+							return "unable to parse idwavemap for primitive ID = " + primitiveId;
+
+						if(this.textures[idwavemap] == null)
+							return "texture ID = " + idwavemap + " not found for primitive ID = " + primitiveId;
+
+						//parts
+						var parts = this.reader.getFloat(primitiveSpecs[0],'parts');
+
+						if (!(parts != null && !isNaN(parts)))
+							return "unable to parse parts for primitive ID = " + primitiveId;
+
+						if(!Number.isInteger(parts))
+							return "parts must be an integer for primitive ID = " + primitiveId;
+
+						//heightscale
+						var heightscale = this.reader.getFloat(primitiveSpecs[0], 'heightscale');
+
+						if (!(heightscale != null && !isNaN(heightscale)))
+							return "unable to parse heightscale for primitive ID = " + primitiveId;
+
+						//texscale
+						var texscale = this.reader.getFloat(primitiveSpecs[0], 'texscale');
+
+						if (!(texscale != null && !isNaN(texscale)))
+							return "unable to parse texscale for primitive ID = " + primitiveId;
+
+						this.primitives[primitiveId] = new Water (this.scene, idtexture, idwavemap, parts, heightscale, texscale);
+
+						console.log(this.primitives[primitiveId]);
 						break;
 					}
 
