@@ -9,10 +9,10 @@ class Patch extends CGFobject {
         this.npointsV = npointsV;
         this.controlPoints = controlPoints;
 
-        var degree1 = controlPoints.length/npointsU - 1;
-        var degree2 = controlPoints.length/npointsV - 1;
+        var degree1 = controlPoints.length/npointsV - 1;
+        var degree2 = controlPoints.length/npointsU - 1;
 
-        this.buildControlPoints()
+        this.buildControlPoints();
 
         this.scene.graph.makeSurface('1', degree1, degree2, npartsU, npartsV, this.controlPoints, [0,0,0]);
     };
@@ -22,7 +22,7 @@ class Patch extends CGFobject {
         let counter = 0;
         let newControlPoints = [];
 
-        for(let i = 0; i < this.controlPoints.length; i += this.npointsU)
+        for(let i = 0; i < this.controlPoints.length; i += this.npointsV)
         {
             let array = [];
 
@@ -31,7 +31,7 @@ class Patch extends CGFobject {
                 array.push(this.controlPoints[i + counter]),
                 counter++;
 
-            }while(counter < this.npointsU)
+            }while(counter < this.npointsV)
 
             newControlPoints.push(array);
             counter = 0;
