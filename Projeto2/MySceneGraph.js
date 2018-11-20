@@ -35,6 +35,8 @@ class MySceneGraph {
 		this.axisCoords['y'] = [0, 1, 0];
 		this.axisCoords['z'] = [0, 0, 1];
 
+		this.shader = new CGFshader(this.scene.gl, "shaders/texture3.vert", "shaders/texture3.frag");
+
 		// File reading 
 		this.reader = new CGFXMLreader();
 
@@ -1867,7 +1869,6 @@ class MySceneGraph {
 
 						this.primitives[primitiveId] = new Water (this.scene, idtexture, idwavemap, parts, heightscale, texscale);
 
-						console.log(this.primitives[primitiveId]);
 						break;
 					}
 
@@ -2213,8 +2214,9 @@ class MySceneGraph {
 	 * Displays the scene, processing each node, starting in the root node.
 	 */
 	displayScene() {
-
-		this.surfaces[1].display();
+		this.scene.pushMatrix();
+		this.surfaces[0].display();
+		thiws.scene.popMatrix()
 
 		/*if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials();

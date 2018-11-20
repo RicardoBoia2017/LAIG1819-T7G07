@@ -135,6 +135,11 @@
 	<!-- Keyboard -->
 	<texture id="balloonTexture" file="images/blueballoon.jpg"/>
 
+    <!-- Terrain -->
+    <texture id="terrainTexture" file="images/terrain.jpg" />
+
+    <!-- Terrain height map -->
+    <texture id="terrainHeightMap" file="images/heightmap.png" />
 </textures>
 
 
@@ -247,7 +252,7 @@
     </primitive>
 
     <primitive id="terrain">
-        <terrain idtexture="wall" idheightmap="phone_image" parts="20" heightscale="1" />
+        <terrain idtexture="terrainTexture" idheightmap="terrainHeightMap" parts="20" heightscale="1" />
     </primitive>    
 
     <primitive id="water">
