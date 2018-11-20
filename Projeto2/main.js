@@ -30,6 +30,7 @@ serialInclude(['../lib/CGF.js',
 				'MyPatch.js',
 				'MyTerrain.js',
 				'MyWater.js',
+				'MyCylinder2.js',
 
 main=function()
 {

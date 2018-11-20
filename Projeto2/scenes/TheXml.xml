@@ -250,7 +250,9 @@
             <controlpoint xx="1.5" yy="1.5" zz="0"/>                  
         </patch>
     </primitive>
-
+    <primitive id="cylinder2">
+        <cylinder2 base="2" top="2" height="2" slices="40" stacks="40" />                  
+    </primitive>
     <primitive id="terrain">
         <terrain idtexture="terrainTexture" idheightmap="terrainHeightMap" parts="20" heightscale="1" />
     </primitive>    

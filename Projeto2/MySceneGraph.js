@@ -1788,6 +1788,42 @@ class MySceneGraph {
 						this.primitives[primitiveId] = new Patch(this.scene, npointsU, npointsV, npartsU, npartsV, controlPoints);
 						break;
 					}
+					case "cylinder2":
+					{
+						//base
+						var base = this.reader.getFloat(primitiveSpecs[0], 'base');
+						if (base == null || isNaN(base))
+							return "unable to parse base component for ID = " + primitiveId;
+
+						//top 
+						var cTop = this.reader.getFloat(primitiveSpecs[0], 'top');
+						if (cTop == null || isNaN(cTop))
+							return "unable to parse top component for ID = " + primitiveId;
+
+
+						//height 
+						var height = this.reader.getFloat(primitiveSpecs[0], 'height');
+						if (height == null || isNaN(height))
+							return "unable to parse height component for ID = " + primitiveId;
+
+
+						//slices 
+						var slices = this.reader.getFloat(primitiveSpecs[0], 'slices');
+						if (slices == null || !Number.isInteger(slices))
+							return "unable to parse slices component for ID = " + primitiveId;
+
+
+						//stacks 
+						var stacks = this.reader.getFloat(primitiveSpecs[0], 'stacks');
+						if (stacks == null || !Number.isInteger(stacks))
+							return "unable to parse stacks component for ID = " + primitiveId;
+
+
+						this.primitives[primitiveId] = new MyCylinder2(this.scene, base, cTop, height, slices, stacks);
+						numPrimitives++;
+
+						break;
+					}
 					case "terrain":
 					{
 						//idtexture
@@ -2217,12 +2253,15 @@ class MySceneGraph {
 	 */
 	displayScene() {
 		this.scene.pushMatrix();
+		this.surfaces[2].display();
+		/*
 		this.shader.setUniformsValues({uSampler2: 1});
 		this.scene.setActiveShader(this.shader);
 		this.scene.scale(10,10,10);
 		this.textures['terrainHeightMap'].bind(1);
 		this.textures['terrainTexture'].bind();
 		this.surfaces[0].display();
+		*/
 		this.scene.popMatrix()
 
 		/*if (this.scene.interface.isKeyPressed("KeyM") == true)
