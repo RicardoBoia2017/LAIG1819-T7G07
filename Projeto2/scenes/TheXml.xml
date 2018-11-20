@@ -139,7 +139,7 @@
     <texture id="terrainTexture" file="images/terrain.jpg" />
 
     <!-- Terrain height map -->
-    <texture id="terrainHeightMap" file="images/heightmap.png" />
+    <texture id="terrainHeightMap" file="images/heightmap.jpg" />
 </textures>
 
 

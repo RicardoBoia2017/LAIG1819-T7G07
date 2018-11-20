@@ -48,6 +48,8 @@ class MySceneGraph {
 
 		this.surfaces = [];
 		this.plane = new Plane(this.scene, 5, 8);
+		this.scaleFactor = 10;
+		this.shader.setUniformsValues({normScale: this.scaleFactor});
 
 		this.reader.open('scenes/' + filename, this);
 	}
@@ -2215,8 +2217,13 @@ class MySceneGraph {
 	 */
 	displayScene() {
 		this.scene.pushMatrix();
+		this.shader.setUniformsValues({uSampler2: 1});
+		this.scene.setActiveShader(this.shader);
+		this.scene.scale(10,10,10);
+		this.textures['terrainHeightMap'].bind(1);
+		this.textures['terrainTexture'].bind();
 		this.surfaces[0].display();
-		thiws.scene.popMatrix()
+		this.scene.popMatrix()
 
 		/*if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials();
