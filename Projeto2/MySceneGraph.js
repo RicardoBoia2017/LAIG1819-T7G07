@@ -35,7 +35,8 @@ class MySceneGraph {
 		this.axisCoords['y'] = [0, 1, 0];
 		this.axisCoords['z'] = [0, 0, 1];
 
-		this.shader = new CGFshader(this.scene.gl, "shaders/texture3.vert", "shaders/texture3.frag");
+		this.terrainShader = new CGFshader(this.scene.gl, "shaders/terrain.vert", "shaders/terrain.frag");
+		this.waterShader = new CGFshader(this.scene.gl, "shaders/water.vert", "shaders/water.frag");
 
 		// File reading 
 		this.reader = new CGFXMLreader();
@@ -47,9 +48,10 @@ class MySceneGraph {
 		 */
 
 		this.surfaces = [];
-		this.plane = new Plane(this.scene, 5, 8);
-		this.scaleFactor = 10;
-		this.shader.setUniformsValues({normScale: this.scaleFactor});
+		this.plane = new Plane(this.scene, 20, 20);
+		this.scaleFactor = 3;
+		this.terrainShader.setUniformsValues({normScale: this.scaleFactor});
+		this.waterShader.setUniformsValues({normScale: this.scaleFactor});
 
 		this.reader.open('scenes/' + filename, this);
 	}
@@ -2253,17 +2255,17 @@ class MySceneGraph {
 	 */
 	displayScene() {
 		this.scene.pushMatrix();
-		this.surfaces[2].display();
-		/*
-		this.shader.setUniformsValues({uSampler2: 1});
-		this.scene.setActiveShader(this.shader);
+	//	this.surfaces[2].display();
+		
+		this.terrainShader.setUniformsValues({uSampler2: 1});
+		this.scene.setActiveShader(this.terrainShader);
 		this.scene.scale(10,10,10);
 		this.textures['terrainHeightMap'].bind(1);
 		this.textures['terrainTexture'].bind();
 		this.surfaces[0].display();
-		*/
-		this.scene.popMatrix()
+		this.scene.popMatrix();
 
+		this.scene.setActiveShader(this.scene.defaultShader);
 		/*if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials();
 

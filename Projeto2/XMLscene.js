@@ -240,6 +240,8 @@ class XMLscene extends CGFscene {
                 this.graph.components[key].updateAnimation((currentTime - this.lastUpdate)/1000);
         }
             
+        this.graph.waterShader.setUniformsValues({time:(currentTime - this.lastUpdate)/1000});
+
         this.lastUpdate = currentTime;
 	}
 }

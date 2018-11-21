@@ -136,10 +136,10 @@
 	<texture id="balloonTexture" file="images/blueballoon.jpg"/>
 
     <!-- Terrain -->
-    <texture id="terrainTexture" file="images/terrain.jpg" />
+    <texture id="terrainTexture" file="images/terrain2.jpg" />
 
     <!-- Terrain height map -->
-    <texture id="terrainHeightMap" file="images/heightmap.jpg" />
+    <texture id="terrainHeightMap" file="images/heightmap2.png" />
 </textures>
 
 
