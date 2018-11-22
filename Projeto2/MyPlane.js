@@ -19,8 +19,13 @@ class Plane extends CGFobject {
             ]
         ];
 
-       this.scene.graph.makeSurface('0', 1 , 1, npartsU, npartsV, controlPoints, [0,0,0]);
+       this.surface = this.scene.graph.makeSurface(1 , 1, npartsU, npartsV, controlPoints);
 
     };
+
+    display()
+    {
+        this.surface.display();
+    }
 
 }

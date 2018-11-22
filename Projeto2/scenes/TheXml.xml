@@ -140,6 +140,9 @@
 
     <!-- Terrain height map -->
     <texture id="terrainHeightMap" file="images/heightmap2.png" />
+
+    <!-- Water -->
+    <texture id="waterTexture" file="images/water.jpg" />
 </textures>
 
 
@@ -238,6 +241,10 @@
 
     <primitive id="torus">
         <torus inner="0.65" outer="2" slices="12" loops="4" />
+    </primitive>
+
+    <primitive id="plane" >
+        <plane npartsU="5" npartsV="8" />
     </primitive>
 
     <primitive id="patch">

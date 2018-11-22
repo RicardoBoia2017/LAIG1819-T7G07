@@ -16,7 +16,7 @@ class MyCylinder2 extends CGFobject{
 
   this.buildControlPoints();
 
-  this.scene.graph.makeSurface('2', 8 , 1, this.npartsU, this.npartsV, this.controlPoints, [0,0,0]);
+  this.surface = this.scene.graph.makeSurface(8 , 1, this.npartsU, this.npartsV, this.controlPoints);
 
 };
 
@@ -75,5 +75,10 @@ class MyCylinder2 extends CGFobject{
                 ]
             ];
    
+     }
+
+     display()
+     {
+        this.surface.display();
      }
 }

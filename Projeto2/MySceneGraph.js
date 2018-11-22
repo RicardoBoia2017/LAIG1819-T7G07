@@ -48,8 +48,9 @@ class MySceneGraph {
 		 */
 
 		this.surfaces = [];
-		this.plane = new Plane(this.scene, 20, 20);
-		this.scaleFactor = 3;
+	//	this.plane = new Plane(this.scene, 20, 20);
+
+		this.scaleFactor = 1;
 		this.terrainShader.setUniformsValues({normScale: this.scaleFactor});
 		this.waterShader.setUniformsValues({normScale: this.scaleFactor});
 
@@ -1731,6 +1732,18 @@ class MySceneGraph {
 
 				case "plane":
 					{
+						//npartsU
+						var npartsU = this.reader.getFloat(primitiveSpecs[0], 'npartsU');
+						if(npartsU == null || !Number.isInteger(npartsU))
+							return "unable to parse npartsU for primitive ID = " + primitiveId;
+
+						//npartsV
+						var npartsV = this.reader.getFloat(primitiveSpecs[0], 'npartsV');
+						if(npartsV == null || !Number.isInteger(npartsV))
+							return "unable to parse npartsV for primitive ID = " + primitiveId;		
+
+						this.primitives[primitiveId] = new Plane(this.scene, npartsU, npartsV);
+						numPrimitives++;
 						break;
 					}
 
@@ -1788,6 +1801,8 @@ class MySceneGraph {
 							return "number of control points must be equal to npointsU * npointsV for primitive ID = " + primitiveId;
 
 						this.primitives[primitiveId] = new Patch(this.scene, npointsU, npointsV, npartsU, npartsV, controlPoints);
+						numPrimitives++;
+
 						break;
 					}
 					case "cylinder2":
@@ -1863,6 +1878,7 @@ class MySceneGraph {
 						return "unable to parse heightscale for primitive ID = " + primitiveId;
 
 						this.primitives[primitiveId] = new Terrain (this.scene, idtexture, idheightmap, parts, heightscale);
+						numPrimitives++;
 
 						break;
 					}
@@ -1907,6 +1923,7 @@ class MySceneGraph {
 						if (!(texscale != null && !isNaN(texscale)))
 							return "unable to parse texscale for primitive ID = " + primitiveId;
 
+						numPrimitives++;							
 						this.primitives[primitiveId] = new Water (this.scene, idtexture, idwavemap, parts, heightscale, texscale);
 
 						break;
@@ -2214,15 +2231,13 @@ class MySceneGraph {
 		return null;
 	}
 
-	makeSurface(id, degree1, degree2, uDivs, vDivs, controlvertexes, translation) {
+	makeSurface(degree1, degree2, uDivs, vDivs, controlvertexes) {
 
 		var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
 
 		var surface = new CGFnurbsObject(this.scene, uDivs, vDivs, nurbsSurface); 
 
-		this.surfaces[id] = surface;
-		//			this.translations.push(translation);
-
+		return surface;
 	}
 
 	/*
@@ -2254,18 +2269,22 @@ class MySceneGraph {
 	 * Displays the scene, processing each node, starting in the root node.
 	 */
 	displayScene() {
-		this.scene.pushMatrix();
+
+		this.primitives['plane'].display();
+	/*	this.scene.pushMatrix();
 	//	this.surfaces[2].display();
 		
-		this.terrainShader.setUniformsValues({uSampler2: 1});
-		this.scene.setActiveShader(this.terrainShader);
+		this.terrainShader.setUniformsValues({heightMap: 1});
+		this.waterShader.setUniformsValues({waveMap: 1});
+
+		this.scene.setActiveShader(this.waterShader);
 		this.scene.scale(10,10,10);
 		this.textures['terrainHeightMap'].bind(1);
-		this.textures['terrainTexture'].bind();
+		this.textures['waterTexture'].bind();
 		this.surfaces[0].display();
-		this.scene.popMatrix();
+		this.scene.popMatrix();*/
 
-		this.scene.setActiveShader(this.scene.defaultShader);
+	//	this.scene.setActiveShader(this.scene.defaultShader);
 		/*if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials();
 

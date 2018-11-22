@@ -14,7 +14,7 @@ class Patch extends CGFobject {
 
         this.buildControlPoints();
 
-        this.scene.graph.makeSurface('1', degree1, degree2, npartsU, npartsV, this.controlPoints, [0,0,0]);
+        this.surface = this.scene.graph.makeSurface(degree1, degree2, npartsU, npartsV, this.controlPoints);
     };
 
     buildControlPoints()
@@ -40,4 +40,8 @@ class Patch extends CGFobject {
         this.controlPoints = newControlPoints;
     }
 
+    display()
+    {
+        this.surface.display();
+    }
 }
