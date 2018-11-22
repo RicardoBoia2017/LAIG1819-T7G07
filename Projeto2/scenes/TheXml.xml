@@ -261,11 +261,11 @@
         <cylinder2 base="2" top="2" height="2" slices="40" stacks="40" />                  
     </primitive>
     <primitive id="terrain">
-        <terrain idtexture="terrainTexture" idheightmap="terrainHeightMap" parts="20" heightscale="1" />
+        <terrain idtexture="terrainTexture" idheightmap="terrainHeightMap" parts="20" heightscale="3" />
     </primitive>    
 
     <primitive id="water">
-        <water idtexture="wall" idwavemap="phone_image" parts="20" heightscale="1" texscale="1" />
+        <water idtexture="waterTexture" idwavemap="terrainHeightMap" parts="20" heightscale="3" texscale="1" />
     </primitive>
 </primitives>
 

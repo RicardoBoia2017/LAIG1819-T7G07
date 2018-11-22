@@ -46,14 +46,6 @@ class MySceneGraph {
 		 * After the file is read, the reader calls onXMLReady on this object.
 		 * If any error occurs, the reader calls onXMLError on this object, with an error message
 		 */
-
-		this.surfaces = [];
-	//	this.plane = new Plane(this.scene, 20, 20);
-
-		this.scaleFactor = 1;
-		this.terrainShader.setUniformsValues({normScale: this.scaleFactor});
-		this.waterShader.setUniformsValues({normScale: this.scaleFactor});
-
 		this.reader.open('scenes/' + filename, this);
 	}
 
@@ -2270,7 +2262,7 @@ class MySceneGraph {
 	 */
 	displayScene() {
 
-		this.primitives['plane'].display();
+		this.primitives['water'].display();
 	/*	this.scene.pushMatrix();
 	//	this.surfaces[2].display();
 		
