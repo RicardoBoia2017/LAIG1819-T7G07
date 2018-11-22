@@ -2262,7 +2262,8 @@ class MySceneGraph {
 	 */
 	displayScene() {
 
-		this.primitives['water'].display();
+	//	this.primitives['terrain'].display();
+//		this.primitives['water'].display();
 	/*	this.scene.pushMatrix();
 	//	this.surfaces[2].display();
 		
@@ -2277,12 +2278,12 @@ class MySceneGraph {
 		this.scene.popMatrix();*/
 
 	//	this.scene.setActiveShader(this.scene.defaultShader);
-		/*if (this.scene.interface.isKeyPressed("KeyM") == true)
+		if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials();
 
 		var root = this.components[this.root];
 		this.displayComponent(root, root.materials[root.currentMaterial], root.texture, root.texS, root.texT);
-*/
+
 	}
 
 	/**

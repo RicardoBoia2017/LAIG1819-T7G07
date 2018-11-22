@@ -84,6 +84,9 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 	
 	let currentSectionTime = this.animationTime - previousSectionTime;
 
+	if(animation != null && currentSectionTime > animation.sectionTime)
+		currentSectionTime = animation.sectionTime;
+
 	if (this.currentAnimation < this.animations.length)
 	{
 		this.matrixAnimation = animation.getMatrix(currentSectionTime, this.currentSection);
@@ -94,7 +97,6 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 			this.currentSection = 0;
 			this.currentAnimation++;
 		}
-
 
 		else if (currentSectionTime >= animation.sectionTime[this.currentSection])
 			this.currentSection++;

@@ -66,7 +66,7 @@
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
     </omni>
 
-    <omni id="extra" enabled="0">                                                      	       
+    <omni id="extra" enabled="1">                                                      	       
         <location x="10" y="10" z="10" w="1" />       		   
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />      
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
@@ -201,16 +201,16 @@
 <animations>
 
     <linear id="linear" span="3">
-        <controlpoint xx="0" yy="0" zz="0"/>
-        <controlpoint xx="5" yy="0" zz="0"/> 
+        <controlpoint xx="0" yy="2" zz="0"/>
+        <controlpoint xx="5" yy="2" zz="0"/> 
     </linear>
 
     <linear id="anti-linear" span="3">
-        <controlpoint xx="5" yy="0" zz="0"/>
-        <controlpoint xx="0" yy="0" zz="0"/> 
+        <controlpoint xx="5" yy="2" zz="0"/>
+        <controlpoint xx="0" yy="2" zz="0"/> 
     </linear>
 
-    <circular id="circular" span="10" center="0 0 0" radius="0.1" startang="0" rotang="360" />
+    <circular id="circular" span="5" center="0 0 0" radius="0.1" startang="0" rotang="360" />
 
 </animations>
 
@@ -265,7 +265,7 @@
     </primitive>    
 
     <primitive id="water">
-        <water idtexture="waterTexture" idwavemap="terrainHeightMap" parts="20" heightscale="3" texscale="1" />
+        <water idtexture="waterTexture" idwavemap="terrainHeightMap" parts="20" heightscale="1" texscale="1" />
     </primitive>
 </primitives>
 
@@ -350,7 +350,7 @@
         </materials>  
 
         <animations>
-            <!--<animationref id="circular" />-->
+            <animationref id="circular" />
  <!-->      <animationref id="linear"/>
             <animationref id="anti-linear"/>    -->        
         </animations>
@@ -2106,6 +2106,13 @@
         <transformation>
         	<translate x="6" y="4.5" z="12"/>
         </transformation>
+
+        <animations>  
+<!--          <animationref id="linear"/>
+          <animationref id="circular"/>         
+          <animationref id="anti-linear"/>    -->  
+        </animations>
+
 
         <materials>             
             <material id="defaultMaterial" />         
