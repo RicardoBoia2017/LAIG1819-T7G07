@@ -11,12 +11,14 @@ class Water extends CGFobject {
         this.texscale = texscale;
 
         this.plane = new Plane (scene, parts, parts);
+
     }
 
     display()
     {
         this.scene.pushMatrix();
         this.scene.setActiveShader(this.scene.graph.waterShader);
+        this.scene.graph.waterShader.setUniformsValues({texScale: this.texscale});
         this.scene.graph.waterShader.setUniformsValues({normScale: this.heightscale});
         this.scene.graph.textures[this.waveMapId].bind(1);
 		this.scene.graph.waterShader.setUniformsValues({heightMap: 1});   
