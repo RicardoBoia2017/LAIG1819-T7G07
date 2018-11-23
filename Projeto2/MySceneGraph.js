@@ -38,9 +38,14 @@ class MySceneGraph {
 		this.terrainShader = new CGFshader(this.scene.gl, "shaders/terrain.vert", "shaders/terrain.frag");
 		this.waterShader = new CGFshader(this.scene.gl, "shaders/water.vert", "shaders/water.frag");
 
+		/*
+		this.surfaces = [];
+		this.surfaces[2] = new MyCylinder2(this.scene, 2, 2, 2, 40, 40);
+		*/
+		
 		// File reading 
 		this.reader = new CGFXMLreader();
-
+	
 		/*
 		 * Read the contents of the xml file, and refer to this class for loading and error handlers.
 		 * After the file is read, the reader calls onXMLReady on this object.
@@ -2264,9 +2269,9 @@ class MySceneGraph {
 
 	//	this.primitives['terrain'].display();
 //		this.primitives['water'].display();
-	/*	this.scene.pushMatrix();
-	//	this.surfaces[2].display();
-		
+		//this.scene.pushMatrix();
+		//this.surfaces[2].display();
+	/*	
 		this.terrainShader.setUniformsValues({heightMap: 1});
 		this.waterShader.setUniformsValues({waveMap: 1});
 
@@ -2278,12 +2283,13 @@ class MySceneGraph {
 		this.scene.popMatrix();*/
 
 	//	this.scene.setActiveShader(this.scene.defaultShader);
+	
 		if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials();
 
 		var root = this.components[this.root];
 		this.displayComponent(root, root.materials[root.currentMaterial], root.texture, root.texS, root.texT);
-
+	
 	}
 
 	/**
