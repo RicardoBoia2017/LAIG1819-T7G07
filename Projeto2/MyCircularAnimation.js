@@ -51,9 +51,14 @@ class CircularAnimation extends Animation
 			mat4.translate(this.matrixTransf, this.matrixTransf, [this.center[0], this.center[1], this.center[2] ]);
 			mat4.rotate(this.matrixTransf, this.matrixTransf, angleFraction, [0, 1, 0]);
 			mat4.translate(this.matrixTransf, this.matrixTransf, [this.radius, 0, 0]);
-		//	mat4.rotate(this.matrixTransf, this.matrixTransf, Math.PI/2, [0, 1, 0]);
+	//			mat4.rotate(this.matrixTransf, this.matrixTransf, Math.PI/2, [0, 1, 0]);
     	}
 
 		return this.matrixTransf;
+	}
+
+	getType()
+	{
+		return "Circular";
 	}
 } 

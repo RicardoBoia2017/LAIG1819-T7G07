@@ -63,8 +63,7 @@ class LinearAnimation extends Animation {
 			this.sectionTime.push(distance / speed);
 
 		}
-
-
+		console.log(this.sectionTime)
 	}
 
 	pushControlPoint (controlPoint) 
@@ -73,24 +72,18 @@ class LinearAnimation extends Animation {
 	}
 
 	update(time, section) {
-		let previousSectionsTime = 0;
-
-		for (let i = 0; i < section; i++)
-			previousSectionsTime += this.sectionTime[i];
-
-		var currentSectionTime = time - previousSectionsTime;
 
 		if(section >= this.controlPoints.length - 1)
 			this.finishedAnimation = true;
 
-
 		else {
 
 			mat4.identity(this.matrixTransf);
+			
 			//movimento a ser realizado tendo em conta a percentagem de secção que já foi realizada
-			let dx = currentSectionTime * this.movValues[section][0];
-			let dy = currentSectionTime * this.movValues[section][1];
-			let dz = currentSectionTime * this.movValues[section][2];
+			let dx = time * this.movValues[section][0];
+			let dy = time * this.movValues[section][1];
+			let dz = time * this.movValues[section][2];
 
 			//posição do objeto é a posição inicial mais o movimento
 			let currentX = dx + this.controlPoints[section][0];
@@ -99,9 +92,13 @@ class LinearAnimation extends Animation {
 
 			mat4.translate(this.matrixTransf, this.matrixTransf, [currentX, currentY, currentZ]); 
 			mat4.rotate(this.matrixTransf, this.matrixTransf, this.movValues[section][3], [0, 1, 0]);
-		
 		}
 
 		return this.matrixTransf;
+	}
+
+	getType()
+	{
+		return "Linear";
 	}
 }
