@@ -2317,7 +2317,7 @@ class MySceneGraph {
 
 		this.scene.pushMatrix();
 
-		this.scene.multMatrix(component.matrixAnimation);
+		component.applyAnimationMatrix();
 		this.scene.multMatrix(component.matrixTransf);
 
 		if (component.materials[component.currentMaterial] != "inherit") {

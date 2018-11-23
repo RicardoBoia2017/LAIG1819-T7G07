@@ -5,9 +5,17 @@
 **/
 class Animation {
 	
-	constructor (scene, time)
+	constructor (time)
 	{
 		this.time = time
 		this.finishAnimation = false;
+	}
+
+	update (time)
+	{}
+
+	apply(scene, matrix)
+	{
+		scene.multMatrix(matrix);
 	}
 }

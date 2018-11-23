@@ -14,7 +14,7 @@ class CircularAnimation extends Animation
 	* @param rotationAngle The Rotation Angle of the Animation
 	*/
 	constructor (scene, time, center, radius, initialAngle, rotationAngle) {
-		super(scene, time);
+		super(time);
 
 		this.AuxAngle = Math.PI/180;
 
@@ -32,8 +32,6 @@ class CircularAnimation extends Animation
 
 		this.sectionTime = [];
 		this.sectionTime.push(this.time);
-
-		//console.log(center + " " + radius + " " + this.initialAngle + " " + this.rotationAngle);
 	}
 	
 	/**
@@ -41,7 +39,7 @@ class CircularAnimation extends Animation
 	* @param time Amount of time gone by
 	* @return Returns the Matrix for the Animation
 	*/
-	getMatrix(time)
+	update(time)
 	{
 		if(time >= this.totalTime)
        		this.finishAnimation = true;

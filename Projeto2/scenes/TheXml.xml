@@ -2108,8 +2108,8 @@
         </transformation>
 
         <animations>  
-<!--          <animationref id="linear"/>
-          <animationref id="circular"/>         
+          <animationref id="linear"/>
+ <!--         <animationref id="circular"/>         
           <animationref id="anti-linear"/>    -->  
         </animations>
 

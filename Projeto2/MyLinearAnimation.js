@@ -5,7 +5,7 @@
 **/
 class LinearAnimation extends Animation {
 	constructor(scene, time, controlPoints) {
-		super(scene, time);
+		super(time);
 		this.controlPoints = controlPoints;
 		this.matrixTransf = mat4.create();
 		this.movValues = [];
@@ -54,7 +54,7 @@ class LinearAnimation extends Animation {
 			let vz = speed * sinAngle;
 
 			//Pode precisar do round
-			//			let vy = Math.sqrt(Math.round((speed * speed - vx*vx - vz*vz)*1000)/1000)*dy;
+			//let vy = Math.sqrt(Math.round((speed * speed - vx*vx - vz*vz)*1000)/1000)*dy;
 			let vy = Math.sqrt(speed * speed - vx * vx - vz * vz) * dy;
 
 			let angle = Math.asin(sinAngle);
@@ -72,13 +72,13 @@ class LinearAnimation extends Animation {
 		this.controlPoints.push(controlPoint);
 	}
 
-	getMatrix(time, section) {
-		let previousSectionTime = 0;
+	update(time, section) {
+		let previousSectionsTime = 0;
 
 		for (let i = 0; i < section; i++)
-			previousSectionTime += this.sectionTime[i];
+			previousSectionsTime += this.sectionTime[i];
 
-		var currentSectionTime = time - previousSectionTime;
+		var currentSectionTime = time - previousSectionsTime;
 
 		if(section >= this.controlPoints.length - 1)
 			this.finishedAnimation = true;
@@ -87,16 +87,15 @@ class LinearAnimation extends Animation {
 		else {
 
 			mat4.identity(this.matrixTransf);
-			
+			//movimento a ser realizado tendo em conta a percentagem de secção que já foi realizada
 			let dx = currentSectionTime * this.movValues[section][0];
 			let dy = currentSectionTime * this.movValues[section][1];
 			let dz = currentSectionTime * this.movValues[section][2];
 
-
+			//posição do objeto é a posição inicial mais o movimento
 			let currentX = dx + this.controlPoints[section][0];
 			let currentY = dy + this.controlPoints[section][1];
 			let currentZ = dz + this.controlPoints[section][2];
-
 
 			mat4.translate(this.matrixTransf, this.matrixTransf, [currentX, currentY, currentZ]); 
 			mat4.rotate(this.matrixTransf, this.matrixTransf, this.movValues[section][3], [0, 1, 0]);
