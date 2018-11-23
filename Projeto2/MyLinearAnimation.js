@@ -1,11 +1,18 @@
 
 /**
- * LinearAnimation
- * @constructor
-**/
+* Linear Animation
+* @extends Animation
+*/
 class LinearAnimation extends Animation {
+
+	/**
+	 * Linear animations constructor
+	 * @param {Scene} scene 
+	 * @param {Total time needed to complete animation} time 
+	 * @param {List of control points} controlPoints 
+	 */
 	constructor(scene, time, controlPoints) {
-		super(time);
+		super(scene, time);
 		this.controlPoints = controlPoints;
 		this.matrixTransf = mat4.create();
 		this.movValues = [];
@@ -13,6 +20,9 @@ class LinearAnimation extends Animation {
 		this.init();
 	}
 
+	/**
+	 * Calculates velocity vectors and angle of each section of the animation
+	 */
 	init() {
 
 		var totalDistance = 0;
@@ -66,11 +76,22 @@ class LinearAnimation extends Animation {
 		console.log(this.sectionTime)
 	}
 
+	/**
+	 * Pushes a control point to the array
+	 * 
+	 * @param {Control Point} controlPoint 
+	 */
 	pushControlPoint (controlPoint) 
 	{
 		this.controlPoints.push(controlPoint);
 	}
 
+	/**
+	 * Updates animation matrix according to current time and section
+	 * 
+	 * @param {Current time} time 
+	 * @param {Current section} section 
+	 */
 	update(time, section) {
 
 		if(section >= this.controlPoints.length - 1)
@@ -97,6 +118,9 @@ class LinearAnimation extends Animation {
 		return this.matrixTransf;
 	}
 
+	/**
+	 * Returns type of animation
+	 */
 	getType()
 	{
 		return "Linear";

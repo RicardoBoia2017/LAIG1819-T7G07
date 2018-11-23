@@ -1,5 +1,14 @@
 class Terrain extends CGFobject {
 
+    /**
+     * Constructor
+     * 
+     * @param {Scene} scene 
+     * @param {Texture to cover plane} idtexture 
+     * @param {Texture used as height map} idheightmap 
+     * @param {Number of parts} parts 
+     * @param {Heigth Scale} heightscale 
+     */
     constructor(scene, idtexture, idheightmap, parts, heightscale)
     {
         super(scene);
@@ -12,6 +21,9 @@ class Terrain extends CGFobject {
         this.plane = new Plane (scene, parts, parts);
     }
 
+    /**
+     * Changes shader according to terrain variables and displays it
+     */
     display()
     {
         this.scene.pushMatrix();

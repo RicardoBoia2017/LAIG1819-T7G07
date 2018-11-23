@@ -1,8 +1,11 @@
-/**
- * MyComponent
- * @constructor
-**/
 
+
+/**
+ * Constructor
+ * 
+ * @param {Scene} scene 
+ * @param {Component id} id 
+ */
 function MyComponent (scene, id){
 	
 	this.scene = scene;
@@ -66,6 +69,9 @@ MyComponent.prototype.pushAnimation = function (animationId)
 	this.animations.push(animationId);
 }
 
+/**
+ * Returns animations array's length
+ */
 MyComponent.prototype.getAnimationsLenght = function ()
 {
 	var lenght = this.animations.length;
@@ -73,6 +79,9 @@ MyComponent.prototype.getAnimationsLenght = function ()
 	return lenght;
 }
 
+/**
+ * Updates animation matrix
+ */
 MyComponent.prototype.updateAnimation = function (timeVariation)
 {
 	this.animationTime += timeVariation;
@@ -104,13 +113,15 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 	}
 }
 
+/**
+ * Calls animation function that apply animation matrix to scene
+ */
 MyComponent.prototype.applyAnimationMatrix = function ()
 {
 	var animation = this.scene.graph.animations[this.animations[this.currentAnimation]];	
 	if(animation != null)
-	{
-		animation.apply(this.scene, this.matrixAnimation);
-	}
+		animation.apply(this.matrixAnimation);
+	
 }
 	
 

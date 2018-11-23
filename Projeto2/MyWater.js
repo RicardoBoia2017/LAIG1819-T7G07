@@ -1,5 +1,14 @@
 class Water extends CGFobject {
 
+    /**
+     * 
+     * @param {Scene} scene 
+     * @param {Texture to cover plane} idtexture 
+     * @param {Texture used as wave (heigth) map} idwavemap 
+     * @param {Number of parts} parts 
+     * @param {Heigth scale} heightscale 
+     * @param {Texture scale} texscale 
+     */
     constructor(scene, idtexture, idwavemap, parts, heightscale, texscale)
     {
         super(scene),
@@ -13,7 +22,9 @@ class Water extends CGFobject {
         this.plane = new Plane (scene, parts, parts);
 
     }
-
+    /**
+     * Changes shader according to terrain variables and displays it
+     */
     display()
     {
         this.scene.pushMatrix();

@@ -14,7 +14,7 @@ class CircularAnimation extends Animation
 	* @param rotationAngle The Rotation Angle of the Animation
 	*/
 	constructor (scene, time, center, radius, initialAngle, rotationAngle) {
-		super(time);
+		super(scene, time);
 
 		this.AuxAngle = Math.PI/180;
 
@@ -57,6 +57,9 @@ class CircularAnimation extends Animation
 		return this.matrixTransf;
 	}
 
+	/**
+	 * Returns type of animation
+	 */
 	getType()
 	{
 		return "Circular";

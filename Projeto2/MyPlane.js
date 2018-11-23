@@ -2,6 +2,13 @@
 
 class Plane extends CGFobject {
 
+    /**
+     * Constructor
+     * 
+     * @param {Scene} scene 
+     * @param {Number of parts U} npartsU 
+     * @param {Number of parts V} npartsV 
+     */
     constructor(scene, npartsU, npartsV) {
         super(scene);
 
@@ -23,6 +30,9 @@ class Plane extends CGFobject {
 
     };
 
+    /**
+     * Displays surface
+     */
     display()
     {
         this.surface.display();
