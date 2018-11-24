@@ -277,10 +277,9 @@
         </transformation>
 
         <animations> 
-        	<animationref id="balloon_take_off"/> 	 
-        
+        	<animationref id="balloon_take_off"/>  
         	<animationref id="balloon_travel"/>
-        	<animationref id="balloon_sets_down"/>
+            <animationref id="balloon_sets_down"/>
          <!-- <animationref id="linear"/>-->
  <!--         <animationref id="circular"/>         
           <animationref id="anti-linear"/>    -->  
@@ -524,7 +523,7 @@
 
         <transformation>
         	<translate x="10" y="0" z="10"/>
-        	<scale x="20" y="20" z="20"/>
+        	<scale x="30" y="30" z="30"/>
         </transformation>
 
         <materials>             
@@ -543,14 +542,14 @@
 
         <transformation>
         	<translate x="10" y="1" z="10"/>
-        	<scale x="30" y="30" z="30"/>
+        	<scale x="40" y="40" z="40"/>
         </transformation>
 
         <materials>             
             <material id="defaultMaterial" />         
         </materials>
 
-      <texture id="waterTexture" length_s="1" length_t="1"/>
+      <texture id="waterTexture" length_s="0.5" length_t="0.5"/>
 
       <children>
          <primitiveref id="water"/>

@@ -18,6 +18,7 @@ function MyComponent (scene, id){
 	this.currentAnimation = 0;
 	this.animationTime = 0;
 	this.currentSection = 0;
+	this.lastAnimationType = null;
 
 	this.textureId = null;
 	this.texS = null;
@@ -66,6 +67,9 @@ MyComponent.prototype.pushMaterial = function (materialId)
 */
 MyComponent.prototype.pushAnimation = function (animationId)
 {
+	if(this.animations.length == 0)
+		this.lastAnimationType = this.scene.graph.animations[animationId].getType();
+
 	this.animations.push(animationId);
 }
 
@@ -87,6 +91,9 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 	this.animationTime += timeVariation;
 	let previousSectionTime = 0;
 	var animation = this.scene.graph.animations[this.animations[this.currentAnimation]];
+
+	if(animation != null)
+		this.lastAnimationType = animation.getType();
 
 	//cálculo do tempo das animações anteriores
 	for(let i = 0; i < this.currentSection; i++)
@@ -122,7 +129,7 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
  */
 MyComponent.prototype.applyAnimationMatrix = function ()
 {
-	var animation = this.scene.graph.animations[this.animations[this.currentAnimation]];	
+	var animation = this.scene.graph.animations[this.animations[this.currentAnimation]];
 
 	if(animation != null)
 		animation.apply(this.matrixAnimation);

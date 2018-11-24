@@ -38,7 +38,6 @@ class CircularAnimation extends Animation {
 	*/
 	update(time, section) {
 		
-
 		var matrixTransf = mat4.create();
 		mat4.identity(matrixTransf);
 		let angleFraction = this.initialAngle + this.angleSpeed * time;
@@ -46,6 +45,7 @@ class CircularAnimation extends Animation {
 		mat4.translate(matrixTransf, matrixTransf, [this.center[0], this.center[1], this.center[2]]);
 		mat4.rotate(matrixTransf, matrixTransf, angleFraction, [0, 1, 0]);
 		mat4.translate(matrixTransf, matrixTransf, [0, 0, this.radius]);
+
 		return matrixTransf;
 	}
 

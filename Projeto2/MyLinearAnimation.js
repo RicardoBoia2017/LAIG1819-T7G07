@@ -72,7 +72,6 @@ class LinearAnimation extends Animation {
 			this.sectionTime.push(distance / speed);
 
 		}
-		console.log(this.sectionTime)
 	}
 
 	/**
