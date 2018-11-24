@@ -288,12 +288,12 @@
 
         <children>
 
- 		   <componentref id="lampada" /> 
+<!-- 		   <componentref id="lampada" /> 
            <componentref id="armario" /> 
  		   <componentref id="bandeira" />
-		   <componentref id="chao" />
+		   <componentref id="chao" /> -->
 		   <componentref id="parede1" />
-		   <componentref id="parede2" /> 
+<!--		   <componentref id="parede2" /> 
 		   <componentref id="porta" />
 		   <componentref id="cama" />
 		   <componentref id="mesa"/>
@@ -302,7 +302,7 @@
 		   <componentref id="keyboard"/>
 		   <componentref id="donutplate"/>
 		   <componentref id="walllamp"/>
-		   <componentref id="phone"/>
+		   <componentref id="phone"/> -->
 		   <componentref id="balloon"/>
             
         </children>
