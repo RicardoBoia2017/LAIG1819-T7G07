@@ -14,7 +14,6 @@ class LinearAnimation extends Animation {
 	constructor(scene, time, controlPoints) {
 		super(scene, time);
 		this.controlPoints = controlPoints;
-		this.matrixTransf = mat4.create();
 		this.movValues = [];
 
 		this.init();
@@ -81,8 +80,7 @@ class LinearAnimation extends Animation {
 	 * 
 	 * @param {Control Point} controlPoint 
 	 */
-	pushControlPoint (controlPoint) 
-	{
+	pushControlPoint(controlPoint) {
 		this.controlPoints.push(controlPoint);
 	}
 
@@ -94,35 +92,29 @@ class LinearAnimation extends Animation {
 	 */
 	update(time, section) {
 
-		if(section >= this.controlPoints.length - 1)
-			this.finishedAnimation = true;
+		var matrixTransf = mat4.create();
+		mat4.identity(matrixTransf);
 
-		else {
+		//movimento a ser realizado tendo em conta a percentagem de secção que já foi realizada
+		let dx = time * this.movValues[section][0];
+		let dy = time * this.movValues[section][1];
+		let dz = time * this.movValues[section][2];
 
-			mat4.identity(this.matrixTransf);
-			
-			//movimento a ser realizado tendo em conta a percentagem de secção que já foi realizada
-			let dx = time * this.movValues[section][0];
-			let dy = time * this.movValues[section][1];
-			let dz = time * this.movValues[section][2];
+		//posição do objeto é a posição inicial mais o movimento
+		let currentX = dx + this.controlPoints[section][0];
+		let currentY = dy + this.controlPoints[section][1];
+		let currentZ = dz + this.controlPoints[section][2];
 
-			//posição do objeto é a posição inicial mais o movimento
-			let currentX = dx + this.controlPoints[section][0];
-			let currentY = dy + this.controlPoints[section][1];
-			let currentZ = dz + this.controlPoints[section][2];
+		mat4.translate(matrixTransf, matrixTransf, [currentX, currentY, currentZ]);
+		mat4.rotate(matrixTransf, matrixTransf, this.movValues[section][3], [0, 1, 0]);
 
-			mat4.translate(this.matrixTransf, this.matrixTransf, [currentX, currentY, currentZ]); 
-			mat4.rotate(this.matrixTransf, this.matrixTransf, this.movValues[section][3], [0, 1, 0]);
-		}
-
-		return this.matrixTransf;
+		return matrixTransf;
 	}
 
 	/**
 	 * Returns type of animation
 	 */
-	getType()
-	{
+	getType() {
 		return "Linear";
 	}
 }

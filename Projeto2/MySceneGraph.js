@@ -2340,7 +2340,7 @@ class MySceneGraph {
 
 		this.scene.pushMatrix();
 
-		if(this.animations[component.animations[component.currentAnimation]] != null && 
+/*		if(this.animations[component.animations[component.currentAnimation]] != null && 
 			this.animations[component.animations[component.currentAnimation]].getType() == "Circular")
 		{
 			component.applyAnimationMatrix();
@@ -2350,8 +2350,10 @@ class MySceneGraph {
 		else{
 			this.scene.multMatrix(component.matrixTransf);
 			component.applyAnimationMatrix();
-		}
+		}*/
 
+		this.scene.multMatrix(component.matrixTransf);
+		component.applyAnimationMatrix();
 
 		if (component.materials[component.currentMaterial] != "inherit") {
 			if (component.materials[component.currentMaterial] == "none")

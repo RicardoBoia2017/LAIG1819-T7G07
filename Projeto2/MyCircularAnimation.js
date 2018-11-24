@@ -24,9 +24,7 @@ class CircularAnimation extends Animation
 		this.initialAngle = initialAngle * this.AuxAngle;
 		this.rotationAngle = rotationAngle * this.AuxAngle;
 
-		this.matrixTransf = mat4.create();
-
-		this.totalDistance = 2 * this.radius * Math.PI * (Math.abs(this.rotationAngle - this.initialAngle)/(2 * Math.PI));
+		this.totalDistance = 2 * this.radius * Math.PI * (this.rotationAngle - this.initialAngle)/(2 * Math.PI);
 
 		this.angleSpeed = (this.totalDistance/this.time)/this.radius;
 
@@ -39,22 +37,25 @@ class CircularAnimation extends Animation
 	* @param time Amount of time gone by
 	* @return Returns the Matrix for the Animation
 	*/
-	update(time)
+	update(time, section)
 	{
-		if(time >= this.totalTime)
-       		this.finishAnimation = true;
-    	else 
-    	{
-			mat4.identity(this.matrixTransf);
+//		if(time >= this.totalTime)
+//			this.finishAnimation = true;
+			
+//    	else 
+//    	{
+			var matrixTransf = mat4.create();
+			mat4.identity(matrixTransf);
 			let angleFraction = this.initialAngle + this.angleSpeed * time;
 
-			mat4.translate(this.matrixTransf, this.matrixTransf, [this.center[0], this.center[1], this.center[2] ]);
-			mat4.rotate(this.matrixTransf, this.matrixTransf, angleFraction, [0, 1, 0]);
-			mat4.translate(this.matrixTransf, this.matrixTransf, [this.radius, 0, 0]);
-	//			mat4.rotate(this.matrixTransf, this.matrixTransf, Math.PI/2, [0, 1, 0]);
-    	}
+			mat4.translate(matrixTransf, matrixTransf, [this.center[0], this.center[1], this.center[2]]);
+			mat4.rotate(matrixTransf, matrixTransf, angleFraction, [0, 1, 0]);
+			mat4.translate(matrixTransf, matrixTransf, [0, 0, this.radius]);
+//    	}
+//			if (this.rotationAngle > 0) mat4.rotate(matrixTransf, matrixTransf, Math.PI, [0, 1, 0]); //se o ângulo for maior do que 0, rodar 180º para rodar para z negativo
 
-		return this.matrixTransf;
+
+		return matrixTransf;
 	}
 
 	/**

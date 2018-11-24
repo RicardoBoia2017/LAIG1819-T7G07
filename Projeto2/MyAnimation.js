@@ -21,8 +21,9 @@ class Animation {
 	 * Abstract class. Updates animation matrix according to current time
 	 * 
 	 * @param {Current time} time 
+	 * @param {Section} section
 	 */
-	update (time)
+	update (time, section)
 	{}
 
 	/**

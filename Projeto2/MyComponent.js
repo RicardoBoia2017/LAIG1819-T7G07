@@ -88,11 +88,13 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 	let previousSectionTime = 0;
 	var animation = this.scene.graph.animations[this.animations[this.currentAnimation]];
 
+	//cálculo do tempo das animações anteriores
 	for(let i = 0; i < this.currentSection; i++)
 		previousSectionTime += animation.sectionTime[i];
 	
 	let currentSectionTime = this.animationTime - previousSectionTime;
 
+	//Se o tempo for maior que o tempo total da animação atual, é passado o tempo total da animação
 	if(animation != null && currentSectionTime > animation.sectionTime)
 		currentSectionTime = animation.sectionTime;
 
@@ -100,6 +102,7 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 	{
 		this.matrixAnimation = animation.update(currentSectionTime, this.currentSection);
 
+		//Se a animação acabou, passa para a seguinte
 		if(this.animationTime >= animation.time)
 		{
 			this.animationTime = 0;
@@ -107,6 +110,7 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 			this.currentAnimation++;
 		}
 
+		//Se a animação não acabou, mas se a uma secção dela sim (LinearAnimation), passa para a secção seguinte
 		else if (currentSectionTime >= animation.sectionTime[this.currentSection])
 			this.currentSection++;
 		
