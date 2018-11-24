@@ -1727,23 +1727,6 @@ class MySceneGraph {
 						break;
 					}
 
-					case "circle":
-					{
-						//radius 
-						var radius = this.reader.getFloat(primitiveSpecs[0], 'radius');
-						if (radius == null || isNaN(radius))
-							return "unable to parse radius for ID = " + primitiveId;
-
-						//slices 
-						var slices = this.reader.getFloat(primitiveSpecs[0], 'slices');
-						if (slices == null || isNaN(slices))
-							return "unable to parse slices-coordinate for ID = " + primitiveId;
-
-						this.primitives[primitiveId] = new MyCircle(this.scene, radius, slices);
-						numPrimitives++;
-						break;
-					}
-
 				case "plane":
 					{
 						//npartsU

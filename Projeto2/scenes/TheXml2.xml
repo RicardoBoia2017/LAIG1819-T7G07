@@ -12,11 +12,13 @@
         <from x="17" y="10" z="17" />
         <to x="0" y="0" z="0" />
     </perspective>
-	
-	<perspective id="extraview1" near="0.1" far="5000" angle="20">
-        <from x="10" y="4" z="5" />
-        <to x="20" y="4" z="5" />
+
+    <perspective id="extraview1" near="0.1" far="5000" angle="20">
+        <from x="6" y="40" z="6" />
+        <to x="5" y="0" z="5" />
     </perspective>
+	
+	
 
     <ortho id="ortho" near="0.1" far="5000" left="-10" right="15" top="5" bottom="-10" >
         <from x="60" y="60" z="60" />
@@ -168,6 +170,21 @@
         <controlpoint xx="0" yy="2" zz="0"/> 
     </linear>
 
+    <linear id="balloon_take_off" span="2">
+    <!--<translate x="-1" y="9.2" z="12"/>-->
+        <controlpoint xx="0" yy="0" zz="0"/>
+        <controlpoint xx="0" yy="2" zz="0"/> 
+        
+    </linear>
+
+    <linear id="balloon_sets_down" span="3">
+    
+        <controlpoint xx="15" yy="2" zz="-11"/>
+        <controlpoint xx="15" yy="-1.5" zz="-11"/> 
+    </linear>
+
+    <circular id="balloon_travel" span="5" center="11 2 12.5" radius="0.01" startang="-90" rotang="170"/>
+
     <circular id="circular" span="5" center="0 0 0" radius="0.1" startang="0" rotang="360" />
 
 </animations>
@@ -219,10 +236,6 @@
         <cylinder2 base="2" top="2" height="2" slices="40" stacks="40" />                  
     </primitive>
 
-    <primitive id="circle" >
-        <circle radius="2" slices="20" />
-    </primitive>
-
     <primitive id="terrain">
         <terrain idtexture="terrainTexture" idheightmap="terrainHeightMap" parts="20" heightscale="3" />
     </primitive>    
@@ -249,102 +262,26 @@
 
         <texture id= "none" length_s="1" length_t="1"/>  
 
-        <children>
-	  
-		   <componentref id="chao" />
-		   <componentref id="parede1" />
-		   <componentref id="parede2" /> 		
+        <children>	
 		   <componentref id="balloon"/>
-		   <!-- <componentref id="terrain"/> -->
-		   <!-- <componentref id="water"/> -->
-             
+		   <componentref id="terrain"/>
+		   <componentref id="water"/>             
         </children>
 
-    </component>	
-    <!-- The floor -->
-	    <component id="chao">  
-
-        <transformation>
-            <scale x="6" y="1" z="5" />		
-            <translate x="0" y="0" z="5" />		
-            <rotate axis="x" angle="-90" />
-			<translate x="0" y="1" z="0" />
-        </transformation>
-
-        <animations>
-           
- <!-->      <animationref id="linear"/>
-            <animationref id="anti-linear"/>    -->        
-        </animations>
-
-        <materials>
-            <material id="wallMaterial" /> 			
-        </materials>  
-
-        <texture id="plastic" length_s="1" length_t="1"/>       			
-
-        <children>
-			<primitiveref id="rectangle"/>        
-		</children>
-
     </component>
-	
-    <!-- parede1 -->
-	   <component id="parede1">  
-
-        <transformation>
-            <scale x="6" y="3" z="0" />		
-        </transformation>
-
-        <materials>
-            <material id="wallMaterial" /> 
-            <material id="lightMaterial" />  
-			
-        </materials>  
-
-        <animations>
-            <animationref id="circular" />
- <!-->      <animationref id="linear"/>
-            <animationref id="anti-linear"/>    -->        
-        </animations>
-        
-        <texture id="wall" length_s="1" length_t="1"/>       			
-
-        <children>
-			<primitiveref id="rectangle"/>        
-		</children>
-
-    </component> 
-
-    <!-- parede2 -->
-	    <component id="parede2">  
-
-        <transformation>
-			<scale x="0" y="3" z="4" />
-			<translate x="0" y="0" z="5"/>
-            <rotate axis="y" angle="90" />
-        </transformation>
-
-        <materials>
-            <material id="wallMaterial" />  
-        </materials>  
-
-        <texture id="wall" length_s="1" length_t="1"/>       			
-
-        <children>
-			<primitiveref id="rectangle"/>        
-		</children> 
-
-    </component>	
 
     <component id="balloon">
 
         <transformation>
-        	<translate x="6" y="4.5" z="12"/>
+        	<translate x="-1" y="9.2" z="12"/>
         </transformation>
 
-        <animations>  
-          <animationref id="linear"/>
+        <animations> 
+        	<animationref id="balloon_take_off"/> 	 
+        
+        	<animationref id="balloon_travel"/>
+        	<animationref id="balloon_sets_down"/>
+         <!-- <animationref id="linear"/>-->
  <!--         <animationref id="circular"/>         
           <animationref id="anti-linear"/>    -->  
         </animations>
@@ -538,8 +475,7 @@
 
       <children>
          <componentref id="balloon_basket_cylinder"/>
-         <componentref id="balloon_basket_bottom1"/>
-         <componentref id="balloon_basket_bottom2"/>
+         <componentref id="balloon_basket_bottom"/>
       </children>
 
     </component>
@@ -563,32 +499,12 @@
       </children>
 
     </component>
-    
-    <component id="balloon_basket_bottom1">
+
+    <component id="balloon_basket_bottom">
 
         <transformation>
         	<translate x="0.1" y="-1.5" z="0"/>
-        	<scale x="0.435" y="0.55" z="0.435"/>
-        	<rotate axis="x" angle="90"/>
-        </transformation>
-
-        <materials>             
-            <material id="defaultMaterial" />         
-        </materials>
-
-      <texture id="basketTexture" length_s="1" length_t="1"/>
-
-      <children>
-         <primitiveref id="circle"/>
-      </children>
-
-    </component>
-
-    <component id="balloon_basket_bottom2">
-
-        <transformation>
-        	<translate x="0.1" y="-1.5" z="0"/>
-        	<scale x="0.435" y="0.55" z="0.435"/>
+        	<scale x="0.85" y="0.05" z="0.85"/>
         	<rotate axis="x" angle="270"/>
         </transformation>
 
@@ -599,7 +515,45 @@
       <texture id="basketTexture" length_s="1" length_t="1"/>
 
       <children>
-         <primitiveref id="circle"/>
+         <primitiveref id="cylinder"/>
+      </children>
+
+    </component>
+
+    <component id="terrain">
+
+        <transformation>
+        	<translate x="10" y="0" z="10"/>
+        	<scale x="30" y="30" z="30"/>
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="terrainTexture" length_s="1" length_t="1"/>
+
+      <children>
+         <primitiveref id="terrain"/>
+      </children>
+
+    </component>
+
+    <component id="water">
+
+        <transformation>
+        	<translate x="10" y="1" z="10"/>
+        	<scale x="30" y="30" z="30"/>
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="waterTexture" length_s="1" length_t="1"/>
+
+      <children>
+         <primitiveref id="water"/>
       </children>
 
     </component>
