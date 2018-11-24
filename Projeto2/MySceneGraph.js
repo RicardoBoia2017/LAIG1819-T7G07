@@ -1727,6 +1727,23 @@ class MySceneGraph {
 						break;
 					}
 
+					case "circle":
+					{
+						//radius 
+						var radius = this.reader.getFloat(primitiveSpecs[0], 'radius');
+						if (radius == null || isNaN(radius))
+							return "unable to parse radius for ID = " + primitiveId;
+
+						//slices 
+						var slices = this.reader.getFloat(primitiveSpecs[0], 'slices');
+						if (slices == null || isNaN(slices))
+							return "unable to parse slices-coordinate for ID = " + primitiveId;
+
+						this.primitives[primitiveId] = new MyCircle(this.scene, radius, slices);
+						numPrimitives++;
+						break;
+					}
+
 				case "plane":
 					{
 						//npartsU
@@ -2368,7 +2385,8 @@ class MySceneGraph {
 
 		for (var j = 0; j < component.childrenPrim.length; j++) {
 			var primitiveId = component.childrenPrim[j];
-			this.primitives[primitiveId].updateTex(texS, texT);
+			if((primitiveId != "cylinder2") && (primitiveId != "water") && (primitiveId != "terrain") && (primitiveId != "patch") && (primitiveId != "plane") && (primitiveId != "patch2"))
+				this.primitives[primitiveId].updateTex(texS, texT);
 
 			this.primitives[primitiveId].display();
 		}
