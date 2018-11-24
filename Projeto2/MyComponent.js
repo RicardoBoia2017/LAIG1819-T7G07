@@ -123,9 +123,12 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 MyComponent.prototype.applyAnimationMatrix = function ()
 {
 	var animation = this.scene.graph.animations[this.animations[this.currentAnimation]];	
+
 	if(animation != null)
 		animation.apply(this.matrixAnimation);
 	
+	else
+		this.scene.multMatrix(this.matrixAnimation);
 }
 	
 
