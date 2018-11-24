@@ -241,7 +241,7 @@
     </primitive>    
 
     <primitive id="water">
-        <water idtexture="waterTexture" idwavemap="terrainHeightMap" parts="20" heightscale="1" texscale="1" />
+        <water idtexture="waterTexture" idwavemap="terrainHeightMap" parts="20" heightscale="0.25" texscale="1" />
     </primitive>
 </primitives>
 
@@ -524,7 +524,7 @@
 
         <transformation>
         	<translate x="10" y="0" z="10"/>
-        	<scale x="30" y="30" z="30"/>
+        	<scale x="20" y="20" z="20"/>
         </transformation>
 
         <materials>             

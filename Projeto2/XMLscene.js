@@ -36,6 +36,7 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
                 
         this.lastUpdate = 0;
+        this.waterTimer = 0;
 		this.setUpdatePeriod(100);
     }
 
@@ -234,14 +235,20 @@ class XMLscene extends CGFscene {
 	
 	update(currentTime)
 	{
+        if(this.lastUpdate == 0)
+            this.lastUpdate = currentTime;
+
         for (var key in this.graph.components)
         {          
             if(this.graph.components[key].getAnimationsLenght() > 0)
                 this.graph.components[key].updateAnimation((currentTime - this.lastUpdate)/1000);
         }
-            
-        this.graph.waterShader.setUniformsValues({time:currentTime/1000});
+
+        this.waterTimer += 0.05 * (currentTime - this.lastUpdate)/1000;
 
         this.lastUpdate = currentTime;
+
+        this.graph.waterShader.setUniformsValues({time: this.waterTimer});
+
 	}
 }
