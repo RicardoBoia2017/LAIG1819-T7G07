@@ -2258,23 +2258,6 @@ class MySceneGraph {
 	 * Displays the scene, processing each node, starting in the root node.
 	 */
 	displayScene() {
-
-	//	this.primitives['terrain'].display();
-//		this.primitives['water'].display();
-		//this.scene.pushMatrix();
-		//this.surfaces[2].display();
-	/*	
-		this.terrainShader.setUniformsValues({heightMap: 1});
-		this.waterShader.setUniformsValues({waveMap: 1});
-
-		this.scene.setActiveShader(this.waterShader);
-		this.scene.scale(10,10,10);
-		this.textures['terrainHeightMap'].bind(1);
-		this.textures['waterTexture'].bind();
-		this.surfaces[0].display();
-		this.scene.popMatrix();*/
-
-	//	this.scene.setActiveShader(this.scene.defaultShader);
 	
 		if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials();
@@ -2315,16 +2298,8 @@ class MySceneGraph {
 
 		this.scene.pushMatrix();
 
-		if(component.lastAnimationType == "Circular")
-		{
-			component.applyAnimationMatrix();
-			this.scene.multMatrix(component.matrixTransf);
-		}
-
-		else{
-			this.scene.multMatrix(component.matrixTransf);
-			component.applyAnimationMatrix();
-		}
+		this.scene.multMatrix(component.matrixTransf);
+		component.applyAnimationMatrix();
 
 		if (component.materials[component.currentMaterial] != "inherit") {
 			if (component.materials[component.currentMaterial] == "none")

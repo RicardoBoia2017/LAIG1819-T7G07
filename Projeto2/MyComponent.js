@@ -100,6 +100,7 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 	this.animationTime += timeVariation;
 	let previousSectionTime = 0;
 
+	//Se não houver animação, a função retorna
 	if(this.getAnimationsLenght() == 0 || this.currentAnimation == this.getAnimationsLenght())
 		return;
 
@@ -112,6 +113,7 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 		this.currentSection = 0;
 		this.currentAnimation++;
 
+		//Se não houver mais animações, a função retorna
 		if (this.currentAnimation == this.getAnimationsLenght())
 			return;
 
@@ -127,7 +129,7 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 	let currentSectionTime = this.animationTime - previousSectionTime;
 
 	//Se o tempo for maior que o tempo total da animação atual, é passado o tempo total da animação
-	if(animation != null && currentSectionTime > animation.sectionTime)
+	if(currentSectionTime > animation.sectionTime)
 		currentSectionTime = animation.sectionTime;
 
 	if (this.currentAnimation < this.animations.length)

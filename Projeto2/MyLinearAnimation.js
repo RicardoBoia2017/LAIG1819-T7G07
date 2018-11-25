@@ -105,8 +105,6 @@ class LinearAnimation extends Animation {
 
 		mat4.translate(this.matrix, this.matrix, [currentX, currentY, currentZ]);
 		mat4.rotate(this.matrix, this.matrix, this.movValues[section][3], [0, 1, 0]);
-
-		return this.matrix;
 	}
 
 	/**
