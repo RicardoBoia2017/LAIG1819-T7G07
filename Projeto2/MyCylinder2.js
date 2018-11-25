@@ -77,8 +77,19 @@ class MyCylinder2 extends CGFobject{
    
      }
 
+    /**
+     * Displays surface
+     */
      display()
      {
         this.surface.display();
+     }
+
+	/**
+	 * Returns type of primitive
+	 */
+     getType()
+     {
+         return "Cylinder2";
      }
 }

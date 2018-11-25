@@ -58,3 +58,11 @@ MySolidCylinder.prototype.updateTex = function(S,T) {
 	this.theTopFace.updateTex(S,T);
 	
 };
+
+/**
+ * Returns type of primitive
+ */
+MySolidCylinder.prototype.getType = function()
+{
+    return "Cylinder";
+}

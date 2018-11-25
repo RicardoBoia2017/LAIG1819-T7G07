@@ -21,23 +21,43 @@ class Water extends CGFobject {
 
         this.plane = new Plane (scene, parts, parts);
 
+        this.shader = new CGFshader(this.scene.gl, "shaders/water.vert", "shaders/water.frag");
+        this.shader.setUniformsValues({texScale: this.texscale});
+        this.shader.setUniformsValues({normScale: this.heightscale});
+        this.shader.setUniformsValues({heightMap: 1}); 
+
     }
+
     /**
      * Changes shader according to terrain variables and displays it
      */
     display()
     {
         this.scene.pushMatrix();
-        this.scene.setActiveShader(this.scene.graph.waterShader);
-        this.scene.graph.waterShader.setUniformsValues({texScale: this.texscale});
-        this.scene.graph.waterShader.setUniformsValues({normScale: this.heightscale});
+        this.scene.setActiveShader(this.shader)
         this.scene.graph.textures[this.waveMapId].bind(1);
-		this.scene.graph.waterShader.setUniformsValues({heightMap: 1});   
         this.scene.graph.textures[this.textureId].bind();
         this.plane.display();
         this.scene.popMatrix();
 
         this.scene.setActiveShader(this.scene.defaultShader);
 
+    }
+
+    /**
+     * Updates shader's timer
+     */
+    update()
+    {
+        let timeVariation = this.scene.waterTimer;
+        this.shader.setUniformsValues({time: timeVariation});
+    }
+
+    /**
+	 * Returns type of primitive
+	 */
+    getType()
+    {
+        return "Water";
     }
 }

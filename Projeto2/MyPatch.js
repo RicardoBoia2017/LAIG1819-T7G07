@@ -60,4 +60,13 @@ class Patch extends CGFobject {
     {
         this.surface.display();
     }
+
+    /**
+	 * Returns type of primitive
+	 */
+    getType()
+    {
+        return "Patch";
+    }
+
 }

@@ -92,3 +92,11 @@
 	
     this.updateTexCoordsGLBuffers();
 };
+
+/**
+ * Returns type of primitive
+ */
+MySphere.prototype.getType = function()
+{
+    return "Sphere";
+}

@@ -34,14 +34,6 @@ class MySceneGraph {
 		this.axisCoords['x'] = [1, 0, 0];
 		this.axisCoords['y'] = [0, 1, 0];
 		this.axisCoords['z'] = [0, 0, 1];
-
-		this.terrainShader = new CGFshader(this.scene.gl, "shaders/terrain.vert", "shaders/terrain.frag");
-		this.waterShader = new CGFshader(this.scene.gl, "shaders/water.vert", "shaders/water.frag");
-
-		/*
-		this.surfaces = [];
-		this.surfaces[2] = new MyCylinder2(this.scene, 2, 2, 2, 40, 40);
-		*/
 		
 		// File reading 
 		this.reader = new CGFXMLreader();
@@ -2365,11 +2357,22 @@ class MySceneGraph {
 			texture.bind();
 
 		for (var j = 0; j < component.childrenPrim.length; j++) {
+			
 			var primitiveId = component.childrenPrim[j];
-			if((primitiveId != "cylinder2") && (primitiveId != "water") && (primitiveId != "terrain") && (primitiveId != "patch") && (primitiveId != "plane") && (primitiveId != "patch2"))
-				this.primitives[primitiveId].updateTex(texS, texT);
+			var primitive = this.primitives[primitiveId];
 
-			this.primitives[primitiveId].display();
+			if((primitive.getType() != "Cylinder2") && 
+			   (primitive.getType() != "Water") && 
+			   (primitive.getType() != "Terrain") && 
+			   (primitive.getType() != "Patch") && 
+			   (primitive.getType() != "Plane"))
+			   
+				primitive.updateTex(texS, texT);
+
+			if(primitive.getType() == "Water")
+				primitive.update();
+
+			primitive.display();
 		}
 
 		this.scene.popMatrix();

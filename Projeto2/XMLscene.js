@@ -241,14 +241,12 @@ class XMLscene extends CGFscene {
         for (var key in this.graph.components)
         {          
             if(this.graph.components[key].getAnimationsLenght() > 0)
-                this.graph.components[key].updateAnimation((currentTime - this.lastUpdate)/1000);
+                this.graph.components[key].updateAnimation((currentTime - this.lastUpdate)/1000);    
         }
 
         this.waterTimer += 0.05 * (currentTime - this.lastUpdate)/1000;
 
         this.lastUpdate = currentTime;
-
-        this.graph.waterShader.setUniformsValues({time: this.waterTimer});
 
 	}
 }

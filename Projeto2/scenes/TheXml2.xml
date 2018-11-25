@@ -174,7 +174,7 @@
     <!--<translate x="-1" y="9.2" z="12"/>-->
         <controlpoint xx="0" yy="0" zz="0"/>
         <controlpoint xx="0" yy="2" zz="0"/> 
-        
+    
     </linear>
 
     <linear id="balloon_sets_down" span="3">
@@ -241,7 +241,7 @@
     </primitive>    
 
     <primitive id="water">
-        <water idtexture="waterTexture" idwavemap="terrainHeightMap" parts="20" heightscale="0.25" texscale="1" />
+        <water idtexture="waterTexture" idwavemap="terrainHeightMap" parts="20" heightscale="0.25" texscale="0.5" />
     </primitive>
 </primitives>
 
@@ -278,7 +278,7 @@
 
         <animations> 
         	<animationref id="balloon_take_off"/>  
-        	<animationref id="balloon_travel"/>
+      	<animationref id="balloon_travel"/>
             <animationref id="balloon_sets_down"/>
          <!-- <animationref id="linear"/>-->
  <!--         <animationref id="circular"/>         

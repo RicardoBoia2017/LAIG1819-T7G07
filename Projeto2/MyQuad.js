@@ -66,3 +66,10 @@ MyQuad.prototype.updateTex = function(S, T) {
 
     this.updateTexCoordsGLBuffers();
 };
+
+/**
+ * Return type of primitive
+ */
+MyQuad.prototype.getType = function() {
+    return "Quad";
+};

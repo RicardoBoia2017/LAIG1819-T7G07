@@ -74,3 +74,11 @@ MyTriangle.prototype.updateTex = function(S, T) {
 
   this.updateTexCoordsGLBuffers();
 };
+
+/**
+ * Returns type of primitive
+ */
+MyTriangle.prototype.getType = function()
+{
+    return "Triangle";
+}

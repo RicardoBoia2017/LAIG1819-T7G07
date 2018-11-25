@@ -85,3 +85,11 @@ MyTorus.prototype.updateTex = function(S, T) {
 
     this.updateTexCoordsGLBuffers();
 };
+
+/**
+ * Returns type of primitive
+ */
+MyTorus.prototype.getType = function()
+{
+    return "Torus";
+}

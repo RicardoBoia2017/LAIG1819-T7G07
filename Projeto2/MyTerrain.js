@@ -19,6 +19,9 @@ class Terrain extends CGFobject {
         this.heightscale = heightscale;
 
         this.plane = new Plane (scene, parts, parts);
+        this.shader = new CGFshader(this.scene.gl, "shaders/terrain.vert", "shaders/terrain.frag");
+        this.shader.setUniformsValues({normScale: this.heightscale});
+        this.shader.setUniformsValues({heightMap: 1}); 
     }
 
     /**
@@ -27,14 +30,20 @@ class Terrain extends CGFobject {
     display()
     {
         this.scene.pushMatrix();
-        this.scene.setActiveShader(this.scene.graph.terrainShader);
-        this.scene.graph.terrainShader.setUniformsValues({normScale: this.heightscale});
+        this.scene.setActiveShader(this.shader);
         this.scene.graph.textures[this.heightmapId].bind(1);
-		this.scene.graph.terrainShader.setUniformsValues({heightMap: 1}); 
         this.scene.graph.textures[this.textureId].bind();
         this.plane.display();
         this.scene.popMatrix();
 
         this.scene.setActiveShader(this.scene.defaultShader);
+    }
+
+    /**
+	 * Returns type of primitive
+	 */
+    getType()
+    {
+        return "Terrain";
     }
 }
