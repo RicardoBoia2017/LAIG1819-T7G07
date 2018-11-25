@@ -148,19 +148,18 @@
 <animations>
 
     <linear id="balloon_take_off" span="2">
-    <!--<translate x="-1" y="9.2" z="12"/>-->
         <controlpoint xx="0" yy="0" zz="0"/>
-        <controlpoint xx="0" yy="2" zz="0"/> 
+        <controlpoint xx="-9" yy="0" zz="0"/> 
     
     </linear>
 
     <linear id="balloon_sets_down" span="3">
     
-        <controlpoint xx="15" yy="2" zz="-11"/>
-        <controlpoint xx="15" yy="-1.5" zz="-11"/> 
+        <controlpoint xx="6" yy="0" zz="-11"/>
+        <controlpoint xx="6" yy="0" zz="-2"/> 
     </linear>
 
-    <circular id="balloon_travel" span="5" center="12 2 0" radius="12" startang="-180" rotang="80"/>
+    <circular id="balloon_travel" span="5" center="4 0 0" radius="12" startang="-180" rotang="80"/>
 
 </animations>
 
@@ -248,7 +247,7 @@
     <component id="balloon">
 
         <transformation>
-        	<translate x="-1" y="9.2" z="12"/>
+        	<translate x="8" y="9.2" z="10"/>
         </transformation>
 
         <animations> 
