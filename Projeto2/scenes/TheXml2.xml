@@ -85,10 +85,13 @@
     <texture id="terrainTexture" file="images/terrain2.jpg" />
 
     <!-- Terrain height map -->
-    <texture id="terrainHeightMap" file="images/heightmap2.png" />
+    <texture id="terrainHeightMap" file="images/heightmap.png" />
 
     <!-- Water -->
     <texture id="waterTexture" file="images/water.jpg" />
+
+    <!--Water wave map -->
+    <texture id="waterHeightMap" file="images/heightmap2.png" />
 
 </textures>
 
@@ -215,7 +218,7 @@
     </primitive>    
 
     <primitive id="water">
-        <water idtexture="waterTexture" idwavemap="terrainHeightMap" parts="20" heightscale="0.25" texscale="0.5" />
+        <water idtexture="waterTexture" idwavemap="waterHeightMap" parts="20" heightscale="0.25" texscale="0.5" />
     </primitive>
 </primitives>
 
@@ -493,7 +496,7 @@
     <component id="terrain">
 
         <transformation>
-        	<translate x="10" y="0" z="10"/>
+        	<translate x="10" y="-1" z="10"/>
         	<scale x="30" y="30" z="30"/>
         </transformation>
 
