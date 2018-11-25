@@ -34,19 +34,19 @@ class CircularAnimation extends Animation {
 	/**
 	* Computes the Matrix for the Animation
 	* @param time Amount of time gone by
+	* @param section Section
 	* @return Returns the Matrix for the Animation
 	*/
 	update(time, section) {
 		
-		var matrixTransf = mat4.create();
-		mat4.identity(matrixTransf);
+		mat4.identity(this.matrix);
 		let angleFraction = this.initialAngle + this.angleSpeed * time;
 
-		mat4.translate(matrixTransf, matrixTransf, [this.center[0], this.center[1], this.center[2]]);
-		mat4.rotate(matrixTransf, matrixTransf, angleFraction, [0, 1, 0]);
-		mat4.translate(matrixTransf, matrixTransf, [0, 0, this.radius]);
+		mat4.translate(this.matrix, this.matrix, [this.center[0], this.center[1], this.center[2]]);
+		mat4.rotate(this.matrix, this.matrix, angleFraction, [0, 1, 0]);
+		mat4.translate(this.matrix, this.matrix, [this.radius, 0, 0]);
 
-		return matrixTransf;
+		return this.matrix;
 	}
 
 	/**

@@ -29,9 +29,6 @@ function MyComponent (scene, id){
 	
 	this.matrixTransf = mat4.create();
 	mat4.identity(this.matrixTransf);
-	
-	this.matrixAnimation = mat4.create();
-	mat4.identity(this.matrixAnimation);
 }
 
 /**
@@ -68,9 +65,21 @@ MyComponent.prototype.pushMaterial = function (materialId)
 MyComponent.prototype.pushAnimation = function (animationId)
 {
 	if(this.animations.length == 0)
-		this.lastAnimationType = this.scene.graph.animations[animationId].getType();
+		this.lastAnimationType = this.scene.graph.animations[animationId][0];
+	
+	let animation =	this.scene.graph.animations[animationId];
+	let newAnimation;
 
-	this.animations.push(animationId);
+	if(animation[0] == "Linear")
+		//scene, animations span, controlPoints
+		newAnimation = new LinearAnimation(this.scene, animation[1], animation[2]);
+	
+	else if(animation[0] == "Circular")
+		//scene, animation span, center, radius, start angle, rotation angle
+		newAnimation = new CircularAnimation(this.scene, animation[1], animation[2], animation[3], animation[4], animation[5]);
+
+
+	this.animations.push(newAnimation);
 }
 
 /**
@@ -90,10 +99,26 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 {
 	this.animationTime += timeVariation;
 	let previousSectionTime = 0;
-	var animation = this.scene.graph.animations[this.animations[this.currentAnimation]];
 
-	if(animation != null)
-		this.lastAnimationType = animation.getType();
+	if(this.getAnimationsLenght() == 0 || this.currentAnimation == this.getAnimationsLenght())
+		return;
+
+	var animation = this.animations[this.currentAnimation];
+
+	//Se a animação acabou, passa para a seguinte
+	if(this.animationTime >= animation.time)
+	{
+		this.animationTime = timeVariation;
+		this.currentSection = 0;
+		this.currentAnimation++;
+
+		if (this.currentAnimation == this.getAnimationsLenght())
+			return;
+
+		animation = this.animations[this.currentAnimation];
+	}	
+
+	this.lastAnimationType = animation.getType();
 
 	//cálculo do tempo das animações anteriores
 	for(let i = 0; i < this.currentSection; i++)
@@ -107,18 +132,10 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 
 	if (this.currentAnimation < this.animations.length)
 	{
-		this.matrixAnimation = animation.update(currentSectionTime, this.currentSection);
-
-		//Se a animação acabou, passa para a seguinte
-		if(this.animationTime >= animation.time)
-		{
-			this.animationTime = 0;
-			this.currentSection = 0;
-			this.currentAnimation++;
-		}
+		animation.update(currentSectionTime, this.currentSection);
 
 		//Se a animação não acabou, mas se a uma secção dela sim (LinearAnimation), passa para a secção seguinte
-		else if (currentSectionTime >= animation.sectionTime[this.currentSection])
+		if (currentSectionTime >= animation.sectionTime[this.currentSection])
 			this.currentSection++;
 		
 	}
@@ -129,13 +146,16 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
  */
 MyComponent.prototype.applyAnimationMatrix = function ()
 {
-	var animation = this.scene.graph.animations[this.animations[this.currentAnimation]];
+	var animation = this.animations[this.currentAnimation];
 
 	if(animation != null)
-		animation.apply(this.matrixAnimation);
+		animation.apply();
 	
-	else
-		this.scene.multMatrix(this.matrixAnimation);
+	else if (this.getAnimationsLenght() > 0)
+	{
+		let lastAnimation = this.animations[this.getAnimationsLenght()-1];
+		lastAnimation.apply();
+	}
 }
 	
 

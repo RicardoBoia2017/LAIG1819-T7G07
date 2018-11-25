@@ -1474,7 +1474,7 @@ class MySceneGraph {
 				if (numControlPoints < 2)
 					return "at least two control points should be defined for animation ID = " + animationId;
 
-				this.animations[animationId] = new LinearAnimation(this.scene, animationSpan, controlPoints);
+				this.animations[animationId] = ["Linear", animationSpan, controlPoints];
 			}
 
 			else if (children[i].nodeName == "circular") {
@@ -1508,7 +1508,7 @@ class MySceneGraph {
 				if (!(rotAng != null && !isNaN(rotAng)))
 					return "unable to parse rotation angle for animation ID = " + animationId;
 
-				this.animations[animationId] = new CircularAnimation(this.scene, animationSpan, center, radius, startAng, rotAng);
+				this.animations[animationId] = ["Circular", animationSpan, center, radius, startAng, rotAng];
 
 			}
 
@@ -2322,7 +2322,6 @@ class MySceneGraph {
 		var texT = parentTexT;
 
 		this.scene.pushMatrix();
-
 
 		if(component.lastAnimationType == "Circular")
 		{

@@ -91,8 +91,7 @@ class LinearAnimation extends Animation {
 	 */
 	update(time, section) {
 
-		var matrixTransf = mat4.create();
-		mat4.identity(matrixTransf);
+		mat4.identity(this.matrix);
 
 		//movimento a ser realizado tendo em conta a percentagem de secção que já foi realizada
 		let dx = time * this.movValues[section][0];
@@ -104,10 +103,10 @@ class LinearAnimation extends Animation {
 		let currentY = dy + this.controlPoints[section][1];
 		let currentZ = dz + this.controlPoints[section][2];
 
-		mat4.translate(matrixTransf, matrixTransf, [currentX, currentY, currentZ]);
-		mat4.rotate(matrixTransf, matrixTransf, this.movValues[section][3], [0, 1, 0]);
+		mat4.translate(this.matrix, this.matrix, [currentX, currentY, currentZ]);
+		mat4.rotate(this.matrix, this.matrix, this.movValues[section][3], [0, 1, 0]);
 
-		return matrixTransf;
+		return this.matrix;
 	}
 
 	/**

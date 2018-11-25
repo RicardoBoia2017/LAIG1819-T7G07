@@ -15,6 +15,8 @@ class Animation {
 		this.scene = scene;
 		this.time = time
 		this.finishAnimation = false;
+		this.matrix = mat4.create();
+		mat4.identity(this.matrix);
 	}
 
 	/**
@@ -27,12 +29,10 @@ class Animation {
 	{}
 
 	/**
-	 * Applies animation matrix to scene
-	 * 
-	 * @param {Animation matrix} matrix 
+	 * Applies animation matrix to scene 
 	 */
-	apply(matrix)
+	apply()
 	{
-		this.scene.multMatrix(matrix);
+		this.scene.multMatrix(this.matrix);
 	}
 }
