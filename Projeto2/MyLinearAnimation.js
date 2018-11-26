@@ -66,7 +66,7 @@ class LinearAnimation extends Animation {
 			//let vy = Math.sqrt(Math.round((speed * speed - vx*vx - vz*vz)*1000)/1000)*dy;
 			let vy = Math.sqrt(speed * speed - vx * vx - vz * vz) * dy;
 
-			let angle = Math.asin(sinAngle);
+			let angle = Math.asin(-sinAngle);
 
 			this.movValues.push([vx, vy, vz, angle]);
 			this.sectionTime.push(distance / speed);

@@ -242,7 +242,7 @@
         <children>	
 		   <componentref id="balloon"/>
 		   <componentref id="terrain"/>
-		   <componentref id="water"/>             
+		   <componentref id="water"/>           
         </children>
 
     </component>
@@ -255,7 +255,7 @@
 
         <animations> 
         	<animationref id="balloon_take_off"/>  
-           	<animationref id="balloon_travel"/>
+          	<animationref id="balloon_travel"/>
             <animationref id="balloon_sets_down"/>
         </animations>
 
