@@ -1,0 +1,377 @@
+<yas>
+<!-- deve definir-se um objeto para raiz da arvore, assim -->
+<!-- como o comprimento dos tres eixos (cilindros) -->
+
+<scene root="root" axis_length="5" />
+
+<views default="default">
+    <!-- tem de existir, pelo menos, uma vista de -->
+    <!-- entre as seguintes (perspective ou ortho) -->
+
+    <perspective id="default" near="0.1" far="5000" angle="20">
+        <from x="17" y="10" z="17" />
+        <to x="0" y="0" z="0" />
+    </perspective>
+	
+	<perspective id="computer" near="0.1" far="5000" angle="20">
+        <from x="10" y="4" z="5" />
+        <to x="20" y="4" z="5" />
+    </perspective>
+	
+	<perspective id="phone" near="0.1" far="50" angle="20">
+        <from x="5" y="3" z="5.5" />
+        <to x="4.5" y="0" z="5.5" />
+    </perspective>
+	
+	<perspective id="commode" near="0.1" far="50" angle="20">
+        <from x="5" y="5" z="2" />
+        <to x="0" y="0" z="2" />
+    </perspective>
+
+    <ortho id="ortho" near="0.1" far="5000" left="-10" right="15" top="5" bottom="-10" >
+        <from x="60" y="60" z="60" />
+        <to x="5" y="5" z="5" />
+	</ortho>
+
+</views>      
+
+
+<!-- Illumination and clear colour -->
+<ambient>
+    <ambient r="0.3" g="0.3" b="0.3" a="1" />       
+    <background r="1" g="1" b="1" a="1" />          
+</ambient>
+
+
+<lights>	
+	<spot id="spot" enabled="0" angle="1.5" exponent="0.1">                                       	      
+        <location x="1" y="6.5" z="1" w="1" />  
+        <target x="1" y="6.5" z="5.75"/>     	   
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />       
+        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
+        <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
+    </spot>
+	
+	<omni id="lamp" enabled="0">                                                      	       
+        <location x="1.5" y="3" z="9" w="1" />       		   
+        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />      
+        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
+        <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
+    </omni>
+
+    <omni id="walllamp" enabled="0">                                                      	       
+        <location x="7" y="5.2" z="1" w="1" />       		   
+        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />      
+        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
+        <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
+    </omni>
+
+    <omni id="extra" enabled="1">                                                      	       
+        <location x="10" y="10" z="10" w="1" />       		   
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />      
+        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
+        <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
+    </omni>
+    
+</lights>
+
+
+<textures>
+
+    <!-- Board -->
+   <texture id="boardTexture" file="images/boardTexture.png"/>
+	
+</textures>
+
+<materials>
+    <!-- Deve existir um ou mais blocos "material" -->
+    <!-- Os identificadores "id" nao podem ser repetidos -->
+
+	<!-- Wall material -->
+    <material id="wallMaterial" shininess = "1">
+        <emission r="0.0" g="0.0" b="0.0" a="1" />
+        <ambient r="0.25" g="0.25" b="0.25" a="1" /> 
+        <diffuse r="0.25" g="0.25" b="0.25" a="1" />                               
+        <specular r="0.0" g="0.0" b="0.0" a="1" />        
+    </material>
+
+    <!-- Wood material -->
+    <material id="woodMaterial" shininess = "1">
+        <emission r="0.0" g="0.0" b="0.0" a="1" />
+        <ambient r="0.35" g="0.35" b="0.35" a="1" /> 
+        <diffuse r="0.35" g="0.35" b="0.35" a="1" />                               
+        <specular r="0.0" g="0.0" b="0.0" a="1" />        
+    </material>
+
+    <!-- Light bulb material -->
+    <material id="lightMaterial" shininess = "100">
+        <emission r="0.0" g="0.0" b="0.0" a="1" />
+        <ambient r="0.0" g="0.0" b="0.0" a="1" />
+        <diffuse r="0.5" g="0.5" b="0.5" a="1" />                                 
+        <specular r="0.5" g="0.5" b="0.5" a="1" />              
+    </material>
+
+    <!-- A default material -->
+    <material id="defaultMaterial" shininess = "1">
+        <emission r="0.0" g="0.0" b="0.0" a="1" />
+        <ambient r="0.4" g="0.4" b="0.4" a="1" />
+        <diffuse r="0.4" g="0.4" b="0.4" a="1" />                                  
+        <specular r="0.0" g="0.0" b="0.0" a="1" />                 
+    </material>
+	
+</materials>
+
+<transformations>
+<!-- Deve existir um ou mais blocos "transformation" -->
+<!-- Os identificadores "id" nao podem ser repetidos -->
+<!-- Os angulos sao expressos em graus -->
+
+	<transformation id="default">
+        <!-- instrucoes a usar sem limite nem ordem -->
+        <!-- deve existir pelo menos uma transformacao -->
+		 <scale x="0.5" y="0.5" z="0.5"/>
+    </transformation>
+
+
+</transformations>
+
+<animations>
+
+    <linear id="linear" span="3">
+        <controlpoint xx="0" yy="2" zz="0"/>
+        <controlpoint xx="5" yy="2" zz="0"/> 
+    </linear>
+
+    <linear id="anti-linear" span="3">
+        <controlpoint xx="5" yy="2" zz="0"/>
+        <controlpoint xx="0" yy="2" zz="0"/> 
+    </linear>
+
+    <circular id="circular" span="5" center="0 0 0" radius="0.1" startang="0" rotang="360" />
+
+</animations>
+
+<primitives>
+
+    <primitive id="rectangle">
+        <rectangle x1="0" y1="0" x2="5" y2="4" />
+    </primitive>
+
+    <primitive id="triangle">
+        <triangle x1="0" y1="0" z1="0"
+                x2="7" y2="0" z2="2.5"
+                x3="0" y3="0" z3="5" />
+    </primitive>
+
+    <primitive id="cone">
+        <cylinder base="1" top="1.5" height="1" slices="20" stacks="20" />
+    </primitive>
+	
+	<primitive id="cylinder">
+        <cylinder base="1" top="1" height="1" slices="20" stacks="20" />
+    </primitive>
+
+    <primitive id="sphere">
+         <sphere radius="2" slices="10" stacks="10" />
+
+    </primitive>
+
+    <primitive id="torus">
+        <torus inner="0.65" outer="2" slices="12" loops="4" />
+    </primitive>
+
+    <primitive id="plane" >
+        <plane npartsU="5" npartsV="8" />
+    </primitive>
+
+    <primitive id="patch">
+        <patch npointsU="3" npointsV="2" npartsU="20" npartsV="20">
+            <controlpoint xx="-1.5" yy="-1.5" zz="0" />
+            <controlpoint xx="-1.5" yy="1.5" zz="0" />     
+            <controlpoint xx="0" yy="-1.5" zz="3"/>    
+            <controlpoint xx="0" yy="1.5" zz="3"/>     
+            <controlpoint xx="1.5" yy="-1.5" zz="0"/>    
+            <controlpoint xx="1.5" yy="1.5" zz="0"/>                  
+        </patch>
+    </primitive>
+    <primitive id="cylinder2">
+        <cylinder2 base="2" top="2" height="2" slices="40" stacks="40" />                  
+    </primitive>
+
+</primitives>
+
+
+<!-- The nodes -->
+<components>    
+
+    <!-- The root component -->
+    <component id="root"> 
+
+        <transformation>
+           <transformationref id="default"/>
+        </transformation>
+
+        <materials>
+           <material id="defaultMaterial"/> 
+        </materials>   
+
+        <texture id= "none" length_s="1" length_t="1"/>  
+
+        <children>
+            <componentref id="board" />
+        </children>
+
+    </component>
+
+    <component id="board"> 
+
+        <transformation>
+            <scale x="1" y="1" z="1.5" />
+        </transformation>
+
+        <materials>
+           <material id="defaultMaterial"/> 
+        </materials>   
+
+        <texture id= "boardTexture" length_s="1" length_t="1"/>  
+
+        <children>
+            <componentref id = "caixa_face1"/>
+            <componentref id = "caixa_face2"/>
+            <componentref id = "caixa_face3"/>
+            <componentref id = "caixa_face4"/>
+            <componentref id = "caixa_face5"/>
+            <componentref id = "caixa_face6"/>       
+         </children>
+
+    </component>
+
+	 <!-- face de cima-->
+	<component id="caixa_face1">
+
+        <transformation>
+			<translate x="0" y="3" z="6" /> 
+			<scale x ="2" y="1" z="1.5" /> 
+			<rotate axis="x" angle="-90" />
+        </transformation>
+
+        <materials>            
+            <material id="inherit"/>         
+        </materials>
+
+      <texture id="inherit" length_s="1" length_t="1"/>
+		
+      <children>
+		<primitiveref id ="rectangle"/>
+     </children>
+
+     </component>	 
+	 
+	 <!-- face de baixo -->
+	<component id="caixa_face2">
+
+        <transformation>
+			<translate x="0" y="2" z="0" /> 
+			<scale x = "2" y="1" z="1.5" /> 
+			<rotate axis="x" angle="90" />
+
+        </transformation>
+
+        <materials>            
+            <material id="inherit"/>         
+        </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+		
+      <children>
+		<primitiveref id ="rectangle"/>
+     </children>
+
+     </component>	 
+	 
+	 <!-- face lateral -->
+	<component id="caixa_face3">
+
+        <transformation>
+			<translate x="0" y="2" z="6" />
+			<scale x = "2" y="0.25" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="inherit"/>         
+        </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+		
+      <children>
+		<primitiveref id ="rectangle"/>
+     </children>
+
+     </component>	 
+	 
+	 <!-- face lateral -->	 
+	<component id="caixa_face4">
+
+        <transformation>
+			<translate x="0" y="3" z="0" />		
+			<rotate axis="x" angle="180" />
+ 			<scale x = "2" y="0.25" z="1" />
+       </transformation>
+
+        <materials>            
+            <material id="inherit"/>         
+        </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+		
+      <children>
+		<primitiveref id ="rectangle"/>
+     </children>
+
+     </component>
+	 
+	<component id="caixa_face5">
+
+        <transformation>
+			<translate x="10" y="3" z="6" />
+			<rotate axis ="z" angle ="-90" /> 				
+			<rotate axis ="x" angle ="-90" /> 		
+		 	<scale x = "0.2" y="1.5" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="inherit"/>         
+        </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+		
+      <children>
+		<primitiveref id ="rectangle"/>
+     </children>
+
+     </component>
+	
+	 
+	<component id="caixa_face6">
+
+        <transformation>
+			<translate x="0" y="2" z="6" />		
+			<rotate axis ="x" angle ="-90" /> 						
+			<rotate axis ="y" angle ="-90" /> 				
+		 	<scale x = "0.2" y="1.5" z="1" />		
+        </transformation>
+
+        <materials>            
+            <material id="inherit"/>         
+        </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+		
+      <children>
+		<primitiveref id ="rectangle"/>
+     </children>
+
+     </component>
+</components>
+
+</yas>
