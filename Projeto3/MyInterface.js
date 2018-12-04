@@ -22,8 +22,6 @@ class MyInterface extends CGFinterface {
 
         // add a group of controls (and open/expand by defult)
 		
-//			this.scene.gui=this;
-//		this.processKeyboard=function(){};
 		this.activeKeys={}; 
 		
         return true;
@@ -88,7 +86,6 @@ class MyInterface extends CGFinterface {
 	* @param {event} event
 	*/
 	processKeyUp(event) {
-		
 		this.activeKeys[event.code]=false;
 	};
 	
