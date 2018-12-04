@@ -37,7 +37,9 @@ class XMLscene extends CGFscene {
                 
         this.lastUpdate = 0;
         this.waterTimer = 0;
-		this.setUpdatePeriod(100);
+        this.setUpdatePeriod(100);
+        
+        this.setPickEnabled(true);
     }
 
     /**
@@ -143,7 +145,8 @@ class XMLscene extends CGFscene {
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
 		this.interface.addViewsGroup (this.graph.views);
-		
+        this.interface.addScenesGroup();
+        
         this.sceneInited = true;
     }
 

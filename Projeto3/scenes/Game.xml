@@ -2,9 +2,9 @@
 <!-- deve definir-se um objeto para raiz da arvore, assim -->
 <!-- como o comprimento dos tres eixos (cilindros) -->
 
-<scene root="root" axis_length="5" />
+<scene root="scene1" axis_length="5" />
 
-<views default="board">
+<views default="default">
     <!-- tem de existir, pelo menos, uma vista de -->
     <!-- entre as seguintes (perspective ou ortho) -->
 
@@ -35,9 +35,9 @@
 
 
 <lights>	
-	<spot id="spot" enabled="0" angle="1.5" exponent="0.1">                                       	      
-        <location x="1" y="6.5" z="1" w="1" />  
-        <target x="1" y="6.5" z="5.75"/>     	   
+	<spot id="spot" enabled="1" angle="1.5" exponent="0.1">                                       	      
+        <location x="7.6" y="8" z="5.5" w="1" />  
+        <target x="7.5" y="0" z="5.5"/>     	   
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />       
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
@@ -57,10 +57,10 @@
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
     </omni>
 
-    <omni id="extra" enabled="1">                                                      	       
-        <location x="10" y="10" z="10" w="1" />       		   
-        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />      
-        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
+    <omni id="extra" enabled="0">                                                      	       
+        <location x="8" y="8" z="5" w="1" />       		   
+        <ambient r="0.4" g="0.4" b="0.4" a="1.0" />      
+        <diffuse r="1.0" g="1.0" b="0.3" a="1.0" />        
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
     </omni>
     
@@ -153,8 +153,8 @@
 <animations>
 
     <linear id="linear" span="3">
-        <controlpoint xx="0" yy="2" zz="0"/>
-        <controlpoint xx="5" yy="2" zz="0"/> 
+        <controlpoint xx="0" yy="0" zz="0"/>
+        <controlpoint xx="2" yy="0" zz="0"/> 
     </linear>
 
     <linear id="anti-linear" span="3">
@@ -220,7 +220,7 @@
 <components>    
 
     <!-- The root component -->
-    <component id="root"> 
+    <component id="scene1"> 
 
         <transformation>
            <transformationref id="default"/>
@@ -241,6 +241,23 @@
 
     </component>
 
+    <component id="scene2"> 
+
+        <transformation>
+           <transformationref id="default"/>
+        </transformation>
+
+        <materials>
+           <material id="defaultMaterial"/> 
+        </materials>   
+
+        <texture id= "none" length_s="1" length_t="1"/>  
+
+        <children>
+		    <componentref id="tableAndBoard"/>
+        </children>
+
+    </component>
     <!-- The floor -->
 	    <component id="chao">  
 
@@ -271,8 +288,7 @@
         </transformation>
 
         <materials>
-            <material id="wallMaterial" /> 
-            <material id="lightMaterial" />  
+           <material id="defaultMaterial"/> 
 			
         </materials>  
         
@@ -334,7 +350,7 @@
         </transformation>
 
         <materials>
-           <material id="defaultMaterial"/> 
+           <material id="lightMaterial"/> 
         </materials>   
 
         <texture id= "none" length_s="1" length_t="1"/>  
@@ -684,13 +700,15 @@
         <componentref id="whitepeca3"/>
       </children>
 
-     </component>
+    </component>
 
      <component id="blackpeca1">
 
         <transformation>
          	<translate x="5" y="3" z="3.15"/>
         </transformation>
+
+
 
         <materials>            
             <material id="defaultMaterial" />        
@@ -745,6 +763,10 @@
         <transformation>
             <translate x="3" y="3" z="1"/>
         </transformation>
+
+        <animations>
+            <animationref id="linear" />
+        </animations>
 
         <materials>            
             <material id="defaultMaterial" />        
@@ -813,6 +835,26 @@
       </children>
       
      </component>
+
+     
+    <component id="square">
+
+        <transformation>
+			<scale x ="2" y="1" z="1.5" /> 
+
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="inherit" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle"/>
+      </children>
+      
+    </component>
 
 </components>
 

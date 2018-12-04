@@ -27,6 +27,14 @@ class MyInterface extends CGFinterface {
         return true;
     }
 
+	addScenesGroup()
+	{
+		var group = this.gui.addFolder("Scenes");
+		group.open();
+
+		this.gui.add(this.scene.graph, 'root', ['scene1','scene2', 'scene3'] ).name("Scenes");
+	}
+
     /**
      * Adds a folder containing the IDs of the lights passed as parameter.
      * @param {array} lights
