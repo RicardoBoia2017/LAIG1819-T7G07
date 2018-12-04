@@ -35,6 +35,8 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
                 
+        this.counter = 0;
+
         this.lastUpdate = 0;
         this.waterTimer = 0;
         this.setUpdatePeriod(100);
@@ -248,6 +250,7 @@ class XMLscene extends CGFscene {
         }
 
         this.waterTimer += 0.05 * (currentTime - this.lastUpdate)/1000;
+        this.counter += (currentTime - this.lastUpdate)/1000;
 
         this.lastUpdate = currentTime;
 

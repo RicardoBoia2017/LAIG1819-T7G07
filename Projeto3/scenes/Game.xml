@@ -99,6 +99,27 @@
    <!-- White -->
    <texture id="whiteText" file="images/white.jpg"/>
 
+   <texture id="scoreBoardTexture" file="images/scoreBoard.png"/>
+    
+   <texture id="1" file="images/Numbers/1.png"/>
+
+   <texture id="2" file="images/Numbers/2.png"/>
+
+   <texture id="3" file="images/Numbers/3.png"/>
+
+   <texture id="4" file="images/Numbers/4.png"/>
+
+   <texture id="5" file="images/Numbers/5.png"/>
+
+   <texture id="6" file="images/Numbers/6.png"/>
+
+   <texture id="7" file="images/Numbers/7.png"/>
+
+   <texture id="8" file="images/Numbers/8.png"/>
+
+   <texture id="9" file="images/Numbers/9.png"/>
+
+   <texture id="0" file="images/Numbers/0.png"/>
 </textures>
 
 <materials>
@@ -175,6 +196,10 @@
         <rectangle x1="0" y1="0" x2="5" y2="4" />
     </primitive>
 
+    <primitive id="rectangle2">
+        <rectangle x1="0" y1="0" x2="1" y2="1" />
+    </primitive>
+
     <primitive id="triangle">
         <triangle x1="0" y1="0" z1="0"
                 x2="7" y2="0" z2="2.5"
@@ -240,6 +265,7 @@
 		    <componentref id="parede1" />
 		    <componentref id="parede2" /> 
 		    <componentref id="tableAndBoard"/>
+            <componentref id="marcador" />
         </children>
 
     </component>
@@ -311,7 +337,7 @@
 	   <component id="parede1">  
 
         <transformation>
-            <scale x="6" y="3" z="0" />		
+            <scale x="6" y="4" z="0" />		
         </transformation>
 
         <materials>
@@ -331,7 +357,7 @@
 	    <component id="parede2">  
 
         <transformation>
-			<scale x="0" y="3" z="4" />
+			<scale x="0" y="4" z="4" />
 			<translate x="0" y="0" z="5"/>
             <rotate axis="y" angle="90" />
         </transformation>
@@ -863,25 +889,163 @@
       
      </component>
 
-     
-    <component id="square">
+    <component id="marcador">
 
         <transformation>
-			<scale x ="2" y="1" z="1.5" /> 
-
+            <translate x="8" y="7" z="0.1" />
         </transformation>
 
         <materials>            
             <material id="defaultMaterial" />        
         </materials>
 
-      <texture id="inherit" length_s="1" length_t="1"/>
+      <texture id="scoreBoardTexture" length_s="1" length_t="1"/>
 
       <children>
-        <primitiveref id="rectangle"/>
+        <componentref id="marcadorRectangle"/>
+        <componentref id="whiteScore"/>
+        <componentref id="blackScore"/>
+        <componentref id="time_square1"/>
+        <componentref id="time_square2"/>
+        <componentref id="time_square3"/>
+        <componentref id="time_square4"/>
+        
       </children>
       
     </component>
+     
+    <component id="marcadorRectangle">
+
+        <transformation>
+            <scale x="12" y="8" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="scoreBoardTexture" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+      
+    </component>
+
+    <component id="whiteScore">
+
+        <transformation>
+            <translate x="0.3" y="3.5" z="0.01"/>
+            <scale x="1.7" y="1.8" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="0" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+      
+    </component>
+
+    <component id="blackScore">
+
+        <transformation>
+            <translate x="9.8" y="3.5" z="0.01"/>
+            <scale x="1.5" y="1.8" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="0" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+      
+    </component>
+
+    <component id="time_square1">
+
+        <transformation>
+            <translate x="2" y="1" z="0.01"/>
+            <scale x="1.5" y="1.8" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="0" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+      
+    </component>
+
+    <component id="time_square2">
+
+        <transformation>
+            <translate x="3.5" y="1" z="0.01"/>
+            <scale x="1.5" y="1.8" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="0" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+      
+    </component>
+
+    <component id="time_square3">
+
+        <transformation>
+            <translate x="7" y="1" z="0.01"/>
+            <scale x="1.5" y="1.8" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="0" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+      
+    </component>
+
+    <component id="time_square4">
+
+        <transformation>
+            <translate x="8.5" y="1" z="0.01"/>
+            <scale x="1.5" y="1.8" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="0" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+      
+    </component>
+
 
 </components>
 

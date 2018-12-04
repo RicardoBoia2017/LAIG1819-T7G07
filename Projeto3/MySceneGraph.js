@@ -41,7 +41,7 @@ class MySceneGraph {
 		this.objects= [
 		new MyQuad(this.scene, [0, 0, 1, 1]),
 		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),	
 		new MyQuad(this.scene, [0, 0, 1, 1]),
 		new MyQuad(this.scene, [0, 0, 1, 1]),
 		new MyQuad(this.scene, [0, 0, 1, 1]),
@@ -2323,7 +2323,7 @@ class MySceneGraph {
 		if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials();
 
-
+		this.setUpTime();
 
 		this.logPicking();
 		this.scene.clearPickRegistration();
@@ -2333,8 +2333,9 @@ class MySceneGraph {
 		this.displayComponent(root, root.materials[root.currentMaterial], root.texture, root.texS, root.texT);
 	}
 
-	//else if(this.scene.pickMode == true)
-	//{
+
+	else if(this.scene.pickMode == true)
+	{
 			for (i =0; i<5; i++) 
 			{		
 				for (var j =0; j<5; j++) 
@@ -2352,7 +2353,8 @@ class MySceneGraph {
 					this.scene.popMatrix();
 				}
 			}	
-		//}
+	}
+
 	}
 
 	/**
@@ -2367,6 +2369,31 @@ class MySceneGraph {
 				currentComponent.currentMaterial++;
 
 		}
+	}
+
+	/**
+	 * Gets time from scene and changes textures from scoreboard accordingly
+	 */
+	setUpTime() {
+		let currentTime = this.scene.counter;
+
+		let minutes = Math.floor(currentTime / 60);
+
+		//MSD - most significant digit
+		//LSD - least significant digit
+		let minutesMSD = Math.floor(minutes /10);
+		let minutesLSD = Math.floor(minutes % 10);
+
+		let seconds = currentTime - 60 * minutes;
+
+		let secondsMSD = Math.floor(seconds / 10);
+		let secondsLSD = Math.floor(seconds % 10);
+
+		this.components['time_square1'].textureId =  minutesMSD;
+		this.components['time_square2'].textureId =  minutesLSD;
+		this.components['time_square3'].textureId =  secondsMSD;
+		this.components['time_square4'].textureId =  secondsLSD;
+
 	}
 
 	/**
