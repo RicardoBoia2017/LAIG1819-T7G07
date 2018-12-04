@@ -34,6 +34,40 @@ class MySceneGraph {
 		this.axisCoords['x'] = [1, 0, 0];
 		this.axisCoords['y'] = [0, 1, 0];
 		this.axisCoords['z'] = [0, 0, 1];
+
+	
+		//Create BoundingBoxes Quads
+
+		this.objects= [
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1]),
+		new MyQuad(this.scene, [0, 0, 1, 1])
+	];
+
+		this.scene.setPickEnabled(true);
+
 		
 		// File reading 
 		this.reader = new CGFXMLreader();
@@ -2254,17 +2288,71 @@ class MySceneGraph {
 		console.log("   " + message);
 	}
 
+
+
+	logPicking()
+	{
+		if (this.scene.pickMode == false) {
+			
+			if (this.scene.pickResults != null && this.scene.pickResults.length > 0) {
+
+				for (var i=0; i< this.scene.pickResults.length; i++) {
+
+					var obj = this.scene.pickResults[i][0];
+					if (obj)
+					{
+						var customId = this.scene.pickResults[i][1];				
+						console.log("Picked object: " + obj + ", with pick id " + customId);
+					}
+				}
+				this.scene.pickResults.splice(0,this.scene.pickResults.length);
+			}		
+		}
+
+	}
+
+
+
 	/**
 	 * Displays the scene, processing each node, starting in the root node.
 	 */
 	displayScene() {
-	
+
+	if (this.scene.pickMode == false)
+	{
 		if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials();
 
+
+
+		this.logPicking();
+		this.scene.clearPickRegistration();
+
+		
 		var root = this.components[this.root];
 		this.displayComponent(root, root.materials[root.currentMaterial], root.texture, root.texS, root.texT);
-	
+	}
+
+	//else if(this.scene.pickMode == true)
+	//{
+			for (i =0; i<5; i++) 
+			{		
+				for (var j =0; j<5; j++) 
+				{
+					this.scene.pushMatrix();
+
+						this.scene.translate(5.25+j*0.7915, 3.10, 3.35+(i+1)*0.755);
+						this.scene.rotate(-Math.PI/2, 1, 0, 0);
+						this.scene.scale(0.775, 0.745, 1);
+						
+
+						this.scene.registerForPick(5*i+j+1, this.objects[5*i+j]);
+
+						this.objects[5*i+j].display();
+					this.scene.popMatrix();
+				}
+			}	
+		//}
 	}
 
 	/**
