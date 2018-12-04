@@ -68,9 +68,6 @@
 
 
 <textures>
-
-    <!-- Board -->
-   <texture id="boardTexture" file="images/boardTexture.png"/>
 	
     <!-- Plastic -->
     <texture id="plastic" file="images/plastictexture.jpg"/>
@@ -87,8 +84,14 @@
     <!-- Furniture -->
     <texture id="furniture" file="/images/furnituretexture.jpg" />  
 
-    <!-- Board -->
+    <!-- Board1 -->
    <texture id="boardTexture1" file="images/boardTexture1.png"/>
+
+    <!-- Board2 -->
+   <texture id="boardTexture2" file="images/boardTexture2.png"/>
+
+    <!-- Board3 -->
+   <texture id="boardTexture3" file="images/boardTexture3.png"/>
 
    <!-- Black -->
    <texture id="blackText" file="images/black.jpg"/>
@@ -254,6 +257,30 @@
         <texture id= "none" length_s="1" length_t="1"/>  
 
         <children>
+            <componentref id="chao" />
+		    <componentref id="parede1" />
+		    <componentref id="parede2" /> 
+		    <componentref id="tableAndBoard"/>
+        </children>
+
+    </component>
+
+    <component id="scene3"> 
+
+        <transformation>
+           <transformationref id="default"/>
+        </transformation>
+
+        <materials>
+           <material id="defaultMaterial"/> 
+        </materials>   
+
+        <texture id= "none" length_s="1" length_t="1"/>  
+
+        <children>
+            <componentref id="chao" />
+		    <componentref id="parede1" />
+		    <componentref id="parede2" /> 
 		    <componentref id="tableAndBoard"/>
         </children>
 
@@ -373,7 +400,7 @@
            <material id="defaultMaterial"/> 
         </materials>   
 
-        <texture id= "boardTexture1" length_s="1" length_t="1"/>  
+        <texture id= "boardTexture3" length_s="1" length_t="1"/>  
 
         <children>
             <componentref id = "caixa"/>     
