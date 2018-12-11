@@ -47,6 +47,7 @@ class XMLscene extends CGFscene {
 
         for(let i = 0; i < 25; i++)
             this.objects.push(new MyQuad(this, [0, 0, 1, 1]));
+        this.undo = new MyQuad(this, [0, 0, 1, 1]);
     }
 
     /**

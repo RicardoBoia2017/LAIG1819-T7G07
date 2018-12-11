@@ -2297,6 +2297,17 @@ class MySceneGraph {
 					this.scene.popMatrix();
 				}
 			}	
+
+			this.scene.pushMatrix();
+
+				this.scene.translate(9.4, 2.6, 7.3);
+				this.scene.rotate(-Math.PI/2, 1, 0, 0);
+				this.scene.scale(0.55, 0.65, 1);
+					
+				this.scene.registerForPick(0, this.scene.undo);
+				this.scene.undo.display();
+			this.scene.popMatrix();
+
 	}
 
 	}
