@@ -38,36 +38,6 @@ class MySceneGraph {
 	
 		//Create BoundingBoxes Quads
 
-		this.objects= [
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),	
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1]),
-		new MyQuad(this.scene, [0, 0, 1, 1])
-	];
-
-		this.scene.setPickEnabled(true);
-
 		
 		// File reading 
 		this.reader = new CGFXMLreader();
@@ -2288,28 +2258,6 @@ class MySceneGraph {
 		console.log("   " + message);
 	}
 
-	logPicking()
-	{
-		if (this.scene.pickMode == false) {
-			
-			if (this.scene.pickResults != null && this.scene.pickResults.length > 0) {
-
-				for (var i=0; i< this.scene.pickResults.length; i++) {
-
-					var obj = this.scene.pickResults[i][0];
-					if (obj)
-					{
-						var customId = this.scene.pickResults[i][1];				
-						console.log("Picked object: " + obj + ", with pick id " + customId); 
-						this.getPrologRequest("handshake", this.handleReply);
-					}
-				}
-				this.scene.pickResults.splice(0,this.scene.pickResults.length);
-			}		
-		}
-
-	}
-
 	/**
 	 * Displays the scene, processing each node, starting in the root node.
 	 */
@@ -2322,7 +2270,7 @@ class MySceneGraph {
 
 		this.setUpTime();
 
-		this.logPicking();
+		this.scene.logPicking();
 		this.scene.clearPickRegistration();
 
 		
@@ -2344,9 +2292,9 @@ class MySceneGraph {
 						this.scene.scale(0.775, 0.745, 1);
 						
 
-						this.scene.registerForPick(5*i+j+1, this.objects[5*i+j]);
+						this.scene.registerForPick(5*i+j+1, this.scene.objects[5*i+j]);
 
-						this.objects[5*i+j].display();
+						this.scene.objects[5*i+j].display();
 					this.scene.popMatrix();
 				}
 			}	
@@ -2391,27 +2339,6 @@ class MySceneGraph {
 		this.components['time_square3'].textureId =  secondsMSD;
 		this.components['time_square4'].textureId =  secondsLSD;
 
-	}
-
-	
-	getPrologRequest(requestString, onSuccess, onError, port)
-	{
-		var requestPort = port || 8081
-		var request = new XMLHttpRequest();
-		request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
-
-		request.onload = onSuccess || function(data){console.log("Request successful. Reply: " + data.target.response);};
-		request.onerror = onError || function(){console.log("Error waiting for response");};
-
-		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-		request.send();
-	}
-	
-	//Handle the Reply
-	handleReply(data){
-		let reply = data.target.response;
-		if(reply == "handshake")
-			console.log("handshake back");
 	}
 
 	/**

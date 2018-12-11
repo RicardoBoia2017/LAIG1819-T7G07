@@ -42,6 +42,34 @@ class XMLscene extends CGFscene {
         this.setUpdatePeriod(100);
         
         this.setPickEnabled(true);
+
+        this.objects= [
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),	
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1]),
+            new MyQuad(this, [0, 0, 1, 1])
+        ];
     }
 
     /**
@@ -181,8 +209,50 @@ class XMLscene extends CGFscene {
 		}		
 		
 		this.interface.setActiveCamera(this.camera);
+    }
+
+    logPicking()
+	{
+		if (this.pickMode == false) {
+			
+			if (this.pickResults != null && this.pickResults.length > 0) {
+
+				for (var i=0; i< this.pickResults.length; i++) {
+
+					var obj = this.pickResults[i][0];
+					if (obj)
+					{
+						var customId = this.pickResults[i][1];				
+						console.log("Picked object: " + obj + ", with pick id " + customId); 
+						this.getPrologRequest("handshake", this.handleReply);
+					}
+				}
+				this.pickResults.splice(0,this.pickResults.length);
+			}		
+		}
+
 	}
 
+    getPrologRequest(requestString, onSuccess, onError, port)
+	{
+		var requestPort = port || 8081
+		var request = new XMLHttpRequest();
+		request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
+
+		request.onload = onSuccess || function(data){console.log("Request successful. Reply: " + data.target.response);};
+		request.onerror = onError || function(){console.log("Error waiting for response");};
+
+		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+		request.send();
+	}
+	
+	//Handle the Reply
+	handleReply(data){
+		let reply = data.target.response;
+		if(reply == "handshake")
+			console.log("handshake back");
+    }
+    
     /**
      * Displays the scene.
      */
