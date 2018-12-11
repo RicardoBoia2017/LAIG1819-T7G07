@@ -43,33 +43,10 @@ class XMLscene extends CGFscene {
         
         this.setPickEnabled(true);
 
-        this.objects= [
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),	
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1]),
-            new MyQuad(this, [0, 0, 1, 1])
-        ];
+        this.objects= [];
+
+        for(let i = 0; i < 25; i++)
+            this.objects.push(new MyQuad(this, [0, 0, 1, 1]));
     }
 
     /**
