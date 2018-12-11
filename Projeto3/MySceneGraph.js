@@ -2288,8 +2288,6 @@ class MySceneGraph {
 		console.log("   " + message);
 	}
 
-
-
 	logPicking()
 	{
 		if (this.scene.pickMode == false) {
@@ -2302,7 +2300,8 @@ class MySceneGraph {
 					if (obj)
 					{
 						var customId = this.scene.pickResults[i][1];				
-						console.log("Picked object: " + obj + ", with pick id " + customId);
+						console.log("Picked object: " + obj + ", with pick id " + customId); 
+						this.getPrologRequest("handshake", this.handleReply);
 					}
 				}
 				this.scene.pickResults.splice(0,this.scene.pickResults.length);
@@ -2310,8 +2309,6 @@ class MySceneGraph {
 		}
 
 	}
-
-
 
 	/**
 	 * Displays the scene, processing each node, starting in the root node.
@@ -2394,6 +2391,27 @@ class MySceneGraph {
 		this.components['time_square3'].textureId =  secondsMSD;
 		this.components['time_square4'].textureId =  secondsLSD;
 
+	}
+
+	
+	getPrologRequest(requestString, onSuccess, onError, port)
+	{
+		var requestPort = port || 8081
+		var request = new XMLHttpRequest();
+		request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
+
+		request.onload = onSuccess || function(data){console.log("Request successful. Reply: " + data.target.response);};
+		request.onerror = onError || function(){console.log("Error waiting for response");};
+
+		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+		request.send();
+	}
+	
+	//Handle the Reply
+	handleReply(data){
+		let reply = data.target.response;
+		if(reply == "handshake")
+			console.log("handshake back");
 	}
 
 	/**
