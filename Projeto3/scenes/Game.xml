@@ -101,6 +101,8 @@
 
    <texture id="scoreBoardTexture" file="images/scoreBoard.png"/>
     
+   <texture id="0" file="images/Numbers/0.png"/>
+
    <texture id="1" file="images/Numbers/1.png"/>
 
    <texture id="2" file="images/Numbers/2.png"/>
@@ -119,7 +121,24 @@
 
    <texture id="9" file="images/Numbers/9.png"/>
 
-   <texture id="0" file="images/Numbers/0.png"/>
+   <texture id="arrowN" file="images/arrowN.jpg"/>
+
+   <texture id="arrowNE" file="images/arrowNE.jpg"/>
+
+   <texture id="arrowE" file="images/arrowE.jpg"/>
+
+   <texture id="arrowSE" file="images/arrowSE.jpg"/>
+
+   <texture id="arrowS" file="images/arrowS.jpg"/>
+
+   <texture id="arrowSW" file="images/arrowSW.jpg"/>
+
+   <texture id="arrowW" file="images/arrowW.jpg"/>
+
+   <texture id="arrowNW" file="images/arrowNW.jpg"/>
+
+   <texture id="undo" file="images/undo.jpg"/>
+
 </textures>
 
 <materials>
@@ -389,6 +408,28 @@
         <children>
             <componentref id = "fullBoard"/> 
             <componentref id ="mesa"/> 
+            <componentref id ="undo"/>
+         </children>
+
+    </component>
+
+    <component id="undo"> 
+
+        <transformation>
+        	<scale x="1" y="1" z="1.25"/>
+          	<translate x="19.75" y="5.5" z="12.5"/>
+          	<rotate axis="y" angle="90"/>
+          	<rotate axis="x" angle="-90"/>
+        </transformation>
+
+        <materials>
+           <material id="woodMaterial"/> 
+        </materials>   
+
+        <texture id= "undo" length_s="1" length_t="1"/>  
+
+        <children>
+            <primitiveref id="rectangle2"/>
          </children>
 
     </component>
@@ -605,7 +646,7 @@
 
     	<transformation>
     		<translate x="0" y="3" z="0" />
-			<scale x= "0.775" y="0.65" z= "1.225" />		
+			<scale x= "0.775" y="0.65" z= "1.400" />		
         </transformation>
 
         <materials>            
@@ -662,7 +703,7 @@
 	<component id="cama_perna2">
 
         <transformation>
-			<translate x="0.5" y="0" z="9" />
+			<translate x="0.5" y="0" z="10.5" />
         </transformation>
 
         <materials>            
@@ -680,7 +721,7 @@
 	<component id="cama_perna3">
 
         <transformation>
-			<translate x="9.5" y="0" z="9" />			
+			<translate x="9.5" y="0" z="10.5" />			
         </transformation>
 
         <materials>            
