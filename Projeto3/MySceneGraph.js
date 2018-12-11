@@ -2290,10 +2290,9 @@ class MySceneGraph {
 						this.scene.translate(5.25+j*0.7915, 3.10, 3.35+(i+1)*0.755);
 						this.scene.rotate(-Math.PI/2, 1, 0, 0);
 						this.scene.scale(0.775, 0.745, 1);
+
+						this.scene.registerForPick(10* (j+1) + 5 - i, this.scene.objects[(5-i)+(5*j)-1]);
 						
-
-						this.scene.registerForPick((5-i)+(5*j), this.scene.objects[(5-i)+(5*j)-1]);
-
 						this.scene.objects[(5-i)+(5*j-1)].display();
 					this.scene.popMatrix();
 				}
