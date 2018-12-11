@@ -2292,9 +2292,9 @@ class MySceneGraph {
 						this.scene.scale(0.775, 0.745, 1);
 						
 
-						this.scene.registerForPick(5*i+j+1, this.scene.objects[5*i+j]);
+						this.scene.registerForPick((5-i)+(5*j), this.scene.objects[(5-i)+(5*j)-1]);
 
-						this.scene.objects[5*i+j].display();
+						this.scene.objects[(5-i)+(5*j-1)].display();
 					this.scene.popMatrix();
 				}
 			}	
