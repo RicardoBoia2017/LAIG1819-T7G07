@@ -47,8 +47,19 @@ class XMLscene extends CGFscene {
 
         for(let i = 0; i < 25; i++)
             this.objects.push(new MyQuad(this, [0, 0, 1, 1]));
+        
         this.undo = new MyQuad(this, [0, 0, 1, 1]);
-    }
+
+
+        this.board = [['x', 'w', 'x', 'w', 'x'],
+            ['x', 'x', 'b', 'x', 'x'],
+            ['x', 'x', 'x', 'x', 'x'],
+            ['x', 'x', 'w', 'x', 'x'],
+            ['x', 'b', 'x', 'b', 'x']];  
+
+        this.pastBoards = [];
+
+        }
 
     /**
      * Initializes the scene cameras.
@@ -201,8 +212,9 @@ class XMLscene extends CGFscene {
 					if (obj)
 					{
 						var customId = this.pickResults[i][1];				
-						console.log("Picked object: " + obj + ", with pick id " + customId); 
-						this.getPrologRequest("handshake", this.handleReply);
+    //                    console.log("Picked object: " + obj + ", with pick id " + customId); 
+                        this.getPrologRequest("move(1," + this.convertBoardToString(this.board) + ",2,3)", this.handleReply);
+    //                        this.getPrologRequest("initGame('PvP')", this.handleReply);
 					}
 				}
 				this.pickResults.splice(0,this.pickResults.length);
@@ -214,7 +226,7 @@ class XMLscene extends CGFscene {
     getPrologRequest(requestString, onSuccess, onError, port)
 	{
 		var requestPort = port || 8081
-		var request = new XMLHttpRequest();
+        var request = new XMLHttpRequest();
 		request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
 
 		request.onload = onSuccess || function(data){console.log("Request successful. Reply: " + data.target.response);};
@@ -227,10 +239,38 @@ class XMLscene extends CGFscene {
 	//Handle the Reply
 	handleReply(data){
 		let reply = data.target.response;
-		if(reply == "handshake")
-			console.log("handshake back");
+			console.log(reply);
     }
-    
+
+    convertBoardToString(board)
+    {
+        let res = "[";
+        let i, j;
+
+        for(i = 0; i < board.length; i++)
+        {   
+            let line = board[i];
+            res += '[';
+
+            for(j = 0; j < line.length; j++)
+            {
+                let element = line [j]
+                res += "'" + element + "'";
+
+                if(j != line.length - 1)
+                    res += ',';
+            }
+
+            if(i != board.length - 1)
+                res += '],';
+            else
+                res += ']';
+
+        }
+        res += "]";
+        
+        return res;
+    }
     /**
      * Displays the scene.
      */
