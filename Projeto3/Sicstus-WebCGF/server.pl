@@ -1,8 +1,10 @@
 :-use_module(library(sockets)).
 :-use_module(library(lists)).
 :-use_module(library(codesio)).
+:- use_module(library(random)).
 
 :- include('game.pl').
+:- include('utilities.pl').
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                        Server                                                   %%%%
@@ -109,8 +111,19 @@ parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).
 parse_input(initGame('PvP'), gamestarted) :- initGame(1).
-parse_input(move(1, Board, Row, Column), OutRow-OutColumn) :-
-	findNewPosition(1, Board, Row, Column, OutRow, OutColumn).
+
+parse_input(move(Dir, Board, Row, Column, Player), OutBoard-OutRow-OutColumn) :-
+	move(Dir, Board, Row, Column, Player, OutRow, OutColumn, OutBoard).
+
+parse_input(bot_move(Board, Diff, Player), InRow-InColumn-OutBoard-OutRow-OutColumn) :-
+	choose_move(Board, OutBoard, Diff, Player, InRow, InColumn, OutColumn, OutRow).
+
+parse_input(valid_moves(Board, Row, Column), List) :-
+	valid_moves(Board, Row, Column, List).
+
+parse_input(game_over(Board, Player), Res) :-
+	checkWin(Board, Player, Res).
+
 
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).

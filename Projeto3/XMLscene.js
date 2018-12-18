@@ -50,6 +50,17 @@ class XMLscene extends CGFscene {
         
         this.undo = new MyQuad(this, [0, 0, 1, 1]);
 
+        this.blackPositions = [
+            [2,3],
+            [5,2],
+            [5,4]
+        ];
+
+        this.whitePositions = [
+            [1,2],
+            [1,4],
+            [4,3] 
+        ];
 
         this.board = [['x', 'w', 'x', 'w', 'x'],
             ['x', 'x', 'b', 'x', 'x'],
@@ -213,9 +224,13 @@ class XMLscene extends CGFscene {
 					{
 						var customId = this.pickResults[i][1];				
     //                    console.log("Picked object: " + obj + ", with pick id " + customId); 
-                        this.getPrologRequest("move(1," + this.convertBoardToString(this.board) + ",2,3)", this.handleReply);
-    //                        this.getPrologRequest("initGame('PvP')", this.handleReply);
-					}
+    //                    this.getPrologRequest("move(7," + this.convertBoardToString(this.board) + ",2,3,'b')", this.handleReply);
+    //                    this.getPrologRequest("initGame('PvP')", this.handleReply);
+    //                      this.getPrologRequest("valid_moves(" + this.convertBoardToString(this.board) + ",2,3)", this.handleReply);
+    //                      this.getPrologRequest("game_over(" + this.convertBoardToString(this.board) + ",'w')", this.handleReply);
+                            this.getPrologRequest("bot_move(" + this.convertBoardToString(this.board) + ",2,'b')", this.handleReply);
+
+                    }
 				}
 				this.pickResults.splice(0,this.pickResults.length);
 			}		

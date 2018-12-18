@@ -100,7 +100,7 @@ whiteTurn(InBoard, OutBoard) :-
     move(Direction, InBoard, 'w', OutBoard).  
 
 % Processes easy bot's turn
-choose_move(InBoard, OutBoard, 1, Color) :-
+choose_move(InBoard, OutBoard, 1, Color, Nrow, Ncolumn, OutColumn, OutRow) :-
     random(1, 4, Piece),
     getNthPiecePos(InBoard, Color, Nrow, Ncolumn, Piece),
     valid_moves(InBoard, Nrow, Ncolumn, ListOfMoves),
@@ -110,7 +110,7 @@ choose_move(InBoard, OutBoard, 1, Color) :-
     changePiece(IntBoard, OutColumn, OutRow, Color, OutBoard).
 
 % Processes hard bot's turn
-choose_move(InBoard, OutBoard, 2, Color) :-
+choose_move(InBoard, OutBoard, 2, Color, Row, Column, OutColumn, OutRow) :-
     getBestPlay(1, InBoard, Color, Row1, Column1, Direction1, Value1),
     getBestPlay(2, InBoard, Color, Row2, Column2, Direction2, Value2),
     getBestPlay(3, InBoard, Color, Row3, Column3, Direction3, Value3),
@@ -220,10 +220,7 @@ value(Board, 'w', Value) :-
 % Processes move and updates board 
 
 %Finds the piece's new position and updates board
-move(Direction, InBoard, Player, OutBoard) :-
-    getMovingPiece(InBoard, Row, Column, Player),
-    valid_moves(InBoard, Row, Column, ListOfMoves),
-    readDirection(ListOfMoves, Direction), 
+move(Direction, InBoard, Row, Column, Player, OutRow, OutColumn, OutBoard) :-
     findNewPosition(Direction, InBoard, Row, Column, OutRow, OutColumn),
     changePiece(InBoard, Column, Row, 'x', IntBoard),
     changePiece(IntBoard, OutColumn, OutRow, Player, OutBoard).
@@ -234,7 +231,7 @@ findNewPosition('end', Board, Row, Column, OutRow, OutColumn) :-
     OutColumn is Column.
 
 %Gets the new position for a piece moving 'north'
-findNewPosition(1, Board, Row, Column, OutRow, OutColumn). :-
+findNewPosition(1, Board, Row, Column, OutRow, OutColumn) :-
     NewRow is Row - 1, 
     ((isMoveValid(Board, NewRow, Column),
         findNewPosition(1, Board, NewRow, Column, OutRow, OutColumn));
@@ -368,6 +365,14 @@ checkWin(Board, Player) :-
     checkColumn(Board, Player);
     checkDiagonalNWSE(Board, Player);
     checkDiagonalNESW(Board, Player).
+
+% Checks all victory conditions without displaying anything
+checkWin(Board, Player, Res) :-
+    checkRow(Board, Player), Res is 1;
+    checkColumn(Board, Player), Res is 1;
+    checkDiagonalNWSE(Board, Player), Res is 1;
+    checkDiagonalNESW(Board, Player), Res is 1;
+    Res is 0.
 
 % Checks if any row has a game ending condition
 checkRow([H|T], Player) :-
