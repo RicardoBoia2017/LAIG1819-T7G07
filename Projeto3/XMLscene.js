@@ -1,5 +1,6 @@
 var DEGREE_TO_RAD = Math.PI / 180;
 
+let board;
 /**
  * XMLscene class, representing the scene that is to be rendered.
  */
@@ -62,11 +63,13 @@ class XMLscene extends CGFscene {
             [4,3] 
         ];
 
-        this.board = [['x', 'w', 'x', 'w', 'x'],
+/*       board = [['x', 'w', 'x', 'w', 'x'],
             ['x', 'x', 'b', 'x', 'x'],
             ['x', 'x', 'x', 'x', 'x'],
             ['x', 'x', 'w', 'x', 'x'],
-            ['x', 'b', 'x', 'b', 'x']];  
+            ['x', 'b', 'x', 'b', 'x']];*/  
+
+        board = "[['x','w','x','w','x'],['x','x','b','x','x'],['x','x','x','x','x'],['x','x','w','x','x'],['x','b','x','b','x']]";  
 
         this.pastBoards = [];
 
@@ -223,12 +226,13 @@ class XMLscene extends CGFscene {
 					if (obj)
 					{
 						var customId = this.pickResults[i][1];				
-    //                    console.log("Picked object: " + obj + ", with pick id " + customId); 
-    //                    this.getPrologRequest("move(7," + this.convertBoardToString(this.board) + ",2,3,'b')", this.handleReply);
+    //                    console.log("Picked object: " + obj + ", with pick id " + customId);
+                        console.log(board);
+                        this.moveRequest(Math.floor(customId/10), customId % 10);
     //                    this.getPrologRequest("initGame('PvP')", this.handleReply);
     //                      this.getPrologRequest("valid_moves(" + this.convertBoardToString(this.board) + ",2,3)", this.handleReply);
     //                      this.getPrologRequest("game_over(" + this.convertBoardToString(this.board) + ",'w')", this.handleReply);
-                            this.getPrologRequest("bot_move(" + this.convertBoardToString(this.board) + ",2,'b')", this.handleReply);
+    //                        this.getPrologRequest("bot_move(" + this.convertBoardToString(this.board) + ",2,'b')", this.handleReply);
 
                     }
 				}
@@ -238,10 +242,56 @@ class XMLscene extends CGFscene {
 
 	}
 
+    moveRequest(Row, Col)
+    {
+        let valid = 0;
+        let coords = [Row, Col];
+
+        for(let i = 0; i < this.blackPositions.length; i++)
+        {
+            let elem = this.blackPositions[i];
+            for(let j = 0; j < elem.length; j++)     
+            {
+                if(elem[j] == coords[j])
+                {
+                    if(j == elem.length - 1)
+                        valid = 1;
+                }
+                else
+                    break;
+            }          
+        }
+
+        if (valid)
+            this.getPrologRequest("move(1," + board + "," + Row + "," + Col +",'b')", this.handleReply);
+        else {
+            for(let i = 0; i < this.whitePositions.length; i++)
+            {
+                let elem = this.whitePositions[i];
+                for(let j = 0; j < elem.length; j++)     
+                {
+                    if(elem[j] == coords[j])
+                    {
+                        if(j == elem.length - 1)
+                            valid = 1;
+                    }
+                    else
+                        break;
+                }          
+            }
+
+            if (valid)
+                this.getPrologRequest("move(1," + board + "," + Row + "," + Col +",'b')", this.handleReply);
+            else
+                console.log("No piece in that position");
+        }   
+    }
+
     getPrologRequest(requestString, onSuccess, onError, port)
 	{
-		var requestPort = port || 8081
+        var requestPort = port || 8081
         var request = new XMLHttpRequest();
+        request.board = board;
 		request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
 
 		request.onload = onSuccess || function(data){console.log("Request successful. Reply: " + data.target.response);};
@@ -253,8 +303,8 @@ class XMLscene extends CGFscene {
 	
 	//Handle the Reply
 	handleReply(data){
-		let reply = data.target.response;
-			console.log(reply);
+		let reply = data.target.response.split("-");
+        board = reply[0];   
     }
 
     convertBoardToString(board)
