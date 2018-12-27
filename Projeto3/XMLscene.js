@@ -225,7 +225,7 @@ class XMLscene extends CGFscene {
     //                    console.log("Picked object: " + obj + ", with pick id " + customId);
                         if(this.choosingDirection)
                         {
-                            this.moveRequest(1);
+                            this.moveRequest(Math.floor(customId/10), customId % 10);
                             this.choosingDirection = false;
                         }
                         else
@@ -306,25 +306,57 @@ class XMLscene extends CGFscene {
         return valid;
     }
 
-    moveRequest(Dir)
+    moveRequest(targetRow, targetCol)
     {
-        let row;
-        let col;
+        let startingRow;
+        let startingCol;
+        let dir;
 
         if(game.color == 'b')
         {
-            row = game.blackPositions[game.piece - 1][0];
-            col = game.blackPositions[game.piece - 1][1];
+            startingRow = game.blackPositions[game.piece - 1][0];
+            startingCol = game.blackPositions[game.piece - 1][1];
         }
 
        if(game.color == 'w')
        {
-            row = game.whitePositions[game.piece - 1][0];
-            col = game.whitePositions[game.piece - 1][1];
+            startingRow = game.blackPositions[game.piece - 1][0];
+            startingCol = game.blackPositions[game.piece - 1][1];
         }
 
-        console.log("Row = " + row + " Col = " + col + " Dir = " + Dir);
-        this.getPrologRequest("move(" + Dir + "," + game.board + "," + row + "," + col +",'b')", this.handleReply);
+        if(startingRow == targetRow)
+        {
+            if(startingCol < targetCol)
+                dir = 3; //east
+            else
+                dir = 2; //west
+        }
+
+        else if(startingCol == targetCol)
+        {
+            if(startingRow < targetRow)
+                dir = 4; //south
+            else
+                dir = 1; //north
+        }
+
+        else if(startingRow > targetRow)
+        {
+            if(startingCol < targetCol)
+                dir = 8; //southwest
+            else
+                dir = 6; //northwest
+        }
+
+        else if(startingRow < targetRow)
+        {
+            if(startingCol < targetCol)
+                dir = 7; //southeast
+            else
+                dir = 5; //northeast
+        }
+
+        this.getPrologRequest("move(" + dir + "," + game.board + "," + startingRow + "," + startingCol +"," + game.color + ")", this.handleReply);
     }
 
     validDirections()
@@ -443,8 +475,6 @@ class XMLscene extends CGFscene {
                 }
             }
         }
-
-        console.log(game.arrowPosition);
     }
 
     //Probably useless

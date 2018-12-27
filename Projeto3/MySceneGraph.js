@@ -2279,8 +2279,8 @@ class MySceneGraph {
 	}
 
 
-//	else if(this.scene.pickMode == true)
-//	{
+	else if(this.scene.pickMode == true)
+	{
 			for (i =0; i<5; i++) 
 			{		
 				for (var j = 0; j<5; j++) 
@@ -2313,7 +2313,7 @@ class MySceneGraph {
 				this.scene.undo.display();
 			this.scene.popMatrix();
 
-//	}
+	}
 
 	}
 
