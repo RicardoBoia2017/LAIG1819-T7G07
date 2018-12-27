@@ -2279,22 +2279,27 @@ class MySceneGraph {
 	}
 
 
-	else if(this.scene.pickMode == true)
-	{
+//	else if(this.scene.pickMode == true)
+//	{
 			for (i =0; i<5; i++) 
 			{		
-				for (var j =0; j<5; j++) 
+				for (var j = 0; j<5; j++) 
 				{
-					this.scene.pushMatrix();
+					let id = 10 * (j+1) + 5 - i;
 
-						this.scene.translate(5.25+j*0.7915, 3.10, 3.35+(i+1)*0.755);
-						this.scene.rotate(-Math.PI/2, 1, 0, 0);
-						this.scene.scale(0.775, 0.745, 1);
+					if(!this.scene.choosingDirection || game.arrowPosition.includes(id))
+					{
+						this.scene.pushMatrix();
 
-						this.scene.registerForPick(10* (j+1) + 5 - i, this.scene.objects[(5-i)+(5*j)-1]);
-						
-						this.scene.objects[(5-i)+(5*j-1)].display();
-					this.scene.popMatrix();
+							this.scene.translate(5.25+j*0.7915, 3.15, 3.35+(i+1)*0.755);
+							this.scene.rotate(-Math.PI/2, 1, 0, 0);
+							this.scene.scale(0.775, 0.745, 1);
+
+							this.scene.registerForPick(id, this.scene.objects[(5-i)+(5*j)-1]);
+							
+							this.scene.objects[(5-i)+(5*j-1)].display();
+						this.scene.popMatrix();
+					}
 				}
 			}	
 
@@ -2308,7 +2313,7 @@ class MySceneGraph {
 				this.scene.undo.display();
 			this.scene.popMatrix();
 
-	}
+//	}
 
 	}
 
