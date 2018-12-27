@@ -15,6 +15,7 @@ let game =
     ],
     color: 'b',
     piece: 0,
+    arrowPosition: [],
     pastBoards: [],
 }; 
 
@@ -60,6 +61,7 @@ class XMLscene extends CGFscene {
         this.setUpdatePeriod(100);
         
         this.setPickEnabled(true);
+        this.choosingDirection = false;
 
         this.objects= [];
 
@@ -221,8 +223,22 @@ class XMLscene extends CGFscene {
 					{
 						var customId = this.pickResults[i][1];				
     //                    console.log("Picked object: " + obj + ", with pick id " + customId);
-    console.log(game.blackPositions);
-                        this.moveRequest(1, Math.floor(customId/10), customId % 10);
+                        if(this.choosingDirection)
+                        {
+                            this.moveRequest(1);
+                            this.choosingDirection = false;
+                        }
+                        else
+                        {
+                            if(this.positionHasPiece(Math.floor(customId/10), customId % 10))
+                            {
+                                this.validDirections();
+                                this.choosingDirection = true;
+                            }
+                            else
+                                console.log("Position selected is empty!");
+                        }    
+                        //            this.getPrologRequest("move(" + Dir + "," + game.board + "," + Row + "," + Col +",'b')", this.handleReply);
     //                    this.getPrologRequest("initGame('PvP')", this.handleReply);
     //                      this.getPrologRequest("valid_moves(" + this.convertBoardToString(this.board) + ",2,3)", this.handleReply);
     //                      this.getPrologRequest("game_over(" + this.convertBoardToString(this.board) + ",'w')", this.handleReply);
@@ -236,7 +252,7 @@ class XMLscene extends CGFscene {
 
 	}
 
-    moveRequest(Dir, Row, Col)
+    positionHasPiece(Row, Col)
     {
         let valid = 0;
         let coords = [Row, Col];
@@ -258,44 +274,83 @@ class XMLscene extends CGFscene {
                 }
                 else
                     break;
-            }          
+            }    
+            if(valid)
+                break;      
         }
 
         if (valid)
-            this.getPrologRequest("move(" + Dir + "," + game.board + "," + Row + "," + Col +",'b')", this.handleReply);
-            
-        else {
-            for(let i = 0; i < game.whitePositions.length; i++)
-            {
-                let elem = game.whitePositions[i];
-                for(let j = 0; j < elem.length; j++)     
-                {
-                    if(elem[j] == coords[j])
-                    {
-                        if(j == elem.length - 1)
-                        {
-                            valid = 1;
-                            game.piece = i + 1;
-                            break;
-                        }
-                    }
-                    else
-                        break;
-                }          
-            }
+            return valid;
 
-            if (valid)
-                this.getPrologRequest("move(" + Dir + "," + game.board + "," + Row + "," + Col +",'b')", this.handleReply);
-            else
-                console.log("No piece in that position");
-        }   
+        for(let i = 0; i < game.whitePositions.length; i++)
+        {
+            let elem = game.whitePositions[i];
+            for(let j = 0; j < elem.length; j++)     
+            {
+                if(elem[j] == coords[j])
+                {
+                    if(j == elem.length - 1)
+                    {
+                        valid = 1;
+                        game.piece = i + 1;
+                        break;
+                    }
+                }
+                else
+                    break;
+            }       
+            if(valid)
+              break;      
+        }
+
+        return valid;
+    }
+
+    moveRequest(Dir)
+    {
+        let row;
+        let col;
+
+        if(game.color == 'b')
+        {
+            row = game.blackPositions[game.piece - 1][0];
+            col = game.blackPositions[game.piece - 1][1];
+        }
+
+       if(game.color == 'w')
+       {
+            row = game.whitePositions[game.piece - 1][0];
+            col = game.whitePositions[game.piece - 1][1];
+        }
+
+        console.log("Row = " + row + " Col = " + col + " Dir = " + Dir);
+        this.getPrologRequest("move(" + Dir + "," + game.board + "," + row + "," + col +",'b')", this.handleReply);
+    }
+
+    validDirections()
+    {
+        let row;
+        let col;
+
+        if(game.color == 'b')
+        {
+            row = game.blackPositions[game.piece - 1][0];
+            col = game.blackPositions[game.piece - 1][1];
+        }
+
+       if(game.color == 'w')
+        {
+            row = game.whitePositions[game.piece - 1][0];
+            col = game.whitePositions[game.piece - 1][1];
+        }
+
+        this.getPrologRequest("valid_moves(" + game.board + "," + row + "," + col + ")", this.validMovesReply);
     }
 
     getPrologRequest(requestString, onSuccess, onError, port)
 	{
         var requestPort = port || 8081
         var request = new XMLHttpRequest();
-        request.board = game.board;
 		request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
 
 		request.onload = onSuccess || function(data){console.log("Request successful. Reply: " + data.target.response);};
@@ -317,6 +372,82 @@ class XMLscene extends CGFscene {
             game.whitePositions[game.piece - 1] = [Number(reply[1]),Number(reply[2])];         
     }
 
+    validMovesReply(data)
+    {
+        let reply = data.target.response;
+        let values = reply.substring(1,reply.length-1).split(",");
+
+        if(values.length == 0)
+            console.log("No valid moves!");
+
+        game.arrowPosition = [];
+        let row;
+        let col;
+
+        if(game.color == 'b')
+        {
+            row = game.blackPositions[game.piece - 1][0];
+            col = game.blackPositions[game.piece - 1][1];
+        }
+
+       if(game.color == 'w')
+        {
+            row = game.whitePositions[game.piece - 1][0];
+            col = game.whitePositions[game.piece - 1][1];
+        }
+
+        for(let i = 0; i < values.length; i++)
+        {
+            switch(Number(values[i]))
+            {
+                case 1:
+                {
+                    game.arrowPosition.push((row-1) * 10 + col);
+                    break;
+                }
+
+                case 2:
+                {
+                    game.arrowPosition.push(row * 10 + (col - 1));
+                    break;
+                }
+                case 3:
+                {
+                    game.arrowPosition.push(row * 10 + (col + 1));
+                    break;
+                }
+                case 4:
+                {
+                    game.arrowPosition.push((row+1) * 10 + col);
+                    break;      
+                }
+                case 5:
+                {
+                    game.arrowPosition.push((row-1) * 10 + (col + 1));
+                    break;    
+                }
+                case 6:
+                {
+                    game.arrowPosition.push((row-1) * 10 + (col - 1));
+                    break;    
+                }
+                case 7:
+                {
+                    game.arrowPosition.push((row+1) * 10 + (col + 1));
+                    break;    
+                }
+                case 8:
+                {
+                    game.arrowPosition.push((row+1) * 10 + (col - 1));
+                    break;    
+                }
+            }
+        }
+
+        console.log(game.arrowPosition);
+    }
+
+    //Probably useless
     convertBoardToString(board)
     {
         let res = "[";
