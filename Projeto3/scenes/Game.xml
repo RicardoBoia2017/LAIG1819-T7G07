@@ -235,9 +235,9 @@
 
 <animations>
 
-    <linear id="linear" span="1.5">
+    <linear id="linear" span="1">
         <controlpoint xx="0" yy="0" zz="0"/>
-        <controlpoint xx="2" yy="0" zz="0"/> 
+        <controlpoint xx="2.08" yy="0" zz="2.2"/> 
     </linear>
 
     <linear id="linear2" span="1.5">
@@ -965,8 +965,6 @@
 
         <animations>
             <animationref id="linear" />
-            <animationref id="linear2" />
-
         </animations>
 
         <materials>            

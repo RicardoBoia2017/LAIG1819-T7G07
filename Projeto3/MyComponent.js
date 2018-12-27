@@ -109,6 +109,7 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 	//Se a animação acabou, passa para a seguinte
 	if(this.animationTime >= animation.time)
 	{
+		animation.update(animation.sectionTime[this.currentSection], this.currentSection);
 		this.animationTime = timeVariation;
 		this.currentSection = 0;
 		this.currentAnimation++;
@@ -130,7 +131,9 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 
 	//Se o tempo for maior que o tempo total da animação atual, é passado o tempo total da animação
 	if(currentSectionTime > animation.sectionTime)
+	{
 		currentSectionTime = animation.sectionTime;
+	}
 
 	if (this.currentAnimation < this.animations.length)
 	{

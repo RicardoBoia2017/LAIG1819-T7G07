@@ -19,6 +19,7 @@ let game =
     pastBoards: [],
 }; 
 
+let scene;
 /**
  * XMLscene class, representing the scene that is to be rendered.
  */
@@ -32,6 +33,8 @@ class XMLscene extends CGFscene {
 
         this.interface = myinterface;
         this.lightValues = {};
+
+        scene = this;
     }
 
     /**
@@ -62,6 +65,8 @@ class XMLscene extends CGFscene {
         
         this.setPickEnabled(true);
         this.choosingDirection = false;
+
+        this.movValues = [2.08, 2.2];
 
         this.objects= [];
 
@@ -225,12 +230,18 @@ class XMLscene extends CGFscene {
     //                    console.log("Picked object: " + obj + ", with pick id " + customId);
                         if(this.choosingDirection)
                         {
-                            this.moveRequest(Math.floor(customId/10), customId % 10);
-                            this.choosingDirection = false;
+                            if(this.positionHasPiece(Math.floor(customId/10), customId % 10, true))
+                                this.validDirections();
+                            
+                            else
+                            {
+                                this.moveRequest(Math.floor(customId/10), customId % 10);
+                                this.choosingDirection = false;
+                            }
                         }
                         else
                         {
-                            if(this.positionHasPiece(Math.floor(customId/10), customId % 10))
+                            if(this.positionHasPiece(Math.floor(customId/10), customId % 10, true))
                             {
                                 this.validDirections();
                                 this.choosingDirection = true;
@@ -252,7 +263,7 @@ class XMLscene extends CGFscene {
 
 	}
 
-    positionHasPiece(Row, Col)
+    positionHasPiece(Row, Col, changePiece)
     {
         let valid = 0;
         let coords = [Row, Col];
@@ -266,6 +277,7 @@ class XMLscene extends CGFscene {
         for(let i = 0; i < array.length; i++)
         {
             let elem = array[i];
+   
             for(let j = 0; j < elem.length; j++)     
             {
                 if(elem[j] == coords[j])
@@ -273,7 +285,9 @@ class XMLscene extends CGFscene {
                     if(j == elem.length - 1)
                     {
                         valid = 1;
-                        game.piece = i + 1;
+                        if(changePiece)
+                           game.piece = i + 1;
+
                         break;
                     }
                 }
@@ -287,6 +301,7 @@ class XMLscene extends CGFscene {
         return valid;
     }
 
+    //Calculates the direction given starting and target positions, and makes request
     moveRequest(targetRow, targetCol)
     {
         let startingRow;
@@ -303,7 +318,7 @@ class XMLscene extends CGFscene {
        {
             startingRow = game.whitePositions[game.piece - 1][0];
             startingCol = game.whitePositions[game.piece - 1][1];
-        }
+       }
 
         if(startingRow == targetRow)
         {
@@ -337,16 +352,10 @@ class XMLscene extends CGFscene {
                 dir = 5; //northeast
         }
 
-        this.getPrologRequest("move(" + dir + "," + game.board + "," + startingRow + "," + startingCol +"," + game.color + ")", this.handleReply);
-
-        if(game.color == 'b')
-           game.color = 'w';
-        else
-            game.color = 'b';
-
-        console.log("Changin color to " + game.color);
+        this.getPrologRequest("move(" + dir + "," + game.board + "," + startingRow + "," + startingCol +"," + game.color + ")", this.moveReply);
     }
 
+    //Request for valid direction of selected piece
     validDirections()
     {
         let row;
@@ -371,6 +380,7 @@ class XMLscene extends CGFscene {
 	{
         var requestPort = port || 8081
         var request = new XMLHttpRequest();
+        request.scene = this.scene;
 		request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
 
 		request.onload = onSuccess || function(data){console.log("Request successful. Reply: " + data.target.response);};
@@ -380,18 +390,91 @@ class XMLscene extends CGFscene {
 		request.send();
 	}
 	
-	//Handle the Reply
-	handleReply(data){
+	//Handles the reply for move requests
+	moveReply(data){
 		let reply = data.target.response.split("-");
         game.board = reply[0];   
 
+        let targetRow = Number(reply[1]);
+        let targetCol = Number(reply[2]);
+        let startingRow;
+        let startingCol;
+        let componentName;
+
         if(game.color == 'b')
+        {
+            startingRow = game.blackPositions[game.piece - 1][0];
+            startingCol = game.blackPositions[game.piece - 1][1];
+            componentName = "blackpeca" + game.piece;
+        }
+
+       if(game.color == 'w')
+       {
+            startingRow = game.whitePositions[game.piece - 1][0];
+            startingCol = game.whitePositions[game.piece - 1][1];
+            componentName = "whitepeca" + game.piece;
+       }
+
+       let diff1 = targetCol - startingCol;
+       let diff2 = targetRow - startingRow;
+       let time;
+
+       if(diff1 != 0)
+           time = diff1;
+
+        else
+          time = diff2;
+
+       scene.graph.components[componentName].animations[0] = new LinearAnimation (scene, time, [[0,0,0], [diff1*scene.movValues[0],0,diff2*scene.movValues[1]]]); 
+
+      /* if(startingRow == targetRow) //east, west
+       {
+            let diff = targetCol - startingCol;
+            scene.graph.components[componentName].animations[0] = new LinearAnimation (scene, diff, [[0,0,0], [diff*scene.movValues[0],0,0]]);          
+        }
+
+       else if(startingCol == targetCol) //north, south
+       {
+            let diff = targetRow - startingRow;
+            scene.graph.components[componentName].animations[0] = new LinearAnimation (scene, diff, [[0,0,0], [0,0,diff*scene.movValues[1]]]); 
+        }
+
+       else if(startingRow > targetRow)
+       {
+           if(startingCol < targetCol)
+               dir = 8; //southwest
+           else
+               dir = 6; //northwest
+       }
+
+       else if(startingRow < targetRow)
+       {
+           let diff = targetCol - startingCol;
+           let diff = targetRow - startingRow;
+           scene.graph.components[componentName].animations[0] = new LinearAnimation (scene, diff, [[0,0,0], [0,0,diff*scene.movValues[1]]]); 
+
+           if(startingCol < targetCol)
+               dir = 7; //southeast
+           else
+               dir = 5; //northeast
+       }*/
+
+        if(game.color == 'b')
+        {
             game.blackPositions[game.piece - 1] = [Number(reply[1]),Number(reply[2])];
+            game.color = 'w';
+        }
   
-        if(game.color == 'w')
-            game.whitePositions[game.piece - 1] = [Number(reply[1]),Number(reply[2])];         
+        else if(game.color == 'w')
+        {
+            game.whitePositions[game.piece - 1] = [Number(reply[1]),Number(reply[2])];   
+            game.color = 'b';  
+        }
+            
+        console.log("Changin color to " + game.color);    
     }
 
+    //Handles the reply for valid moves requests
     validMovesReply(data)
     {
         let reply = data.target.response;

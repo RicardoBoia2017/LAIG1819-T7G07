@@ -12,6 +12,7 @@ class LinearAnimation extends Animation {
 	 * @param {List of control points} controlPoints 
 	 */
 	constructor(scene, time, controlPoints) {
+		console.log(controlPoints);
 		super(scene, time);
 		this.controlPoints = controlPoints;
 		this.movValues = [];
@@ -58,17 +59,17 @@ class LinearAnimation extends Animation {
 
 			if (nextControlPoint[1] != controlPoint[1])
 				dy = (nextControlPoint[1] - controlPoint[1]) / Math.abs(nextControlPoint[1] - controlPoint[1]);
-
+			
 			let vx = speed * cosAngle;
 			let vz = speed * sinAngle;
 
 			//Pode precisar do round
 			//let vy = Math.sqrt(Math.round((speed * speed - vx*vx - vz*vz)*1000)/1000)*dy;
-			let vy = Math.sqrt(speed * speed - vx * vx - vz * vz) * dy;
-
+			let vy = Math.sqrt(Math.abs(speed * speed - vx * vx - vz * vz)) * dy;
 			let angle = Math.asin(-sinAngle);
 
 			this.movValues.push([vx, vy, vz, angle]);
+			console.log(this.movValues);
 			this.sectionTime.push(distance / speed);
 
 		}

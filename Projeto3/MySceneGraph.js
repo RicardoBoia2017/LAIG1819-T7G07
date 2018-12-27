@@ -2323,7 +2323,7 @@ class MySceneGraph {
 				{
 					let id = 10 * (j+1) + 5 - i;
 
-					if(!this.scene.choosingDirection || game.arrowPosition.includes(id))
+					if(!this.scene.choosingDirection || game.arrowPosition.includes(id) || this.scene.positionHasPiece(Math.floor(id/10), id % 10, false))
 					{
 						this.scene.pushMatrix();
 
@@ -2332,9 +2332,6 @@ class MySceneGraph {
 							this.scene.scale(0.775, 0.745, 1);
 
 							this.scene.registerForPick(id, this.scene.objects[(5-i)+(5*j)-1]);
-
-							if(this.scene.choosingDirection)
-								this.textures['blackText'].bind();
 
 							this.scene.objects[(5-i)+(5*j-1)].display();
 						this.scene.popMatrix();
