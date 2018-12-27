@@ -2273,6 +2273,42 @@ class MySceneGraph {
 		this.scene.logPicking();
 		this.scene.clearPickRegistration();
 
+		if(this.scene.choosingDirection)
+		{
+			for (i =0; i<5; i++) 
+			{		
+				for (var j = 0; j<5; j++) 
+				{
+					let id = 10 * (j+1) + 5 - i;
+
+					if(game.arrowPosition.includes(id))
+					{
+						this.scene.pushMatrix();
+
+							this.scene.translate(5.25+j*0.7915, 3.15, 3.35+(i+1)*0.755);
+							this.scene.rotate(-Math.PI/2, 1, 0, 0);
+							this.scene.scale(0.775, 0.745, 1);
+
+							this.scene.registerForPick(id, this.scene.objects[(5-i)+(5*j)-1]);
+
+							this.textures['test'].bind();
+
+							this.scene.objects[(5-i)+(5*j-1)].display();
+						this.scene.popMatrix();
+					}
+				}
+			}	
+
+			this.scene.pushMatrix();
+
+				this.scene.translate(9.4, 2.6, 7.3);
+				this.scene.rotate(-Math.PI/2, 1, 0, 0);
+				this.scene.scale(0.55, 0.65, 1);
+					
+				this.scene.registerForPick(0, this.scene.undo);
+				this.scene.undo.display();
+			this.scene.popMatrix();
+		}
 		
 		var root = this.components[this.root];
 		this.displayComponent(root, root.materials[root.currentMaterial], root.texture, root.texS, root.texT);
@@ -2296,7 +2332,10 @@ class MySceneGraph {
 							this.scene.scale(0.775, 0.745, 1);
 
 							this.scene.registerForPick(id, this.scene.objects[(5-i)+(5*j)-1]);
-							
+
+							if(this.scene.choosingDirection)
+								this.textures['blackText'].bind();
+
 							this.scene.objects[(5-i)+(5*j-1)].display();
 						this.scene.popMatrix();
 					}

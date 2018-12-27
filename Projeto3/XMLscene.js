@@ -256,10 +256,16 @@ class XMLscene extends CGFscene {
     {
         let valid = 0;
         let coords = [Row, Col];
+        let array = [];
 
-        for(let i = 0; i < game.blackPositions.length; i++)
+        if(game.color == 'b')
+            array = game.blackPositions;
+        else
+            array = game.whitePositions;
+
+        for(let i = 0; i < array.length; i++)
         {
-            let elem = game.blackPositions[i];
+            let elem = array[i];
             for(let j = 0; j < elem.length; j++)     
             {
                 if(elem[j] == coords[j])
@@ -270,38 +276,13 @@ class XMLscene extends CGFscene {
                         game.piece = i + 1;
                         break;
                     }
-
                 }
                 else
                     break;
             }    
             if(valid)
                 break;      
-        }
-
-        if (valid)
-            return valid;
-
-        for(let i = 0; i < game.whitePositions.length; i++)
-        {
-            let elem = game.whitePositions[i];
-            for(let j = 0; j < elem.length; j++)     
-            {
-                if(elem[j] == coords[j])
-                {
-                    if(j == elem.length - 1)
-                    {
-                        valid = 1;
-                        game.piece = i + 1;
-                        break;
-                    }
-                }
-                else
-                    break;
-            }       
-            if(valid)
-              break;      
-        }
+        }    
 
         return valid;
     }
@@ -320,8 +301,8 @@ class XMLscene extends CGFscene {
 
        if(game.color == 'w')
        {
-            startingRow = game.blackPositions[game.piece - 1][0];
-            startingCol = game.blackPositions[game.piece - 1][1];
+            startingRow = game.whitePositions[game.piece - 1][0];
+            startingCol = game.whitePositions[game.piece - 1][1];
         }
 
         if(startingRow == targetRow)
@@ -357,6 +338,13 @@ class XMLscene extends CGFscene {
         }
 
         this.getPrologRequest("move(" + dir + "," + game.board + "," + startingRow + "," + startingCol +"," + game.color + ")", this.handleReply);
+
+        if(game.color == 'b')
+           game.color = 'w';
+        else
+            game.color = 'b';
+
+        console.log("Changin color to " + game.color);
     }
 
     validDirections()

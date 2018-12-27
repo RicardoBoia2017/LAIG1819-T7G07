@@ -178,6 +178,7 @@
 
    <texture id="undo" file="images/undo.jpg"/>
 
+   <texture id="test" file="images/green.jpg" />
 </textures>
 
 <materials>
