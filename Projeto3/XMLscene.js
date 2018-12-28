@@ -70,7 +70,7 @@ class XMLscene extends CGFscene {
         this.choosingDirection = false;
         this.animationInProgress = false;
 
-        this.movValues = [2.08, 2.2];
+        this.movValues = [2, 2.1];
 
         this.objects = [];
 
