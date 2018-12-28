@@ -2291,7 +2291,73 @@ class MySceneGraph {
 
 							this.scene.registerForPick(id, this.scene.objects[(5-i)+(5*j)-1]);
 
-							this.textures['test'].bind();
+
+
+							//Searching for the right arrow texture to bind
+							var row = 0;
+							var col = 0;
+							if (game.color == 'b') {
+								row = game.blackPositions[game.piece - 1][0];
+								col = game.blackPositions[game.piece - 1][1];
+								//console.log("hey1");
+							}
+
+							if (game.color == 'w') {
+								row = game.whitePositions[game.piece - 1][0];
+								col = game.whitePositions[game.piece - 1][1];
+								//console.log("hey2");
+							}
+
+
+							switch (id) {
+								case ((row - 1) * 10 + col):
+									{
+										this.textures['arrow2'].bind();
+										break;
+									}
+
+								case (row * 10 + (col - 1)):
+									{
+										this.textures['arrow4'].bind();
+										break;
+									}
+								case (row * 10 + (col + 1)):
+									{
+										this.textures['arrow1'].bind();
+										break;
+									}
+								case ((row + 1) * 10 + col):
+									{
+										this.textures['arrow3'].bind();
+										break;
+									}
+								case ((row - 1) * 10 + (col + 1)):
+									{
+										this.textures['arrow6'].bind();
+										break;
+									}
+								case ((row - 1) * 10 + (col - 1)):
+									{
+										this.textures['arrow8'].bind();
+										break;
+									}
+								case ((row + 1) * 10 + (col + 1)):
+									{
+										this.textures['arrow5'].bind();
+										break;
+									}
+								case ((row + 1) * 10 + (col - 1)):
+									{
+										this.textures['arrow7'].bind();
+										break;
+									}
+							}
+						
+
+							//this.textures['test'].bind();
+
+
+
 
 							this.scene.objects[(5-i)+(5*j-1)].display();
 						this.scene.popMatrix();
