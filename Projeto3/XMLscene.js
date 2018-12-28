@@ -212,6 +212,7 @@ class XMLscene extends CGFscene {
     }
 
     logPicking() {
+        //If no animation is in progress
         if (this.pickMode == false && !this.animationInProgress) {
 
             if (this.pickResults != null && this.pickResults.length > 0) {
@@ -430,7 +431,6 @@ class XMLscene extends CGFscene {
         let reply = data.target.response.split("-");
 
         game.board = reply[0];
-        game.pastBoards.push(game.board);
 
         let targetRow = Number(reply[1]);
         let targetCol = Number(reply[2]);
@@ -471,8 +471,13 @@ class XMLscene extends CGFscene {
         if (game.color == 'b') 
             game.blackPositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
 
-        else if (game.color == 'w') 
+        //If piece is white, then the turn just ended and board is stored
+        else if (game.color == 'w')
+        {
             game.whitePositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
+            game.pastBoards.push(game.board);
+
+        }
 
         scene.gameOver();
     }
@@ -571,7 +576,7 @@ class XMLscene extends CGFscene {
         let currentBoard = game.board;
         let counter = 0;
 
-        for(let i  = 0; i < game.pastBoards.length; i++)
+        for(let i  = 0; i < game.pastBoards.length - 1; i++)
         {
             let board = game.pastBoards[i];
 
