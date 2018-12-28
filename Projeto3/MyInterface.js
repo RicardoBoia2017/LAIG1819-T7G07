@@ -55,13 +55,21 @@ class MyInterface extends CGFinterface {
         }
     }
 	
+	addMenu() {
+	    this.menu  = this.gui.addFolder("Menu");
+		this.menu.open();	
+
+		this.newGame = this.gui.add(this.scene, 'newGame');
+	}
+
 	/**
 	* Adds a folder containing a combo box with the views passas as parameter 
 	* @param {array} views
 	*/
 	addViewsGroup(views) {
 	
-	    var group = this.gui.addFolder("View");
+		var group = this.gui.addFolder("View");
+		
         group.open();
 		
 		var viewsIds = [];

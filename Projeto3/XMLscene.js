@@ -181,6 +181,7 @@ class XMLscene extends CGFscene {
         this.interface.addLightsGroup(this.graph.lights);
         this.interface.addViewsGroup(this.graph.views);
         this.interface.addScenesGroup();
+        this.interface.addMenu();
 
         this.sceneInited = true;
     }
@@ -211,6 +212,54 @@ class XMLscene extends CGFscene {
         }
 
         this.interface.setActiveCamera(this.camera);
+    }
+
+    newGame()
+    {
+        this.interface.gui.remove(this.interface.newGame);
+        this.interface.menu.open();
+
+        this.interface.HvH = this.interface.gui.add(this, 'HvH', 'E');
+        this.interface.HvC = this.interface.gui.add(this, 'HvC');
+        this.interface.CvC = this.interface.gui.add(this, 'CvC');
+
+    }
+
+    HvH()
+    {
+        console.log("HvH");
+    }
+
+    HvC()
+    {
+        this.interface.gui.remove(this.interface.HvH);
+        this.interface.gui.remove(this.interface.HvC);
+        this.interface.gui.remove(this.interface.CvC);
+
+        this.interface.menu.open();
+        this.interface.easy = this.interface.gui.add(this, 'Easy');
+        this.interface.hard = this.interface.gui.add(this, 'Hard');
+    }
+
+    CvC()
+    {
+        this.interface.gui.remove(this.interface.HvH);
+        this.interface.gui.remove(this.interface.HvC);
+        this.interface.gui.remove(this.interface.CvC);   
+
+        this.interface.menu.open();
+        this.interface.easy = this.interface.gui.add(this, 'Easy');
+        this.interface.hard = this.interface.gui.add(this, 'Hard');
+    }
+
+    Easy()
+    {
+        console.log("Easy");
+    }
+
+    Hard()
+    {
+        console.log("Hard");
     }
 
     logPicking() {
