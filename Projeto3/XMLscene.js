@@ -509,33 +509,6 @@ class XMLscene extends CGFscene {
         }
     }
 
-    //Probably useless
-    convertBoardToString(board) {
-        let res = "[";
-        let i, j;
-
-        for (i = 0; i < board.length; i++) {
-            let line = board[i];
-            res += '[';
-
-            for (j = 0; j < line.length; j++) {
-                let element = line[j]
-                res += "'" + element + "'";
-
-                if (j != line.length - 1)
-                    res += ',';
-            }
-
-            if (i != board.length - 1)
-                res += '],';
-            else
-                res += ']';
-
-        }
-        res += "]";
-
-        return res;
-    }
     /**
      * Displays the scene.
      */
