@@ -78,6 +78,8 @@ class XMLscene extends CGFscene {
             this.objects.push(new MyQuad(this, [0, 0, 1, 1]));
 
         this.undo = new MyQuad(this, [0, 0, 1, 1]);
+
+        game.pastBoards.push(game.board);
     }
 
     /**
@@ -212,9 +214,10 @@ class XMLscene extends CGFscene {
     }
 
     logPicking() {
+
+
         //If no animation is in progress
         if (this.pickMode == false && !this.animationInProgress) {
-
             if (this.pickResults != null && this.pickResults.length > 0) {
 
                 for (var i = 0; i < this.pickResults.length; i++) {
@@ -262,15 +265,18 @@ class XMLscene extends CGFscene {
 
     }
 
+    //Gets previous board and restores it, animating piece movement
     undoTurn()
     {
+        if(game.pastBoards.length == 1) //only has initial board
+            return;
+
         let lastBoard = game.pastBoards.pop();
         let lastAnimation = game.pastAnimations.pop();
 
-        if(lastBoard == null)
-            return;
 
-        game.board = lastBoard;
+        //Restores board 
+        game.board = game.pastBoards[game.pastBoards.length-1];
         
         //Retrieves information from last move
         let pieceName = lastAnimation[0];
@@ -431,6 +437,7 @@ class XMLscene extends CGFscene {
         let reply = data.target.response.split("-");
 
         game.board = reply[0];
+        game.pastBoards.push(game.board);
 
         let targetRow = Number(reply[1]);
         let targetCol = Number(reply[2]);
@@ -471,13 +478,8 @@ class XMLscene extends CGFscene {
         if (game.color == 'b') 
             game.blackPositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
 
-        //If piece is white, then the turn just ended and board is stored
         else if (game.color == 'w')
-        {
             game.whitePositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
-            game.pastBoards.push(game.board);
-
-        }
 
         scene.gameOver();
     }
@@ -575,7 +577,7 @@ class XMLscene extends CGFscene {
     {
         let currentBoard = game.board;
         let counter = 0;
-
+        
         for(let i  = 0; i < game.pastBoards.length - 1; i++)
         {
             let board = game.pastBoards[i];
