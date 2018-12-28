@@ -1,8 +1,9 @@
 var DEGREE_TO_RAD = Math.PI / 180;
 
+//struct to store game information
 let game =
 {
-    board: "[['x','w','x','w','x'],['x','x','b','x','x'],['x','x','x','x','x'],['x','x','w','x','x'],['x','b','x','b','x']]",
+    board: "[[x,w,x,w,x],[x,x,b,x,x],[x,x,x,x,x],[x,x,w,x,x],[x,b,x,b,x]]",
     blackPositions: [
         [2, 3],
         [5, 2],
@@ -217,16 +218,19 @@ class XMLscene extends CGFscene {
                     var obj = this.pickResults[i][0];
                     if (obj) {
                         var customId = this.pickResults[i][1];
-                        //                    console.log("Picked object: " + obj + ", with pick id " + customId);
+                        //if a piece is selected
                         if (this.choosingDirection) {
+                            //If user selects another piece
                             if (this.positionHasPiece(Math.floor(customId / 10), customId % 10, true))
                                 this.validDirections();
 
+                            //If user selects a direction
                             else {
                                 this.moveRequest(Math.floor(customId / 10), customId % 10);
                                 this.choosingDirection = false;
                             }
                         }
+                        //if a piece is not selected
                         else {
                             if (this.positionHasPiece(Math.floor(customId / 10), customId % 10, true)) {
                                 this.validDirections();
@@ -249,6 +253,7 @@ class XMLscene extends CGFscene {
 
     }
 
+    //checks if the selected position has a piece of current player
     positionHasPiece(Row, Col, changePiece) {
         let valid = 0;
         let coords = [Row, Col];
@@ -282,7 +287,7 @@ class XMLscene extends CGFscene {
         return valid;
     }
 
-    //Calculates the direction given starting and target positions, and makes request
+    //Calculates the direction given starting and target positions, and makes move request
     moveRequest(targetRow, targetCol) {
         let startingRow;
         let startingCol;
@@ -325,7 +330,6 @@ class XMLscene extends CGFscene {
             else
                 dir = 6; //northwest
         }
-
         this.getPrologRequest("move(" + dir + "," + game.board + "," + startingRow + "," + startingCol + "," + game.color + ")", this.moveReply);
     }
 
@@ -347,10 +351,14 @@ class XMLscene extends CGFscene {
         this.getPrologRequest("valid_moves(" + game.board + "," + row + "," + col + ")", this.validMovesReply);
     }
 
+    gameOver() {
+        this.getPrologRequest("game_over(" + game.board + "," + game.color + ")", this.gameOverReply);
+    }
+
     getPrologRequest(requestString, onSuccess, onError, port) {
         var requestPort = port || 8081
         var request = new XMLHttpRequest();
-        request.scene = this.scene;
+        request.game = game;
         request.open('GET', 'http://localhost:' + requestPort + '/' + requestString, true);
 
         request.onload = onSuccess || function (data) { console.log("Request successful. Reply: " + data.target.response); };
@@ -394,48 +402,15 @@ class XMLscene extends CGFscene {
 
         scene.graph.components[componentName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [diff1 * scene.movValues[0], 0, diff2 * scene.movValues[1]]]);
         scene.graph.components[componentName].currentAnimation = 0;
-        /* if(startingRow == targetRow) //east, west
-         {
-              let diff = targetCol - startingCol;
-              scene.graph.components[componentName].animations[0] = new LinearAnimation (scene, diff, [[0,0,0], [diff*scene.movValues[0],0,0]]);          
-          }
-  
-         else if(startingCol == targetCol) //north, south
-         {
-              let diff = targetRow - startingRow;
-              scene.graph.components[componentName].animations[0] = new LinearAnimation (scene, diff, [[0,0,0], [0,0,diff*scene.movValues[1]]]); 
-          }
-  
-         else if(startingRow > targetRow)
-         {
-             if(startingCol < targetCol)
-                 dir = 8; //southwest
-             else
-                 dir = 6; //northwest
-         }
-  
-         else if(startingRow < targetRow)
-         {
-             let diff = targetCol - startingCol;
-             let diff = targetRow - startingRow;
-             scene.graph.components[componentName].animations[0] = new LinearAnimation (scene, diff, [[0,0,0], [0,0,diff*scene.movValues[1]]]); 
-  
-             if(startingCol < targetCol)
-                 dir = 7; //southeast
-             else
-                 dir = 5; //northeast
-         }*/
 
-        if (game.color == 'b') {
+        //Updates positions array and changes player
+        if (game.color == 'b') 
             game.blackPositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
-            game.color = 'w';
-        }
 
-        else if (game.color == 'w') {
+        else if (game.color == 'w') 
             game.whitePositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
-            game.color = 'b';
-        }
 
+        scene.gameOver();
     }
 
     //Handles the reply for valid moves requests
@@ -505,6 +480,45 @@ class XMLscene extends CGFscene {
                     }
             }
         }
+    }
+
+    gameOverReply(data) {
+        let reply = data.target.response;
+
+        if(reply == "1")
+            console.log(game.color + " has won the game!");
+        
+        else if(scene.checkDraw())
+            console.log("Draw");
+
+        //Updates positions array and changes player
+        if (game.color == 'b') 
+            game.color = 'w';
+        
+        else if (game.color == 'w') 
+            game.color = 'b';
+        
+        game.arrowPosition = [];
+    }
+
+    //checks if the board happened for the third time. If true, then the game ends as a draw.
+    checkDraw()
+    {
+        let currentBoard = game.board;
+        let counter = 0;
+
+        for(let i  = 0; i < game.pastBoards.length; i++)
+        {
+            let board = game.pastBoards[i];
+
+            if(board == currentBoard)
+                counter++;
+        }
+
+        if (counter == 2)
+            return 1;
+
+        return 0;
     }
 
     /**

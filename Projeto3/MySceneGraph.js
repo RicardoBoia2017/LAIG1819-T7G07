@@ -2323,7 +2323,7 @@ class MySceneGraph {
 				{
 					let id = 10 * (j+1) + 5 - i;
 
-					if(!this.scene.choosingDirection || game.arrowPosition.includes(id) || this.scene.positionHasPiece(Math.floor(id/10), id % 10, false))
+					if(game.arrowPosition.includes(id) || this.scene.positionHasPiece(Math.floor(id/10), id % 10, false))
 					{
 						this.scene.pushMatrix();
 

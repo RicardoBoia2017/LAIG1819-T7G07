@@ -104,9 +104,6 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 	this.animationTime += timeVariation;
 	let previousSectionTime = 0;
 
-	if(this.id == "blackpeca1")
-		console.log("Entrou");
-
 	var animation = this.animations[this.currentAnimation];
 
 	//Se a animação acabou, passa para a seguinte
