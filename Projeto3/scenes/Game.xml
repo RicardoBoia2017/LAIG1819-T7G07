@@ -4,7 +4,7 @@
 
 <scene root="scene1" axis_length="5" />
 
-<views default="board">
+<views default="default">
     <!-- tem de existir, pelo menos, uma vista de -->
     <!-- entre as seguintes (perspective ou ortho) -->
 
@@ -69,6 +69,12 @@
 
 <textures>
 	
+	<!-- Terrain -->
+    <texture id="terrainTexture" file="images/terrain2.jpg" />
+
+    <!-- Terrain height map -->
+    <texture id="terrainHeightMap" file="images/heightmap.png" />
+
 	<!-- Tempered Glass Desktop -->
 	<texture id="tgDesktop" file="images/desktopTGTexture.jpg"/>
 
@@ -300,6 +306,10 @@
         <cylinder2 base="2" top="2" height="2" slices="40" stacks="40" />                  
     </primitive>
 
+    <primitive id="terrain">
+        <terrain idtexture="terrainTexture" idheightmap="terrainHeightMap" parts="20" heightscale="3" />
+    </primitive> 
+
 </primitives>
 
 
@@ -347,19 +357,24 @@
 		    <componentref id="parede1" />
 		    <componentref id="parede2" /> 
 		    <componentref id="tableAndBoard"/>
+		    <componentref id="marcador2"/>
 
 		     <componentref id="lampada" /> 
            <componentref id="armario" /> 
  		   <componentref id="bandeira" />
-		   <componentref id="porta" />
+		   <componentref id="porta2" />
+
+		   <componentref id="pc"/>
 		  
 
 		
 		   
 		   <componentref id="donutplate"/>
-		   <componentref id="walllamp"/>
+		   <componentref id="walllamp2"/>
 		   
-		   <componentref id="balloon"/>
+		   
+
+		   <componentref id="terrainAndBoard"/>
         </children>
 
     </component>
@@ -382,15 +397,16 @@
 		    <componentref id="parede2" /> 
 		    <componentref id="tableAndBoard"/>
 
-			<componentref id="lampada" /> 
-           <componentref id="armario" /> 
- 		   <componentref id="bandeira" />
-		   <componentref id="porta" />
+			<componentref id="lampada3" /> 
+		   <componentref id="porta3" />
 		   <componentref id="cama" />
+
+		   <componentref id="marcador" />
 		   
-		   <componentref id="donutplate"/>
-		   <componentref id="walllamp"/>
+		   <componentref id="donutplate3"/>
+		   <componentref id="walllamp3"/>
 		   <componentref id="phone"/>
+		   <componentref id="balloon"/>
 		
 
 
@@ -457,6 +473,202 @@
         <children>
 			<primitiveref id="rectangle"/>        
 		</children> 
+
+    </component>
+
+
+
+	<component id="marcador2">  
+
+        <transformation>	
+        	<translate x="0" y="0" z="24"/>
+            <rotate axis="y" angle="90" />			
+        </transformation>
+
+        <materials>
+            <material id="defaultMaterial" /> 			
+        </materials>  
+
+        <texture id="inherit" length_s="1" length_t="1"/>       			
+
+        <children>
+			<componentref id="marcador"/>        
+		</children>
+
+    </component>
+
+	<component id="pc">  
+
+        <transformation>	
+        	<translate x="15" y="-4.5" z="30"/>
+            <rotate axis="y" angle="90" />			
+        </transformation>
+
+        <materials>
+            <material id="defaultMaterial" /> 			
+        </materials>  
+
+        <texture id="inherit" length_s="1" length_t="1"/>       			
+
+        <children>
+			<componentref id="desktop"/>
+		    <componentref id="monitor"/>
+		    <componentref id="keyboard"/>       
+		</children>
+
+    </component>
+
+
+	
+    <component id="porta2">  
+
+        <transformation>
+        	<translate x="-3" y="0" z="0" />					
+        </transformation>
+
+        <materials>
+            <material id="defaultMaterial" /> 			
+        </materials>  
+
+        <texture id="inherit" length_s="1" length_t="1"/>       			
+
+        <children>
+			<componentref id="porta"/>        
+		</children>
+
+    </component>
+	
+
+    <component id="porta3">  
+
+        <transformation>
+        	<translate x="0" y="0" z="30" />		
+            <rotate axis="y" angle="90" />			
+        </transformation>
+
+        <materials>
+            <material id="defaultMaterial" /> 			
+        </materials>  
+
+        <texture id="inherit" length_s="1" length_t="1"/>       			
+
+        <children>
+			<componentref id="porta"/>        
+		</children>
+
+    </component>
+
+
+    <component id="lampada3">  
+
+        <transformation>
+        	<translate x="0" y="0" z="-15" />				
+        </transformation>
+
+        <materials>
+            <material id="defaultMaterial" /> 			
+        </materials>  
+
+        <texture id="inherit" length_s="1" length_t="1"/>       			
+
+        <children>
+			<componentref id="lampada"/>        
+		</children>
+
+    </component>
+
+
+ 	<component id="donutplate3">  
+
+        <transformation>
+        	<translate x="25" y="-0.90" z="0" />				
+        </transformation>
+
+        <materials>
+            <material id="defaultMaterial" /> 			
+        </materials>  
+
+        <texture id="inherit" length_s="1" length_t="1"/>       			
+
+        <children>
+			<componentref id="donutplate"/>        
+		</children>
+
+    </component>
+
+
+    <component id="terrainAndBoard"> 
+
+        <transformation>
+            
+ 			<translate x="23.5" y="-1" z="9.5"/>
+        </transformation>
+
+        <materials>
+           <material id="defaultMaterial"/> 
+        </materials>   
+
+        <texture id= "inherit" length_s="1" length_t="1"/>  
+
+        <children>
+            <componentref id = "mesa_caixa2"/>  
+            <componentref id="terrain"/>   
+         </children>
+
+    </component>
+
+    <component id="walllamp2">  
+
+        <transformation>
+        	<translate x="-3" y="0" z="0" />					
+        </transformation>
+
+        <materials>
+            <material id="defaultMaterial" /> 			
+        </materials>  
+
+        <texture id="inherit" length_s="1" length_t="1"/>       			
+
+        <children>
+			<componentref id="walllamp"/>        
+		</children>
+
+    </component>
+
+
+    <component id="walllamp3">  
+
+        <transformation>
+        	<translate x="13" y="3" z="0" />					
+        </transformation>
+
+        <materials>
+            <material id="defaultMaterial" /> 			
+        </materials>  
+
+        <texture id="inherit" length_s="1" length_t="1"/>       			
+
+        <children>
+			<componentref id="walllamp"/>        
+		</children>
+
+    </component>
+
+    <component id="mesa_caixa2">  
+
+        <transformation>
+        	<scale x="0.6" y="0.25" z="0.6"/>					
+        </transformation>
+
+        <materials>
+            <material id="defaultMaterial" /> 			
+        </materials>  
+
+        <texture id="inherit" length_s="1" length_t="1"/>       			
+
+        <children>
+			<componentref id="mesa_caixa"/>        
+		</children>
 
     </component>
 
@@ -2782,7 +2994,7 @@
     <component id="balloon">
 
         <transformation>
-        	<translate x="6" y="1.5" z="12"/>
+        	<translate x="26" y="1.5" z="16"/>
         </transformation>
 
         <animations>  
@@ -2956,6 +3168,25 @@
       </children>
 
     </component>	
+
+    <component id="terrain">
+
+        <transformation>
+        	<translate x="2.4" y="1.2" z="2.65"/>
+        	<scale x="4.3" y="4.3" z="4.3"/>
+        </transformation>
+
+        <materials>             
+            <material id="defaultMaterial" />         
+        </materials>
+
+      <texture id="terrainTexture" length_s="1" length_t="1"/>
+
+      <children>
+         <primitiveref id="terrain"/>
+      </children>
+
+    </component>
 
 
 
