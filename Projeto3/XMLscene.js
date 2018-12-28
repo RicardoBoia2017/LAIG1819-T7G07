@@ -18,6 +18,7 @@ let game =
     piece: 0,
     arrowPosition: [],
     pastBoards: [],
+    pastAnimations: [],
 };
 
 let scene;
@@ -65,7 +66,9 @@ class XMLscene extends CGFscene {
         this.setUpdatePeriod(100);
 
         this.setPickEnabled(true);
+
         this.choosingDirection = false;
+        this.animationInProgress = false;
 
         this.movValues = [2.08, 2.2];
 
@@ -209,7 +212,7 @@ class XMLscene extends CGFscene {
     }
 
     logPicking() {
-        if (this.pickMode == false) {
+        if (this.pickMode == false && !this.animationInProgress) {
 
             if (this.pickResults != null && this.pickResults.length > 0) {
 
@@ -218,8 +221,12 @@ class XMLscene extends CGFscene {
                     var obj = this.pickResults[i][0];
                     if (obj) {
                         var customId = this.pickResults[i][1];
+
+                        if(customId == 0)
+                            this.undoTurn();
+
                         //if a piece is selected
-                        if (this.choosingDirection) {
+                        else if (this.choosingDirection) {
                             //If user selects another piece
                             if (this.positionHasPiece(Math.floor(customId / 10), customId % 10, true))
                                 this.validDirections();
@@ -228,6 +235,7 @@ class XMLscene extends CGFscene {
                             else {
                                 this.moveRequest(Math.floor(customId / 10), customId % 10);
                                 this.choosingDirection = false;
+                                
                             }
                         }
                         //if a piece is not selected
@@ -251,6 +259,55 @@ class XMLscene extends CGFscene {
             }
         }
 
+    }
+
+    undoTurn()
+    {
+        let lastBoard = game.pastBoards.pop();
+        let lastAnimation = game.pastAnimations.pop();
+
+        if(lastBoard == null)
+            return;
+
+        game.board = lastBoard;
+        
+        //Retrieves information from last move
+        let pieceName = lastAnimation[0];
+        let lastPieceMoved = Number(lastAnimation[0].substring(lastAnimation[0].length-1));
+        let rowDiff = lastAnimation[2];
+        let colDiff = lastAnimation[1];
+
+        let time;
+
+        if (colDiff != 0) 
+            time = Math.abs(colDiff);
+        else
+            time = Math.abs(rowDiff);
+
+        this.animationInProgress = true;
+
+        //Creates inverted animation
+        this.graph.components[pieceName].animations[0] = new LinearAnimation(this, time, [[0,0,0], [-colDiff * this.movValues[0], 0, -rowDiff * this.movValues[1]]]);
+        this.graph.components[pieceName].currentAnimation = 0;
+
+        //Reverts position change from last move and changes player  
+        if (game.color == 'b') 
+        {
+            let currentRow = game.whitePositions[lastPieceMoved - 1][0];
+            let currentCol = game.whitePositions[lastPieceMoved - 1][1];
+
+            game.whitePositions[lastPieceMoved - 1] = [currentRow - rowDiff, currentCol - colDiff];
+            game.color = 'w';
+        }
+        
+        else if (game.color == 'w') 
+        {
+            let currentRow = game.blackPositions[lastPieceMoved - 1][0];
+            let currentCol = game.blackPositions[lastPieceMoved - 1][1];
+
+            game.blackPositions[lastPieceMoved - 1] = [currentRow - rowDiff, currentCol - colDiff];
+            game.color = 'b';
+        }
     }
 
     //checks if the selected position has a piece of current player
@@ -371,7 +428,9 @@ class XMLscene extends CGFscene {
     //Handles the reply for move requests
     moveReply(data) {
         let reply = data.target.response.split("-");
+
         game.board = reply[0];
+        game.pastBoards.push(game.board);
 
         let targetRow = Number(reply[1]);
         let targetCol = Number(reply[2]);
@@ -400,10 +459,15 @@ class XMLscene extends CGFscene {
         else
             time = Math.abs(diff2);
 
+        scene.animationInProgress = true;
+
         scene.graph.components[componentName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [diff1 * scene.movValues[0], 0, diff2 * scene.movValues[1]]]);
         scene.graph.components[componentName].currentAnimation = 0;
 
-        //Updates positions array and changes player
+        //Piece being moved, horizontal movement, vertical movement
+        game.pastAnimations.push([componentName, diff1, diff2]);
+
+        //Updates positions array
         if (game.color == 'b') 
             game.blackPositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
 
@@ -491,7 +555,7 @@ class XMLscene extends CGFscene {
         else if(scene.checkDraw())
             console.log("Draw");
 
-        //Updates positions array and changes player
+        //Changes player
         if (game.color == 'b') 
             game.color = 'w';
         
