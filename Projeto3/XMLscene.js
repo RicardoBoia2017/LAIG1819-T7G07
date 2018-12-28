@@ -393,7 +393,7 @@ class XMLscene extends CGFscene {
             time = Math.abs(diff2);
 
         scene.graph.components[componentName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [diff1 * scene.movValues[0], 0, diff2 * scene.movValues[1]]]);
-
+        scene.graph.components[componentName].currentAnimation = 0;
         /* if(startingRow == targetRow) //east, west
          {
               let diff = targetCol - startingCol;

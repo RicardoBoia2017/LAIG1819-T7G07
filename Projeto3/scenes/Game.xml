@@ -963,10 +963,6 @@
             <translate x="3" y="3" z="1"/>
         </transformation>
 
-        <animations>
-            <animationref id="linear" />
-        </animations>
-
         <materials>            
             <material id="defaultMaterial" />        
         </materials>

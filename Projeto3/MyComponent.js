@@ -97,20 +97,27 @@ MyComponent.prototype.getAnimationsLenght = function ()
  */
 MyComponent.prototype.updateAnimation = function (timeVariation)
 {
-	this.animationTime += timeVariation;
-	let previousSectionTime = 0;
-
 	//Se não houver animação, a função retorna
 	if(this.getAnimationsLenght() == 0 || this.currentAnimation == this.getAnimationsLenght())
 		return;
+
+	this.animationTime += timeVariation;
+	let previousSectionTime = 0;
+
+	if(this.id == "blackpeca1")
+		console.log("Entrou");
 
 	var animation = this.animations[this.currentAnimation];
 
 	//Se a animação acabou, passa para a seguinte
 	if(this.animationTime >= animation.time)
 	{
+		//faz a animação com o tempo total desta de forma a acabar sempre na mesma posição
 		animation.update(animation.sectionTime[this.currentSection], this.currentSection);
-		this.animationTime = timeVariation;
+		mat4.multiply(this.matrixTransf, this.matrixTransf, animation.matrix);		
+
+		//prepara animação seguinte
+		this.animationTime = 0;
 		this.currentSection = 0;
 		this.currentAnimation++;
 
@@ -156,11 +163,11 @@ MyComponent.prototype.applyAnimationMatrix = function ()
 	if(animation != null)
 		animation.apply();
 	
-	else if (this.getAnimationsLenght() > 0)
+	/*else if (this.getAnimationsLenght() > 0)
 	{
 		let lastAnimation = this.animations[this.getAnimationsLenght()-1];
 		lastAnimation.apply();
-	}
+	}*/
 }
 	
 

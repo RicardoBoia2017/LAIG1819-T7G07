@@ -12,7 +12,6 @@ class LinearAnimation extends Animation {
 	 * @param {List of control points} controlPoints 
 	 */
 	constructor(scene, time, controlPoints) {
-		console.log(controlPoints);
 		super(scene, time);
 		this.controlPoints = controlPoints;
 		this.movValues = [];
@@ -69,9 +68,7 @@ class LinearAnimation extends Animation {
 			let angle = Math.asin(-sinAngle);
 
 			this.movValues.push([vx, vy, vz, angle]);
-			console.log(this.movValues);
 			this.sectionTime.push(distance / speed);
-
 		}
 	}
 
@@ -105,7 +102,7 @@ class LinearAnimation extends Animation {
 		let currentZ = dz + this.controlPoints[section][2];
 
 		mat4.translate(this.matrix, this.matrix, [currentX, currentY, currentZ]);
-		mat4.rotate(this.matrix, this.matrix, this.movValues[section][3], [0, 1, 0]);
+//		mat4.rotate(this.matrix, this.matrix, this.movValues[section][3], [0, 1, 0]);
 	}
 
 	/**
