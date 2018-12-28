@@ -312,18 +312,18 @@ class XMLscene extends CGFscene {
                 dir = 1; //north
         }
 
-        else if (startingRow > targetRow) {
-            if (startingCol < targetCol)
-                dir = 8; //southwest
-            else
-                dir = 6; //northwest
-        }
-
         else if (startingRow < targetRow) {
             if (startingCol < targetCol)
                 dir = 7; //southeast
             else
+                dir = 8; //southwest
+        }
+
+        else if (startingRow > targetRow) {
+            if (startingCol < targetCol)
                 dir = 5; //northeast
+            else
+                dir = 6; //northwest
         }
 
         this.getPrologRequest("move(" + dir + "," + game.board + "," + startingRow + "," + startingCol + "," + game.color + ")", this.moveReply);
@@ -387,11 +387,10 @@ class XMLscene extends CGFscene {
         let diff2 = targetRow - startingRow;
         let time;
 
-        if (diff1 != 0)
-            time = diff1;
-
+        if (diff1 != 0) 
+            time = Math.abs(diff1);
         else
-            time = diff2;
+            time = Math.abs(diff2);
 
         scene.graph.components[componentName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [diff1 * scene.movValues[0], 0, diff2 * scene.movValues[1]]]);
 
@@ -437,7 +436,6 @@ class XMLscene extends CGFscene {
             game.color = 'b';
         }
 
-        console.log("Changin color to " + game.color);
     }
 
     //Handles the reply for valid moves requests
