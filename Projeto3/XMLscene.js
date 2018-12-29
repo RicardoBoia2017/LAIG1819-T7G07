@@ -618,7 +618,8 @@ class XMLscene extends CGFscene {
         this.graph.components['whitepeca2'].matrixTransf = this.graph.components['whitepeca2'].originalMatrix;
         this.graph.components['whitepeca3'].matrixTransf = this.graph.components['whitepeca3'].originalMatrix;
 
-        for(let i = 0; i < game.pastAnimations.length; i++)
+        this.doPastAnimation(0);
+/*        for(let i = 0; i < game.pastAnimations.length; i++)
         {
             let animation = game.pastAnimations[i];
 
@@ -636,8 +637,34 @@ class XMLscene extends CGFscene {
             scene.graph.components[pieceName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [colDiff * scene.movValues[0], 0, rowDiff * scene.movValues[1]]]);
             scene.graph.components[pieceName].currentAnimation = 0;    
 
+            setTimeout()
             this.gameMovieWaitingTime = time + 0.5;
-        }
+        }*/
+    }
+
+    doPastAnimation(index)
+    {
+        if(index == game.pastAnimations.length)
+            return;
+
+        let animation = game.pastAnimations[index];
+
+        let pieceName = animation[0];
+        let rowDiff = animation[2];
+        let colDiff = animation[1];
+
+        let time;
+
+        if (colDiff != 0) 
+            time = Math.abs(colDiff);
+        else
+            time = Math.abs(rowDiff);
+
+        scene.graph.components[pieceName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [colDiff * scene.movValues[0], 0, rowDiff * scene.movValues[1]]]);
+        scene.graph.components[pieceName].currentAnimation = 0;    
+
+        let waitingTime = (time + 0.5) * 1000;
+        setTimeout(scene.doPastAnimation, waitingTime, ++index);
     }
 
     /**************************************************************************/
