@@ -401,6 +401,19 @@ class XMLscene extends CGFscene {
         this.getPrologRequest("move(" + dir + "," + game.board + "," + startingRow + "," + startingCol + "," + game.color + ")", this.moveReply);
     }
 
+    botMoveRequest()
+    {
+        let bot = game.players[game.currentPlayer];
+        let difficulty = bot.substring(3,bot.length);
+
+        if(difficulty == "Easy")
+            this.getPrologRequest("bot_move(" + game.board + "," + 1 + "," + game.color + ")", this.botMoveReply);
+
+        else if (difficulty == "Hard")     
+            this.getPrologRequest("bot_move(" + game.board + "," + 2 + "," + game.color + ")", this.botMoveReply);
+
+    }
+
     //Request for valid direction of selected piece
     validDirections() {
         let row;
@@ -487,6 +500,79 @@ class XMLscene extends CGFscene {
         //Piece being moved, horizontal movement, vertical movement
         game.pastAnimations.push([componentName, diff1, diff2]);
 
+        //Updates positions array
+        if (game.color == 'b') 
+            game.blackPositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
+
+        else if (game.color == 'w')
+            game.whitePositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
+
+        scene.gameOver();
+    }
+
+    botMoveReply(data) {
+        let reply = data.target.response.split("-");
+
+        game.board = reply[2];
+        game.pastBoards.push(game.board);
+
+        let startingRow = Number(reply[0]);
+        let startingCol = Number(reply[1]);
+        let targetRow = Number(reply[3]);
+        let targetCol = Number(reply[4]);
+
+        let componentName;
+
+        let array = [];
+        let coords = [startingRow, startingCol];
+
+        if (game.color == 'b')
+        {
+            array = game.blackPositions;
+            componentName = "blackpeca";
+        }
+        else
+        {
+            array = game.whitePositions;
+            componentName = "whitepeca";
+        }
+
+        //Gets piece #
+        for(let i = 0; i < array.length; i++)
+        {
+            let elem = array[i];
+            for (let j = 0; j < elem.length; j++) 
+            {
+
+                if (elem[j] == coords[j]) {
+
+                    if (j == elem.length - 1) {
+                        game.piece = i + 1;
+                        break;
+                    }
+                }
+                else
+                    break;
+            }
+        }
+
+        componentName += game.piece;
+
+        let diff1 = targetCol - startingCol;
+        let diff2 = targetRow - startingRow;
+        let time;
+
+        if (diff1 != 0) 
+            time = Math.abs(diff1);
+        else
+            time = Math.abs(diff2);
+
+        scene.graph.components[componentName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [diff1 * scene.movValues[0], 0, diff2 * scene.movValues[1]]]);
+        scene.graph.components[componentName].currentAnimation = 0;            
+
+        //Piece being moved, horizontal movement, vertical movement
+        game.pastAnimations.push([componentName, diff1, diff2]);
+        
         //Updates positions array
         if (game.color == 'b') 
             game.blackPositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
@@ -589,10 +675,14 @@ class XMLscene extends CGFscene {
 
         //Changes player
         if (game.color == 'b') 
+        {
             game.color = 'w';
+        }
         
         else if (game.color == 'w') 
+        {
             game.color = 'b';
+        }
         
         game.arrowPosition = [];
     }
@@ -765,12 +855,14 @@ class XMLscene extends CGFscene {
     CvC_Easy()
     {
         this.newGame(4);
+        scene.botMoveRequest();
         console.log("CvC_Easy");
     }
 
     CvC_Hard()
     {
         this.newGame(5);
+        scene.botMoveRequest();
         console.log("CvC_Hard");
     }
 
