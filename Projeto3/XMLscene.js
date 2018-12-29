@@ -215,9 +215,10 @@ class XMLscene extends CGFscene {
         this.interface.setActiveCamera(this.camera);
     }
 
+    /**
+     * Checks which square was selected by user
+     */
     logPicking() {
-
-
         //If no animation is in progress
         if (this.pickMode == false && !this.animationInProgress) {
             if (this.pickResults != null && this.pickResults.length > 0) {
@@ -250,8 +251,6 @@ class XMLscene extends CGFscene {
                                 this.validDirections();
                                 this.choosingDirection = true;
                             }
-                            else
-                                console.log("Position selected is empty!");
                         }
                         //            this.getPrologRequest("move(" + Dir + "," + game.board + "," + Row + "," + Col +",'b')", this.handleReply);
                         //                    this.getPrologRequest("initGame('PvP')", this.handleReply);
@@ -417,10 +416,16 @@ class XMLscene extends CGFscene {
         this.getPrologRequest("valid_moves(" + game.board + "," + row + "," + col + ")", this.validMovesReply);
     }
 
+    /**
+     * Sends request asking if current player won
+     */
     gameOver() {
         this.getPrologRequest("game_over(" + game.board + "," + game.color + ")", this.gameOverReply);
     }
 
+    /**
+     * Sends request to prolog server
+     */
     getPrologRequest(requestString, onSuccess, onError, port) {
         var requestPort = port || 8081
         var request = new XMLHttpRequest();
@@ -434,7 +439,10 @@ class XMLscene extends CGFscene {
         request.send();
     }
 
-    //Handles the reply for move requests
+    /**
+     * Handles the reply for move requests. Updates positions array and sets animation
+     * @param {*} data 
+     */
     moveReply(data) {
         let reply = data.target.response.split("-");
 
@@ -486,7 +494,10 @@ class XMLscene extends CGFscene {
         scene.gameOver();
     }
 
-    //Handles the reply for valid moves requests
+    /**
+     * Handles the reply for valid moves requests. Fills arrowPosition array with coordinates of valid directions
+     * @param {*} data 
+     */
     validMovesReply(data) {
         let reply = data.target.response;
         let values = reply.substring(1, reply.length - 1).split(",");
@@ -555,6 +566,9 @@ class XMLscene extends CGFscene {
         }
     }
 
+    /**
+     *  Checks if any game ending condition verifies. If true, the game ends, otherwise player's turn ends
+     * */
     gameOverReply(data) {
         let reply = data.target.response;
 
@@ -580,7 +594,9 @@ class XMLscene extends CGFscene {
         game.arrowPosition = [];
     }
 
-    //checks if the board happened for the third time. If true, then the game ends as a draw.
+    /**
+     * Checks if the board happened for the third time. If true, then the game ends as a draw.
+     *  */
     checkDraw()
     {
         let currentBoard = game.board;
@@ -606,47 +622,37 @@ class XMLscene extends CGFscene {
         this.interface.gameMovie = this.interface.gui.add(this, 'gameMovie');
     }
 
+    /**
+     * Puts pieces in their initial position and calls function that will display animations
+     */
     gameMovie()
     {
-        if(this.animationInProgress)
+        if(this.animationInProgress || this.gameMovieInProgress)
             return;
 
-        this.graph.components['blackpeca1'].matrixTransf = this.graph.components['blackpeca1'].originalMatrix;
-        this.graph.components['blackpeca2'].matrixTransf = this.graph.components['blackpeca2'].originalMatrix;
-        this.graph.components['blackpeca3'].matrixTransf = this.graph.components['blackpeca3'].originalMatrix;
-        this.graph.components['whitepeca1'].matrixTransf = this.graph.components['whitepeca1'].originalMatrix;
-        this.graph.components['whitepeca2'].matrixTransf = this.graph.components['whitepeca2'].originalMatrix;
-        this.graph.components['whitepeca3'].matrixTransf = this.graph.components['whitepeca3'].originalMatrix;
+        mat4.copy(this.graph.components['blackpeca1'].matrixTransf, this.graph.components['blackpeca1'].originalMatrix);
+        mat4.copy(this.graph.components['blackpeca2'].matrixTransf, this.graph.components['blackpeca2'].originalMatrix);
+        mat4.copy(this.graph.components['blackpeca3'].matrixTransf, this.graph.components['blackpeca3'].originalMatrix);
+        mat4.copy(this.graph.components['whitepeca1'].matrixTransf, this.graph.components['whitepeca1'].originalMatrix);
+        mat4.copy(this.graph.components['whitepeca2'].matrixTransf, this.graph.components['whitepeca2'].originalMatrix);
+        mat4.copy(this.graph.components['whitepeca3'].matrixTransf, this.graph.components['whitepeca3'].originalMatrix);
 
+        this.gameMovieInProgress = true;
         this.doPastAnimation(0);
-/*        for(let i = 0; i < game.pastAnimations.length; i++)
-        {
-            let animation = game.pastAnimations[i];
-
-            let pieceName = animation[0];
-            let rowDiff = animation[2];
-            let colDiff = animation[1];
-
-            let time;
-
-            if (colDiff != 0) 
-                time = Math.abs(colDiff);
-            else
-                time = Math.abs(rowDiff);
-
-            scene.graph.components[pieceName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [colDiff * scene.movValues[0], 0, rowDiff * scene.movValues[1]]]);
-            scene.graph.components[pieceName].currentAnimation = 0;    
-
-            setTimeout()
-            this.gameMovieWaitingTime = time + 0.5;
-        }*/
     }
 
+    /**
+     * Recursive function that sets animation and, after the animation finishes, calls the function to set the next one
+     * @param {index of animation being set} index 
+     */
     doPastAnimation(index)
     {
         if(index == game.pastAnimations.length)
+        {
+            scene.gameMovieInProgress = false;
             return;
-
+        }
+        
         let animation = game.pastAnimations[index];
 
         let pieceName = animation[0];
@@ -663,7 +669,7 @@ class XMLscene extends CGFscene {
         scene.graph.components[pieceName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [colDiff * scene.movValues[0], 0, rowDiff * scene.movValues[1]]]);
         scene.graph.components[pieceName].currentAnimation = 0;    
 
-        let waitingTime = (time + 0.5) * 1000;
+        let waitingTime = (time + 0.25) * 1000;
         setTimeout(scene.doPastAnimation, waitingTime, ++index);
     }
 
