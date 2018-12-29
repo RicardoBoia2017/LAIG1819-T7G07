@@ -69,7 +69,6 @@ class XMLscene extends CGFscene {
 
         this.choosingDirection = false;
         this.animationInProgress = false;
-        this.gameMovieWaitingTime = 0;
 
         this.movValues = [2, 2.1];
 
@@ -618,14 +617,16 @@ class XMLscene extends CGFscene {
     
     endGame()
     {
-        this.interface.menu.open();
-        this.interface.gameMovie = this.interface.gui.add(this, 'gameMovie');
+        this.interface.gameFilm = this.interface.gui.addFolder("Game Film");
+        this.interface.gameFilm.open();
+        this.interface.gameMovie = this.interface.gui.add(this, 'ViewGameFilm');
+        this.interface.gameFilm.close();
     }
 
     /**
      * Puts pieces in their initial position and calls function that will display animations
      */
-    gameMovie()
+    ViewGameFilm()
     {
         if(this.animationInProgress || this.gameMovieInProgress)
             return;
@@ -682,17 +683,17 @@ class XMLscene extends CGFscene {
         this.interface.HvH = this.interface.gui.add(this, 'HvH');
         this.interface.HvC = this.interface.gui.add(this, 'HvC');
         this.interface.CvC = this.interface.gui.add(this, 'CvC');
-
     }
 
     HvH()
     {
-        this.interface.gui.remove(this.interface.HvH);
+/*        this.interface.gui.remove(this.interface.HvH);
         this.interface.gui.remove(this.interface.HvC);
         this.interface.gui.remove(this.interface.CvC);
 
         this.interface.menu.open();
-        this.interface.newGame = this.interface.gui.add(this, 'newGame');
+        this.interface.newGame = this.interface.gui.add(this, 'newGame');*/
+        console.log("HvH");
     }
 
     HvC()
@@ -807,11 +808,6 @@ class XMLscene extends CGFscene {
 
         this.waterTimer += 0.05 * (currentTime - this.lastUpdate) / 1000;
         this.counter += (currentTime - this.lastUpdate) / 1000;
-
-        if(this.gameMovieWaitingTime > 0)
-        {
-            this.gameMovieWaitingTime -= (currentTime - this.lastUpdate) / 1000;
-        }
 
         this.lastUpdate = currentTime;
 

@@ -78,10 +78,21 @@ class MyInterface extends CGFinterface {
 	 * Adds folder with menu options
 	 */
 	addMenu() {
-	    this.menu  = this.gui.addFolder("Menu");
-		this.menu.open();	
+	    this.hvh  = this.gui.addFolder("HumanvHuman");
+		this.hvh.open();	
+		this.gui.add(this.scene, 'HvH');
+		
+		this.hvc = this.gui.addFolder("HumanvComputer");
+		this.hvc.open();	
 
-		this.newGame = this.gui.add(this.scene, 'newGame');
+		this.gui.add(this.scene, 'Easy');
+		this.gui.add(this.scene, 'Hard');
+
+		this.cvc = this.gui.addFolder("ComputervComputer");
+		this.cvc.open();	
+
+		this.gui.add(this.scene, 'Easy');
+		this.gui.add(this.scene, 'Hard');
 	}
 	
 	/**
