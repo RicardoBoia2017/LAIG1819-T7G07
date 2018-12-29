@@ -756,7 +756,7 @@ class XMLscene extends CGFscene {
 
         if (this.sceneInited) {
             // Draw axis
-            this.axis.display();
+            //this.axis.display();
             var i = 0;
 
             for (var key in this.lightValues) {
