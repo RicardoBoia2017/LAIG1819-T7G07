@@ -5,17 +5,19 @@ let game =
 {
     board: "[[x,w,x,w,x],[x,x,b,x,x],[x,x,x,x,x],[x,x,w,x,x],[x,b,x,b,x]]",
     blackPositions: [
-        [2, 3],
-        [5, 2],
-        [5, 4]
-    ],
+            [2, 3],
+            [5, 2],
+            [5, 4]
+        ],
     whitePositions: [
-        [1, 2],
-        [1, 4],
-        [4, 3]
-    ],
+            [1, 2],
+            [1, 4],
+            [4, 3]
+        ],
     color: 'b',
     piece: 0,
+    currentPlayer: 0,
+    players: ["Human", "Human"],
     arrowPosition: [],
     pastBoards: [],
     pastAnimations: [],
@@ -69,6 +71,8 @@ class XMLscene extends CGFscene {
 
         this.choosingDirection = false;
         this.animationInProgress = false;
+
+        this.turnTime = 60;
 
         this.movValues = [2, 2.1];
 
@@ -615,12 +619,76 @@ class XMLscene extends CGFscene {
         return 0;
     }
     
+    newGame(mode)
+    {
+        mat4.copy(this.graph.components['blackpeca1'].matrixTransf, this.graph.components['blackpeca1'].originalMatrix);
+        mat4.copy(this.graph.components['blackpeca2'].matrixTransf, this.graph.components['blackpeca2'].originalMatrix);
+        mat4.copy(this.graph.components['blackpeca3'].matrixTransf, this.graph.components['blackpeca3'].originalMatrix);
+        mat4.copy(this.graph.components['whitepeca1'].matrixTransf, this.graph.components['whitepeca1'].originalMatrix);
+        mat4.copy(this.graph.components['whitepeca2'].matrixTransf, this.graph.components['whitepeca2'].originalMatrix);
+        mat4.copy(this.graph.components['whitepeca3'].matrixTransf, this.graph.components['whitepeca3'].originalMatrix);
+
+        game.board = "[[x,w,x,w,x],[x,x,b,x,x],[x,x,x,x,x],[x,x,w,x,x],[x,b,x,b,x]]";
+        game.blackPositions = [
+            [2, 3],
+            [5, 2],
+            [5, 4]
+        ],
+        game.whitePositions = [
+            [1, 2],
+            [1, 4],
+            [4, 3]
+        ],
+        game.color = 'b';
+        game.piece = 0;
+        game.currentPlayer = 0;
+        game.arrowPosition = [];
+        game.pastBoards = [];
+        game.pastAnimations = [];
+        game.pastBoards.push(game.board);
+
+        switch(mode)
+        {
+            case 1:
+            {
+                game.players=["Human", "Human"];
+                break;
+            }
+            case 2:
+            {
+                game.players=["Human", "BotEasy"];
+                break;
+            }
+            case 3:
+            {
+                game.players=["Human", "BotHard"];
+                break;
+            }
+            case 4:
+            {
+                game.players=["BotEasy", "BotEasy"];
+                break;
+            }
+            case 5:
+            {
+                game.players=["BotHard", "BotHard"];                
+                break;
+            }
+        }
+
+        this.choosingDirection = false;
+        this.animationInProgress = false;
+
+        if(this.interface.gameMovie != null)
+        {
+            this.interface.gui.remove(this.interface.gameMovie);
+        }
+    }
+
     endGame()
     {
-        this.interface.gameFilm = this.interface.gui.addFolder("Game Film");
-        this.interface.gameFilm.open();
+        this.interface.gameOptions.open();
         this.interface.gameMovie = this.interface.gui.add(this, 'ViewGameFilm');
-        this.interface.gameFilm.close();
     }
 
     /**
@@ -675,71 +743,35 @@ class XMLscene extends CGFscene {
     }
 
     /**************************************************************************/
-    newGame()
-    {
-        this.interface.gui.remove(this.interface.newGame);
-        this.interface.menu.open();
-
-        this.interface.HvH = this.interface.gui.add(this, 'HvH');
-        this.interface.HvC = this.interface.gui.add(this, 'HvC');
-        this.interface.CvC = this.interface.gui.add(this, 'CvC');
-    }
 
     HvH()
     {
-/*        this.interface.gui.remove(this.interface.HvH);
-        this.interface.gui.remove(this.interface.HvC);
-        this.interface.gui.remove(this.interface.CvC);
-
-        this.interface.menu.open();
-        this.interface.newGame = this.interface.gui.add(this, 'newGame');*/
+        this.newGame(1);
         console.log("HvH");
     }
 
-    HvC()
+    HvC_Easy()
     {
-        this.interface.gui.remove(this.interface.HvH);
-        this.interface.gui.remove(this.interface.HvC);
-        this.interface.gui.remove(this.interface.CvC);
-
-        this.interface.menu.open();
-        this.interface.easy = this.interface.gui.add(this, 'Easy');
-        this.interface.hard = this.interface.gui.add(this, 'Hard');
-        this.interface.back = this.interface.gui.add(this, 'Back');
+        this.newGame(2);
+        console.log("HvC_Easy");
     }
 
-    CvC()
+    HvC_Hard()
     {
-        this.interface.gui.remove(this.interface.HvH);
-        this.interface.gui.remove(this.interface.HvC);
-        this.interface.gui.remove(this.interface.CvC);   
-
-        this.interface.menu.open();
-        this.interface.easy = this.interface.gui.add(this, 'Easy');
-        this.interface.hard = this.interface.gui.add(this, 'Hard');
-        this.interface.back = this.interface.gui.add(this, 'Back');
+        this.newGame(3);
+        console.log("HvC_Hard");
     }
 
-    Easy()
+    CvC_Easy()
     {
-        console.log("Easy");
+        this.newGame(4);
+        console.log("CvC_Easy");
     }
 
-    Hard()
+    CvC_Hard()
     {
-        console.log("Hard");
-    }
-
-    Back()
-    {
-        this.interface.gui.remove(this.interface.easy);
-        this.interface.gui.remove(this.interface.hard);
-        this.interface.gui.remove(this.interface.back);
-
-        this.interface.menu.open();
-        this.interface.HvH = this.interface.gui.add(this, 'HvH');
-        this.interface.HvC = this.interface.gui.add(this, 'HvC');
-        this.interface.CvC = this.interface.gui.add(this, 'CvC');
+        this.newGame(5);
+        console.log("CvC_Hard");
     }
 
     /**

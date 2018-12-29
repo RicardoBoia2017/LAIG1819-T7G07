@@ -78,6 +78,7 @@ class MyInterface extends CGFinterface {
 	 * Adds folder with menu options
 	 */
 	addMenu() {
+
 	    this.hvh  = this.gui.addFolder("HumanvHuman");
 		this.hvh.open();	
 		this.gui.add(this.scene, 'HvH');
@@ -85,14 +86,18 @@ class MyInterface extends CGFinterface {
 		this.hvc = this.gui.addFolder("HumanvComputer");
 		this.hvc.open();	
 
-		this.gui.add(this.scene, 'Easy');
-		this.gui.add(this.scene, 'Hard');
+		this.gui.add(this.scene, 'HvC_Easy');
+		this.gui.add(this.scene, 'HvC_Hard');
 
 		this.cvc = this.gui.addFolder("ComputervComputer");
 		this.cvc.open();	
 
-		this.gui.add(this.scene, 'Easy');
-		this.gui.add(this.scene, 'Hard');
+		this.gui.add(this.scene, 'CvC_Easy');
+		this.gui.add(this.scene, 'CvC_Hard');
+
+		this.gameOptions = this.gui.addFolder("Game Options");
+		this.gameOptions.open();
+		this.gui.add(this.scene, 'turnTime', 10, 120);
 	}
 	
 	/**
