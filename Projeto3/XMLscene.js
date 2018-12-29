@@ -69,6 +69,7 @@ class XMLscene extends CGFscene {
 
         this.choosingDirection = false;
         this.animationInProgress = false;
+        this.gameMovieWaitingTime = 0;
 
         this.movValues = [2, 2.1];
 
@@ -212,54 +213,6 @@ class XMLscene extends CGFscene {
         }
 
         this.interface.setActiveCamera(this.camera);
-    }
-
-    newGame()
-    {
-        this.interface.gui.remove(this.interface.newGame);
-        this.interface.menu.open();
-
-        this.interface.HvH = this.interface.gui.add(this, 'HvH', 'E');
-        this.interface.HvC = this.interface.gui.add(this, 'HvC');
-        this.interface.CvC = this.interface.gui.add(this, 'CvC');
-
-    }
-
-    HvH()
-    {
-        console.log("HvH");
-    }
-
-    HvC()
-    {
-        this.interface.gui.remove(this.interface.HvH);
-        this.interface.gui.remove(this.interface.HvC);
-        this.interface.gui.remove(this.interface.CvC);
-
-        this.interface.menu.open();
-        this.interface.easy = this.interface.gui.add(this, 'Easy');
-        this.interface.hard = this.interface.gui.add(this, 'Hard');
-    }
-
-    CvC()
-    {
-        this.interface.gui.remove(this.interface.HvH);
-        this.interface.gui.remove(this.interface.HvC);
-        this.interface.gui.remove(this.interface.CvC);   
-
-        this.interface.menu.open();
-        this.interface.easy = this.interface.gui.add(this, 'Easy');
-        this.interface.hard = this.interface.gui.add(this, 'Hard');
-    }
-
-    Easy()
-    {
-        console.log("Easy");
-    }
-
-    Hard()
-    {
-        console.log("Hard");
     }
 
     logPicking() {
@@ -606,10 +559,16 @@ class XMLscene extends CGFscene {
         let reply = data.target.response;
 
         if(reply == "1")
+        {
             console.log(game.color + " has won the game!");
+            scene.endGame();
+        }
         
         else if(scene.checkDraw())
+        {
             console.log("Draw");
+            scene.endGame();
+        }
 
         //Changes player
         if (game.color == 'b') 
@@ -639,6 +598,114 @@ class XMLscene extends CGFscene {
             return 1;
 
         return 0;
+    }
+    
+    endGame()
+    {
+        this.interface.menu.open();
+        this.interface.gameMovie = this.interface.gui.add(this, 'gameMovie');
+    }
+
+    gameMovie()
+    {
+        if(this.animationInProgress)
+            return;
+
+        this.graph.components['blackpeca1'].matrixTransf = this.graph.components['blackpeca1'].originalMatrix;
+        this.graph.components['blackpeca2'].matrixTransf = this.graph.components['blackpeca2'].originalMatrix;
+        this.graph.components['blackpeca3'].matrixTransf = this.graph.components['blackpeca3'].originalMatrix;
+        this.graph.components['whitepeca1'].matrixTransf = this.graph.components['whitepeca1'].originalMatrix;
+        this.graph.components['whitepeca2'].matrixTransf = this.graph.components['whitepeca2'].originalMatrix;
+        this.graph.components['whitepeca3'].matrixTransf = this.graph.components['whitepeca3'].originalMatrix;
+
+        for(let i = 0; i < game.pastAnimations.length; i++)
+        {
+            let animation = game.pastAnimations[i];
+
+            let pieceName = animation[0];
+            let rowDiff = animation[2];
+            let colDiff = animation[1];
+
+            let time;
+
+            if (colDiff != 0) 
+                time = Math.abs(colDiff);
+            else
+                time = Math.abs(rowDiff);
+
+            scene.graph.components[pieceName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [colDiff * scene.movValues[0], 0, rowDiff * scene.movValues[1]]]);
+            scene.graph.components[pieceName].currentAnimation = 0;    
+
+            this.gameMovieWaitingTime = time + 0.5;
+        }
+    }
+
+    /**************************************************************************/
+    newGame()
+    {
+        this.interface.gui.remove(this.interface.newGame);
+        this.interface.menu.open();
+
+        this.interface.HvH = this.interface.gui.add(this, 'HvH');
+        this.interface.HvC = this.interface.gui.add(this, 'HvC');
+        this.interface.CvC = this.interface.gui.add(this, 'CvC');
+
+    }
+
+    HvH()
+    {
+        this.interface.gui.remove(this.interface.HvH);
+        this.interface.gui.remove(this.interface.HvC);
+        this.interface.gui.remove(this.interface.CvC);
+
+        this.interface.menu.open();
+        this.interface.newGame = this.interface.gui.add(this, 'newGame');
+    }
+
+    HvC()
+    {
+        this.interface.gui.remove(this.interface.HvH);
+        this.interface.gui.remove(this.interface.HvC);
+        this.interface.gui.remove(this.interface.CvC);
+
+        this.interface.menu.open();
+        this.interface.easy = this.interface.gui.add(this, 'Easy');
+        this.interface.hard = this.interface.gui.add(this, 'Hard');
+        this.interface.back = this.interface.gui.add(this, 'Back');
+    }
+
+    CvC()
+    {
+        this.interface.gui.remove(this.interface.HvH);
+        this.interface.gui.remove(this.interface.HvC);
+        this.interface.gui.remove(this.interface.CvC);   
+
+        this.interface.menu.open();
+        this.interface.easy = this.interface.gui.add(this, 'Easy');
+        this.interface.hard = this.interface.gui.add(this, 'Hard');
+        this.interface.back = this.interface.gui.add(this, 'Back');
+    }
+
+    Easy()
+    {
+        console.log("Easy");
+    }
+
+    Hard()
+    {
+        console.log("Hard");
+    }
+
+    Back()
+    {
+        this.interface.gui.remove(this.interface.easy);
+        this.interface.gui.remove(this.interface.hard);
+        this.interface.gui.remove(this.interface.back);
+
+        this.interface.menu.open();
+        this.interface.HvH = this.interface.gui.add(this, 'HvH');
+        this.interface.HvC = this.interface.gui.add(this, 'HvC');
+        this.interface.CvC = this.interface.gui.add(this, 'CvC');
     }
 
     /**
@@ -707,6 +774,11 @@ class XMLscene extends CGFscene {
 
         this.waterTimer += 0.05 * (currentTime - this.lastUpdate) / 1000;
         this.counter += (currentTime - this.lastUpdate) / 1000;
+
+        if(this.gameMovieWaitingTime > 0)
+        {
+            this.gameMovieWaitingTime -= (currentTime - this.lastUpdate) / 1000;
+        }
 
         this.lastUpdate = currentTime;
 

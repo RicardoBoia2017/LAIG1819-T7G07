@@ -121,7 +121,7 @@ MyComponent.prototype.updateAnimation = function (timeVariation)
 		//Se não houver mais animações, a função retorna
 		if (this.currentAnimation == this.getAnimationsLenght())
 		{
-			if(this.id.substring(5,9))
+			if(this.id.substring(5,9) == "peca")
 				this.scene.animationInProgress = false;
 			return;
 		}

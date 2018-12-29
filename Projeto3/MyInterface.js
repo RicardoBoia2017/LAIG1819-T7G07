@@ -54,13 +54,6 @@ class MyInterface extends CGFinterface {
             }
         }
     }
-	
-	addMenu() {
-	    this.menu  = this.gui.addFolder("Menu");
-		this.menu.open();	
-
-		this.newGame = this.gui.add(this.scene, 'newGame');
-	}
 
 	/**
 	* Adds a folder containing a combo box with the views passas as parameter 
@@ -79,6 +72,16 @@ class MyInterface extends CGFinterface {
 		
 		this.gui.add(this.scene, 'defaultView', viewsIds ).name("Views");
 
+	}
+	
+	/**
+	 * Adds folder with menu options
+	 */
+	addMenu() {
+	    this.menu  = this.gui.addFolder("Menu");
+		this.menu.open();	
+
+		this.newGame = this.gui.add(this.scene, 'newGame');
 	}
 	
 	/**

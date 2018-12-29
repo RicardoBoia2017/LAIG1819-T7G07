@@ -2072,7 +2072,11 @@ class MySceneGraph {
 
 								}
 							}
-
+							if(componentId.substring(5,9) == "peca")
+							{
+								this.components[componentId].originalMatrix = mat4.create();
+								mat4.copy(this.components[componentId].originalMatrix, this.components[componentId].matrixTransf);
+							}
 							break;
 						}
 
