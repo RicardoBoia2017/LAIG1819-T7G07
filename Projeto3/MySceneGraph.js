@@ -2441,7 +2441,7 @@ class MySceneGraph {
 	 * Gets time from scene and changes textures from scoreboard accordingly
 	 */
 	setUpTime() {
-		let currentTime = this.scene.counter;
+		let currentTime = this.scene.turnTimeCounter;
 
 		let minutes = Math.floor(currentTime / 60);
 

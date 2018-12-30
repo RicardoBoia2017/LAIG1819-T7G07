@@ -27,6 +27,7 @@ let game =
     color: 'b',
     piece: 0,
     currentPlayer: 0,
+    turnTime: 60,
     players: ["Human", "Human"],
     arrowPosition: [],
     pastBoards: [],
@@ -71,8 +72,6 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
 
-        this.counter = 0;
-
         this.lastUpdate = 0;
         this.waterTimer = 0;
         this.setUpdatePeriod(100);
@@ -83,7 +82,8 @@ class XMLscene extends CGFscene {
         this.animationTime = 0;
         this.gameInProgress = true;
 
-        this.turnTime = 60;
+        this.turnTime = 60; //Value controlled in interface
+        this.turnTimeCounter = this.turnTime; //Value used to actually count the time
 
         this.movValues = [2, 2.1];
 
@@ -741,6 +741,8 @@ class XMLscene extends CGFscene {
             
         game.currentPlayer = Number(!game.currentPlayer);
   
+        scene.turnTimeCounter = game.turnTime;
+
         game.arrowPosition = [];
 
         if(game.players[game.currentPlayer].substring(0,3) == "Bot")
@@ -779,6 +781,7 @@ class XMLscene extends CGFscene {
         game.pastBoards = [];
         game.pastAnimations = [];
         game.pastBoards.push(game.board);
+        game.turnTime
 
         switch(mode)
         {
@@ -812,6 +815,8 @@ class XMLscene extends CGFscene {
         this.choosingDirection = false;
         this.animationTime = 0;
         this.gameInProgress = true;
+        game.turnTime = this.turnTime;
+        this.turnTimeCounter = game.turnTime;
 
         if(this.interface.gameMovie != null)
         {
@@ -979,7 +984,18 @@ class XMLscene extends CGFscene {
         }
 
         this.waterTimer += 0.05 * (currentTime - this.lastUpdate) / 1000;
-        this.counter += (currentTime - this.lastUpdate) / 1000;
+
+        if(this.turnTimeCounter > 0)
+        {
+            this.turnTimeCounter -= (currentTime - this.lastUpdate) / 1000;
+
+            if(this.turnTimeCounter < 0)
+            {
+                console.log("Time is up!");
+                this.turnTimeCounter = 0;
+                this.endGame();
+            }
+        }
 
         if(this.animationTime > 0)
         {
