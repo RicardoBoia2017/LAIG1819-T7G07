@@ -56,7 +56,7 @@ class MyInterface extends CGFinterface {
     }
 
 	/**
-	* Adds a folder containing a combo box with the views passas as parameter 
+	* Adds a folder containing a combo box with the views passed as parameter 
 	* @param {array} views
 	*/
 	addViewsGroup(views) {
@@ -70,7 +70,8 @@ class MyInterface extends CGFinterface {
 		for (var key in views)
 			viewsIds.push(key);
 		
-		this.gui.add(this.scene, 'defaultView', viewsIds ).name("Views");
+		this.gui.add(this.scene, 'moveCamera', viewsIds ).name("Views");
+		//this.gui.add(this.scene, 'moveCamera', viewsIds ).name("Move Camera");
 
 	}
 	

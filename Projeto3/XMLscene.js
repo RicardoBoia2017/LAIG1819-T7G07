@@ -1,5 +1,15 @@
 var DEGREE_TO_RAD = Math.PI / 180;
 
+//TODO: Mudar nomes das variaveis
+let CAMERA_TILT = 20;
+let CAMERA_TILT_ORIGINAL = 25;
+let CAMERA_TILT_BLACK = 25;
+let CAMERA_PAN = 40;
+let CAMERA_TILT_INCREMENT = Math.PI/180*2.5;
+let CAMERA_PAN_INCREMENT_POS = [0.2,0,1];
+let CAMERA_PAN_INCREMENT_NEG = [-0.2,0,1];
+
+
 //struct to store game information
 let game =
 {
@@ -76,6 +86,9 @@ class XMLscene extends CGFscene {
         this.turnTime = 60;
 
         this.movValues = [2, 2.1];
+
+        this.isCameraMoving = false; 
+        this.currCamAngle=0;
 
         this.objects = [];
 
@@ -929,6 +942,7 @@ class XMLscene extends CGFscene {
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
+            this.updateCamera();
         }
         else {
             // Draw axis
@@ -954,4 +968,91 @@ class XMLscene extends CGFscene {
         this.lastUpdate = currentTime;
 
     }
+
+
+
+    /**
+	* Changes the Camera ViewPoint
+	*/
+	moveCamera(){
+		this.isCameraMoving= true;
+		this.cameraTiltBlackCounter = 0;	//TODO: mudar nome da variavel
+		this.cameraPanCounter = 0;			//TODO: mudar nome da variavel
+		this.cameraTiltCounter = 0;			//TODO: mudar nome da variavel
+	};
+
+	/**
+	 * Updates the Camera Rotation
+	*/
+	updateCamera(){
+
+	  if (this.isCameraMoving){
+		if (this.currCamAngle == 0){ //WHITE VIEW
+		   if (this.cameraTiltCounter < CAMERA_TILT) {
+			   this.camera.orbit(CGFcameraAxisID.Y, Math.PI/90 *1.1);
+			   this.cameraTiltCounter++;
+		   }
+		   else if (this.cameraTiltCounter == CAMERA_TILT){
+			   this.currCamAngle = 1;
+			   this.isCameraMoving = false;
+		   }
+	   }
+	   else if (this.currCamAngle == 1)  { //BLACK VIEW
+		 if (this.cameraTiltCounter < CAMERA_TILT_BLACK){
+			  this.camera.orbit(CGFcameraAxisID.Y, Math.PI/90 * 3.6);
+			  this.cameraTiltCounter++;
+		  }
+		 else if (this.cameraTiltCounter == CAMERA_TILT_BLACK){
+			this.currCamAngle = 2;
+			this.isCameraMoving = false;
+		  }
+	   }
+		else if(this.currCamAngle == 2){  //TOP DOWN VIEW
+		  if (this.cameraTiltBlackCounter < CAMERA_TILT_BLACK){
+			   this.camera.orbit(CGFcameraAxisID.Y, Math.PI/90 * 3.6);
+			   this.cameraTiltBlackCounter++;
+		   }
+		  else if (this.cameraTiltCounter < CAMERA_TILT){
+				this.camera.orbit(CGFcameraAxisID.X, CAMERA_TILT_INCREMENT);
+				this.cameraTiltCounter++;
+			}
+			else if (this.cameraPanCounter < CAMERA_PAN){
+				this.camera.orbit(CGFcameraAxisID.Y, Math.PI/2);
+				this.camera.pan(CAMERA_PAN_INCREMENT_POS);
+				this.camera.orbit(CGFcameraAxisID.Y, -Math.PI/2);
+				this.cameraPanCounter++;
+			  }
+			 else if (this.cameraPanCounter == CAMERA_PAN && this.cameraTiltCounter == CAMERA_TILT){
+				this.currCamAngle = 3;
+				this.isCameraMoving = false;
+			}
+		 }
+	   else if (this.currCamAngle == 3)  {  //RESET TOP DOWN VIEW
+		 if (this.cameraPanCounter < CAMERA_PAN) {
+			this.camera.orbit(CGFcameraAxisID.Y, Math.PI / 2);
+			this.camera.pan(CAMERA_PAN_INCREMENT_NEG);
+			this.camera.orbit(CGFcameraAxisID.Y, -Math.PI / 2);
+			this.cameraPanCounter = this.cameraPanCounter + 1;
+		}
+		else if (this.cameraTiltCounter < CAMERA_TILT) {
+			this.camera.orbit(CGFcameraAxisID.X, -CAMERA_TILT_INCREMENT);
+			this.cameraTiltCounter++;
+		}
+		else if (this.cameraPanCounter == CAMERA_PAN && this.cameraTiltCounter == CAMERA_TILT){
+			this.currCamAngle = 0;
+			this.isCameraMoving = false;
+		}
+	   }
+
+	  }
+	  }
+
+
+     /*Rotates the Camera
+     
+    rotateCamera(rotation){
+        this.cameraRotation = rotation;
+        this.cameraAcc = 0;
+    };
+    */
 }
