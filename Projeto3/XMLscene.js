@@ -421,6 +421,9 @@ class XMLscene extends CGFscene {
 
     botMoveRequest()
     {
+        if(!scene.gameInProgress)
+            return;
+
         let bot = game.players[game.currentPlayer];
         let difficulty = bot.substring(3,bot.length);
 
@@ -591,6 +594,8 @@ class XMLscene extends CGFscene {
             time = Math.abs(diff1);
         else
             time = Math.abs(diff2);
+
+        scene.animationTime = time;
 
         scene.graph.components[componentName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [diff1 * scene.movValues[0], 0, diff2 * scene.movValues[1]]]);
         scene.graph.components[componentName].currentAnimation = 0;            
