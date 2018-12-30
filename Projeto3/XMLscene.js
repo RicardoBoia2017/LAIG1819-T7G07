@@ -98,6 +98,8 @@ class XMLscene extends CGFscene {
         this.undo = new MyQuad(this, [0, 0, 1, 1]);
 
         game.pastBoards.push(game.board);
+
+        this.victoryAudio = new Audio('scenes/victory.mp4');
     }
 
     /**
@@ -694,6 +696,7 @@ class XMLscene extends CGFscene {
         if(reply == "1")
         {
             console.log(game.color + " has won the game!");
+            scene.victoryAudio.play();
             scene.endGame();
         }
         
