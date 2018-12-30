@@ -71,6 +71,7 @@ class XMLscene extends CGFscene {
 
         this.choosingDirection = false;
         this.animationInProgress = false;
+        this.gameInProgress = true;
 
         this.turnTime = 60;
 
@@ -223,7 +224,7 @@ class XMLscene extends CGFscene {
      */
     logPicking() {
         //If no animation is in progress
-        if (this.pickMode == false && !this.animationInProgress) {
+        if (this.pickMode == false && !this.animationInProgress && this.gameInProgress) {
             if (this.pickResults != null && this.pickResults.length > 0) {
 
                 for (var i = 0; i < this.pickResults.length; i++) {
@@ -355,6 +356,10 @@ class XMLscene extends CGFscene {
         return valid;
     }
 
+    /***********************************************************/
+
+    /*Requests*/
+
     //Calculates the direction given starting and target positions, and makes move request
     moveRequest(targetRow, targetCol) {
         let startingRow;
@@ -454,6 +459,10 @@ class XMLscene extends CGFscene {
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
         request.send();
     }
+
+    /****************************************************************************/
+
+    /* Reply Handlers */
 
     /**
      * Handles the reply for move requests. Updates positions array and sets animation
@@ -687,6 +696,8 @@ class XMLscene extends CGFscene {
         game.arrowPosition = [];
     }
 
+    /*****************************************************************/
+
     /**
      * Checks if the board happened for the third time. If true, then the game ends as a draw.
      *  */
@@ -709,6 +720,10 @@ class XMLscene extends CGFscene {
         return 0;
     }
     
+    /**
+     * Puts pieces back into original position and reverts game's values to default
+     * @param {Mode in which the game will be played} mode 
+     */
     newGame(mode)
     {
         mat4.copy(this.graph.components['blackpeca1'].matrixTransf, this.graph.components['blackpeca1'].originalMatrix);
@@ -768,6 +783,7 @@ class XMLscene extends CGFscene {
 
         this.choosingDirection = false;
         this.animationInProgress = false;
+        this.gameInProgress = true;
 
         if(this.interface.gameMovie != null)
         {
@@ -777,6 +793,8 @@ class XMLscene extends CGFscene {
 
     endGame()
     {
+        this.gameInProgress = false;
+
         this.interface.gameOptions.open();
         this.interface.gameMovie = this.interface.gui.add(this, 'ViewGameFilm');
     }
