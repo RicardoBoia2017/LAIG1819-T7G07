@@ -80,7 +80,7 @@ class XMLscene extends CGFscene {
         this.setPickEnabled(true);
 
         this.choosingDirection = false;
-        this.animationInProgress = false;
+        this.animationTime = 0;
         this.gameInProgress = true;
 
         this.turnTime = 60;
@@ -237,7 +237,7 @@ class XMLscene extends CGFscene {
      */
     logPicking() {
         //If no animation is in progress
-        if (this.pickMode == false && !this.animationInProgress && this.gameInProgress) {
+        if (this.pickMode == false && this.animationTime == 0 && this.gameInProgress) {
             if (this.pickResults != null && this.pickResults.length > 0) {
 
                 for (var i = 0; i < this.pickResults.length; i++) {
@@ -309,7 +309,7 @@ class XMLscene extends CGFscene {
         else
             time = Math.abs(rowDiff);
 
-        this.animationInProgress = true;
+        this.animationTime = time;
 
         //Creates inverted animation
         this.graph.components[pieceName].animations[0] = new LinearAnimation(this, time, [[0,0,0], [-colDiff * this.movValues[0], 0, -rowDiff * this.movValues[1]]]);
@@ -425,10 +425,10 @@ class XMLscene extends CGFscene {
         let difficulty = bot.substring(3,bot.length);
 
         if(difficulty == "Easy")
-            this.getPrologRequest("bot_move(" + game.board + "," + 1 + "," + game.color + ")", this.botMoveReply);
+            scene.getPrologRequest("bot_move(" + game.board + "," + 1 + "," + game.color + ")", scene.botMoveReply);
 
         else if (difficulty == "Hard")     
-            this.getPrologRequest("bot_move(" + game.board + "," + 2 + "," + game.color + ")", this.botMoveReply);
+            scene.getPrologRequest("bot_move(" + game.board + "," + 2 + "," + game.color + ")", scene.botMoveReply);
 
     }
 
@@ -514,7 +514,7 @@ class XMLscene extends CGFscene {
         else
             time = Math.abs(diff2);
 
-        scene.animationInProgress = true;
+        scene.animationTime = time;
 
         scene.graph.components[componentName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [diff1 * scene.movValues[0], 0, diff2 * scene.movValues[1]]]);
         scene.graph.components[componentName].currentAnimation = 0;
@@ -532,6 +532,9 @@ class XMLscene extends CGFscene {
         scene.gameOver();
     }
 
+    /**
+     * Handles the reply for bot move request. Updates opsition array and sets animation
+     */
     botMoveReply(data) {
         let reply = data.target.response.split("-");
 
@@ -597,10 +600,10 @@ class XMLscene extends CGFscene {
         
         //Updates positions array
         if (game.color == 'b') 
-            game.blackPositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
+            game.blackPositions[game.piece - 1] = [targetRow, targetCol];
 
         else if (game.color == 'w')
-            game.whitePositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
+            game.whitePositions[game.piece - 1] = [targetRow, targetCol];
 
         scene.gameOver();
     }
@@ -695,18 +698,7 @@ class XMLscene extends CGFscene {
             scene.endGame();
         }
 
-        //Changes player
-        if (game.color == 'b') 
-        {
-            game.color = 'w';
-        }
-        
-        else if (game.color == 'w') 
-        {
-            game.color = 'b';
-        }
-        
-        game.arrowPosition = [];
+        scene.changeTurn();
     }
 
     /*****************************************************************/
@@ -733,6 +725,24 @@ class XMLscene extends CGFscene {
         return 0;
     }
     
+    changeTurn()
+    {
+        //Changes player
+        if (game.color == 'b') 
+            game.color = 'w';
+        
+        else if (game.color == 'w') 
+            game.color = 'b';
+            
+        game.currentPlayer = Number(!game.currentPlayer);
+  
+        game.arrowPosition = [];
+
+        if(game.players[game.currentPlayer].substring(0,3) == "Bot")
+            setTimeout(scene.botMoveRequest,this.animationTime * 1000);
+
+    }
+
     /**
      * Puts pieces back into original position and reverts game's values to default
      * @param {Mode in which the game will be played} mode 
@@ -795,12 +805,13 @@ class XMLscene extends CGFscene {
         }
 
         this.choosingDirection = false;
-        this.animationInProgress = false;
+        this.animationTime = 0;
         this.gameInProgress = true;
 
         if(this.interface.gameMovie != null)
         {
             this.interface.gui.remove(this.interface.gameMovie);
+            this.interface.gameMovie = null;
         }
     }
 
@@ -817,7 +828,7 @@ class XMLscene extends CGFscene {
      */
     ViewGameFilm()
     {
-        if(this.animationInProgress || this.gameMovieInProgress)
+        if(this.animationTime > 0 || this.gameMovieInProgress)
             return;
 
         mat4.copy(this.graph.components['blackpeca1'].matrixTransf, this.graph.components['blackpeca1'].originalMatrix);
@@ -965,11 +976,17 @@ class XMLscene extends CGFscene {
         this.waterTimer += 0.05 * (currentTime - this.lastUpdate) / 1000;
         this.counter += (currentTime - this.lastUpdate) / 1000;
 
+        if(this.animationTime > 0)
+        {
+            this.animationTime -= (currentTime - this.lastUpdate) / 1000;
+
+            if(this.animationTime < 0)
+                this.animationTime = 0;
+        }   
+        
         this.lastUpdate = currentTime;
 
     }
-
-
 
     /**
 	* Changes the Camera ViewPoint
