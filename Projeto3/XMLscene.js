@@ -759,12 +759,7 @@ class XMLscene extends CGFscene {
      */
     newGame(mode)
     {
-        mat4.copy(this.graph.components['blackpeca1'].matrixTransf, this.graph.components['blackpeca1'].originalMatrix);
-        mat4.copy(this.graph.components['blackpeca2'].matrixTransf, this.graph.components['blackpeca2'].originalMatrix);
-        mat4.copy(this.graph.components['blackpeca3'].matrixTransf, this.graph.components['blackpeca3'].originalMatrix);
-        mat4.copy(this.graph.components['whitepeca1'].matrixTransf, this.graph.components['whitepeca1'].originalMatrix);
-        mat4.copy(this.graph.components['whitepeca2'].matrixTransf, this.graph.components['whitepeca2'].originalMatrix);
-        mat4.copy(this.graph.components['whitepeca3'].matrixTransf, this.graph.components['whitepeca3'].originalMatrix);
+        this.restartPieces();
 
         game.board = "[[x,w,x,w,x],[x,x,b,x,x],[x,x,x,x,x],[x,x,w,x,x],[x,b,x,b,x]]";
         game.blackPositions = [
@@ -826,6 +821,24 @@ class XMLscene extends CGFscene {
             this.interface.gui.remove(this.interface.gameMovie);
             this.interface.gameMovie = null;
         }
+    }
+
+    restartPieces()
+    {
+        for(let i = 1; i <= game.blackPositions.length; i++)
+        {
+            let blackName = "blackpeca" + i;
+            let whiteName = "whitepeca" + i;
+
+            mat4.copy(this.graph.components[blackName].matrixTransf, this.graph.components[blackName].originalMatrix);
+            this.graph.components[blackName].animations.length = 0;
+            this.graph.components[blackName].animationTime = 0;
+
+            mat4.copy(this.graph.components[whiteName].matrixTransf, this.graph.components[whiteName].originalMatrix);
+            this.graph.components[whiteName].animations.length = 0;
+            this.graph.components[whiteName].animationTime = 0;
+        }
+
     }
 
     endGame()
@@ -892,33 +905,33 @@ class XMLscene extends CGFscene {
     HvH()
     {
         this.newGame(1);
-        console.log("HvH");
+        console.log("Human vs Human game started");
     }
 
     HvC_Easy()
     {
         this.newGame(2);
-        console.log("HvC_Easy");
+        console.log("Human vs Bot-Easy game started");
     }
 
     HvC_Hard()
     {
         this.newGame(3);
-        console.log("HvC_Hard");
+        console.log("Human vs Bot-Hard game started");
     }
 
     CvC_Easy()
     {
         this.newGame(4);
         scene.botMoveRequest();
-        console.log("CvC_Easy");
+        console.log("Bot-Easy vs Bot-Easy game started");
     }
 
     CvC_Hard()
     {
         this.newGame(5);
         scene.botMoveRequest();
-        console.log("CvC_Hard");
+        console.log("Bot-Hard vs Bot-Hard game started");
     }
 
     /**
@@ -988,7 +1001,7 @@ class XMLscene extends CGFscene {
 
         this.waterTimer += 0.05 * (currentTime - this.lastUpdate) / 1000;
 
-        if(this.turnTimeCounter > 0)
+        if(this.turnTimeCounter > 0 && this.gameInProgress)
         {
             this.turnTimeCounter -= (currentTime - this.lastUpdate) / 1000;
 

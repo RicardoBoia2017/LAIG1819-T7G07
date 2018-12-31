@@ -159,12 +159,6 @@ MyComponent.prototype.applyAnimationMatrix = function ()
 
 	if(animation != null)
 		animation.apply();
-	
-	/*else if (this.getAnimationsLenght() > 0)
-	{
-		let lastAnimation = this.animations[this.getAnimationsLenght()-1];
-		lastAnimation.apply();
-	}*/
 }
 	
 
