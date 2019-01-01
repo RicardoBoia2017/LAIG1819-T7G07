@@ -81,6 +81,8 @@ class XMLscene extends CGFscene {
         this.choosingDirection = false;
         this.animationTime = 0;
         this.gameInProgress = true;
+        this.ignoreRequest = false;
+        this.requestInProgress = false;
 
         this.turnTime = 60; //Value controlled in interface
         this.turnTimeCounter = this.turnTime; //Value used to actually count the time
@@ -238,10 +240,9 @@ class XMLscene extends CGFscene {
      * Checks which square was selected by user
      */
     logPicking() {
-        //If no animation is in progress
-        if (this.pickMode == false && this.animationTime == 0 && this.gameInProgress) {
+        //If a game is in progress, current player is a human and no animation is in progress
+        if (this.pickMode == false && this.animationTime == 0 && this.gameInProgress && game.players[game.currentPlayer] == "Human") {
             if (this.pickResults != null && this.pickResults.length > 0) {
-
                 for (var i = 0; i < this.pickResults.length; i++) {
 
                     var obj = this.pickResults[i][0];
@@ -271,12 +272,6 @@ class XMLscene extends CGFscene {
                                 this.choosingDirection = true;
                             }
                         }
-                        //            this.getPrologRequest("move(" + Dir + "," + game.board + "," + Row + "," + Col +",'b')", this.handleReply);
-                        //                    this.getPrologRequest("initGame('PvP')", this.handleReply);
-                        //                      this.getPrologRequest("valid_moves(" + this.convertBoardToString(this.board) + ",2,3)", this.handleReply);
-                        //                      this.getPrologRequest("game_over(" + this.convertBoardToString(this.board) + ",'w')", this.handleReply);
-                        //                        this.getPrologRequest("bot_move(" + this.convertBoardToString(this.board) + ",2,'b')", this.handleReply);
-
                     }
                 }
                 this.pickResults.splice(0, this.pickResults.length);
@@ -286,12 +281,23 @@ class XMLscene extends CGFscene {
     }
 
     //Gets previous board and restores it, animating piece movement
+
     undoTurn()
     {
         if(game.pastBoards.length == 1) //only has initial board
             return;
 
-        let lastBoard = game.pastBoards.pop();
+        let otherPlayer = game.players[Number(!game.currentPlayer)];
+
+        this.undoMove();
+
+        if(otherPlayer != "Human")
+            setTimeout(this.undoMove, this.animationTime * 1000);
+    }
+
+    undoMove()
+    {
+        game.pastBoards.pop();
         let lastAnimation = game.pastAnimations.pop();
 
 
@@ -311,11 +317,11 @@ class XMLscene extends CGFscene {
         else
             time = Math.abs(rowDiff);
 
-        this.animationTime = time;
+        scene.animationTime = time;
 
         //Creates inverted animation
-        this.graph.components[pieceName].animations[0] = new LinearAnimation(this, time, [[0,0,0], [-colDiff * this.movValues[0], 0, -rowDiff * this.movValues[1]]]);
-        this.graph.components[pieceName].currentAnimation = 0;
+        scene.graph.components[pieceName].animations[0] = new LinearAnimation(scene, time, [[0,0,0], [-colDiff * scene.movValues[0], 0, -rowDiff * scene.movValues[1]]]);
+        scene.graph.components[pieceName].currentAnimation = 0;
 
         //Reverts position change from last move and changes player  
         if (game.color == 'b') 
@@ -419,6 +425,8 @@ class XMLscene extends CGFscene {
                 dir = 6; //northwest
         }
         this.getPrologRequest("move(" + dir + "," + game.board + "," + startingRow + "," + startingCol + "," + game.color + ")", this.moveReply);
+
+        scene.requestInProgress = true;
     }
 
     botMoveRequest()
@@ -434,6 +442,8 @@ class XMLscene extends CGFscene {
 
         else if (difficulty == "Hard")     
             scene.getPrologRequest("bot_move(" + game.board + "," + 2 + "," + game.color + ")", scene.botMoveReply);
+
+        scene.requestInProgress = true;
 
     }
 
@@ -460,6 +470,8 @@ class XMLscene extends CGFscene {
      */
     gameOver() {
         this.getPrologRequest("game_over(" + game.board + "," + game.color + ")", this.gameOverReply);
+
+        scene.requestInProgress = true;
     }
 
     /**
@@ -487,6 +499,16 @@ class XMLscene extends CGFscene {
      * @param {*} data 
      */
     moveReply(data) {
+
+        scene.requestInProgress = false;
+
+        //used when starting a new game during a request
+        if(scene.ignoreRequest)
+        {
+            scene.ignoreRequest = false;
+            return;
+        }
+
         let reply = data.target.response.split("-");
 
         game.board = reply[0];
@@ -541,6 +563,16 @@ class XMLscene extends CGFscene {
      * Handles the reply for bot move request. Updates opsition array and sets animation
      */
     botMoveReply(data) {
+
+        scene.requestInProgress = false;
+
+        //used when starting a new game during a request
+        if(scene.ignoreRequest)
+        {
+            scene.ignoreRequest = false;
+            return;
+        }
+
         let reply = data.target.response.split("-");
 
         game.board = reply[2];
@@ -691,6 +723,15 @@ class XMLscene extends CGFscene {
      *  Checks if any game ending condition verifies. If true, the game ends, otherwise player's turn ends
      * */
     gameOverReply(data) {
+        scene.requestInProgress = false;
+
+        //used when starting a new game during a request
+        if(scene.ignoreRequest)
+        {
+            scene.ignoreRequest = false;
+            return;
+        }
+
         let reply = data.target.response;
 
         if(reply == "1")
@@ -759,6 +800,9 @@ class XMLscene extends CGFscene {
      */
     newGame(mode)
     {
+        if(this.requestInProgress)
+            this.ignoreRequest = true;
+
         this.restartPieces();
 
         game.board = "[[x,w,x,w,x],[x,x,b,x,x],[x,x,x,x,x],[x,x,w,x,x],[x,b,x,b,x]]";
@@ -838,7 +882,6 @@ class XMLscene extends CGFscene {
             this.graph.components[whiteName].animations.length = 0;
             this.graph.components[whiteName].animationTime = 0;
         }
-
     }
 
     endGame()
@@ -874,6 +917,10 @@ class XMLscene extends CGFscene {
      */
     doPastAnimation(index)
     {
+        //New game was started between animations   
+        if(scene.gameInProgress)
+            return
+
         if(index == game.pastAnimations.length)
         {
             scene.gameMovieInProgress = false;
