@@ -449,9 +449,9 @@
 		   <componentref id="phone2"/>
 		   <componentref id="phone3"/>
 
-		   <componentref id="chair1"/>
+		    <!-- <componentref id="chair1"/>
 		   <componentref id="chair2"/>
-		   <componentref id="chair3"/>
+		   <componentref id="chair3"/>-->
 		   <componentref id="chair4"/>
 		   <componentref id="chair5"/>
 		   
