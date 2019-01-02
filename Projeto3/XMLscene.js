@@ -282,8 +282,7 @@ class XMLscene extends CGFscene {
 
     }
 
-    //Gets previous board and restores it, animating piece movement
-
+    //Revertts game to previous turn
     undoTurn()
     {
         if(game.pastBoards.length == 1) //only has initial board
@@ -297,6 +296,7 @@ class XMLscene extends CGFscene {
             setTimeout(this.undoMove, this.animationTime * 1000);
     }
 
+    //Gets previous board and restores it, animating piece movement
     undoMove()
     {
         game.pastBoards.pop();
@@ -431,6 +431,9 @@ class XMLscene extends CGFscene {
         scene.requestInProgress = true;
     }
 
+    /**
+     * Requests bot move if game is in progress
+     */
     botMoveRequest()
     {
         if(!scene.gameInProgress)
@@ -781,6 +784,9 @@ class XMLscene extends CGFscene {
         return 0;
     }
     
+    /**
+     * Changes current player
+     */
     changeTurn()
     {
         //Changes player
@@ -874,6 +880,9 @@ class XMLscene extends CGFscene {
         }
     }
 
+    /**
+     * Places pieces in their original position
+     */
     restartPieces()
     {
         for(let i = 1; i <= game.blackPositions.length; i++)
@@ -891,12 +900,18 @@ class XMLscene extends CGFscene {
         }
     }
 
+    /**
+     * Resets scores
+     */
     resetScore()
     {
         this.whiteScore = 0;
         this.blackScore = 0;
     }
 
+    /**
+     * Ends game
+     */
     endGame()
     {
         this.gameInProgress = false;
@@ -961,6 +976,8 @@ class XMLscene extends CGFscene {
     }
 
     /**************************************************************************/
+
+    /*Functions used to start game in each mode*/
 
     HvH()
     {

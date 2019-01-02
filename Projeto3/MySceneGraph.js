@@ -2438,7 +2438,7 @@ class MySceneGraph {
 	}
 
 	/**
-	 * Gets time from scene and changes textures from scoreboard accordingly
+	 * Gets time and scores from scene and changes textures from scoreboard accordingly
 	 */
 	updateScoreBoard() {
 
