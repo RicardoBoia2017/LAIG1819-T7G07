@@ -1156,7 +1156,7 @@ class XMLscene extends CGFscene {
 			
 			    else if (this.camTiltCount == CAM_TILT_RATE && this.camPanCount == CAM_PAN_RATE)
 			    {
-				    this.currCamAngle = 0;
+				    this.currCamAngle = 3;
 				    this.isCameraMoving = false;
 			    } 
            }
