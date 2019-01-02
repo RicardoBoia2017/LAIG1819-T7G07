@@ -1,13 +1,12 @@
 var DEGREE_TO_RAD = Math.PI / 180;
 
-//TODO: Mudar nomes das variaveis
-let CAMERA_TILT = 20;
-let CAMERA_TILT_ORIGINAL = 25;
-let CAMERA_TILT_BLACK = 25;
-let CAMERA_PAN = 40;
-let CAMERA_TILT_INCREMENT = Math.PI/180*2.5;
-let CAMERA_PAN_INCREMENT_POS = [0.2,0,1];
-let CAMERA_PAN_INCREMENT_NEG = [-0.2,0,1];
+let CAM_TILT_RATE = 81;
+let CAM_TILT_RATE_AUX = 25;
+let CAM_TILT_RATE_2 = 41;
+let CAM_TILT_RATE_INCREMENT = -(Math.PI/200)*1.1;
+let CAM_PAN_RATE_INCREMENT_ORIGINAL = [0.4,0,1.5];
+let CAM_PAN_RATE_INCREMENT_BACKWARDS = [-0.4,0,1.5];
+let CAM_PAN_RATE = 40;
 
 
 //struct to store game information
@@ -89,7 +88,7 @@ class XMLscene extends CGFscene {
 
         this.movValues = [2, 2.1];
 
-        this.isCameraMoving = false; 
+        this.isCameraMoving = true; 
         this.currCamAngle=0;
 
         this.objects = [];
@@ -1072,88 +1071,96 @@ class XMLscene extends CGFscene {
 
     }
 
+
     /**
-	* Changes the Camera ViewPoint
+	* Sets the camera animation in motion
 	*/
-	moveCamera(){
-		this.isCameraMoving= true;
-		this.cameraTiltBlackCounter = 0;	//TODO: mudar nome da variavel
-		this.cameraPanCounter = 0;			//TODO: mudar nome da variavel
-		this.cameraTiltCounter = 0;			//TODO: mudar nome da variavel
-	};
+	moveCamera()
+	{
+	    if(this.defaultView == "board")
+	    {
+	          this.isCameraMoving= true;
+		      this.camTilt2Count = 0;	
+		      this.camPanCount = 0;			
+              this.camTiltCount = 0;			
+	    }	
+	}
+
 
 	/**
-	 * Updates the Camera Rotation
+	 * Updates the camera position based on the current position
 	*/
-	updateCamera(){
-
-	  if (this.isCameraMoving){
-		if (this.currCamAngle == 0){ //WHITE VIEW
-		   if (this.cameraTiltCounter < CAMERA_TILT) {
-			   this.camera.orbit(CGFcameraAxisID.Y, Math.PI/90 *1.1);
-			   this.cameraTiltCounter++;
-		   }
-		   else if (this.cameraTiltCounter == CAMERA_TILT){
-			   this.currCamAngle = 1;
-			   this.isCameraMoving = false;
-		   }
-	   }
-	   else if (this.currCamAngle == 1)  { //BLACK VIEW
-		 if (this.cameraTiltCounter < CAMERA_TILT_BLACK){
-			  this.camera.orbit(CGFcameraAxisID.Y, Math.PI/90 * 3.6);
-			  this.cameraTiltCounter++;
-		  }
-		 else if (this.cameraTiltCounter == CAMERA_TILT_BLACK){
-			this.currCamAngle = 2;
-			this.isCameraMoving = false;
-		  }
-	   }
-		else if(this.currCamAngle == 2){  //TOP DOWN VIEW
-		  if (this.cameraTiltBlackCounter < CAMERA_TILT_BLACK){
-			   this.camera.orbit(CGFcameraAxisID.Y, Math.PI/90 * 3.6);
-			   this.cameraTiltBlackCounter++;
-		   }
-		  else if (this.cameraTiltCounter < CAMERA_TILT){
-				this.camera.orbit(CGFcameraAxisID.X, CAMERA_TILT_INCREMENT);
-				this.cameraTiltCounter++;
-			}
-			else if (this.cameraPanCounter < CAMERA_PAN){
-				this.camera.orbit(CGFcameraAxisID.Y, Math.PI/2);
-				this.camera.pan(CAMERA_PAN_INCREMENT_POS);
-				this.camera.orbit(CGFcameraAxisID.Y, -Math.PI/2);
-				this.cameraPanCounter++;
+	updateCamera()
+	{
+	   if (this.isCameraMoving)
+	   {
+		  if (this.currCamAngle == 0)     //Move camera to 2nd player spot
+		  {
+		      if (this.camTiltCount == CAM_TILT_RATE) 
+		      {
+			     this.currCamAngle = 1;
+			     this.isCameraMoving = false;
+		      }
+		      else if (this.camTiltCount < CAM_TILT_RATE)
+		      {
+			     this.camera.orbit(CGFcameraAxisID.Y, Math.PI/90 *1.1);
+			     this.camTiltCount++;
+		      }
+	       }
+	   
+		  else if(this.currCamAngle == 1) //Move camera to show the timer
+		  {
+		      if (this.camTilt2Count < CAM_TILT_RATE_2)
+		      {
+                    this.camera.orbit(CGFcameraAxisID.Y, Math.PI/90 * 1.1);
+			        this.camTilt2Count++;
+		      }
+		      else if (this.camTiltCount < CAM_TILT_RATE)
+		      {
+				    this.camera.orbit(CGFcameraAxisID.X, CAM_TILT_RATE_INCREMENT);
+				    this.camTiltCount++;
 			  }
-			 else if (this.cameraPanCounter == CAMERA_PAN && this.cameraTiltCounter == CAMERA_TILT){
-				this.currCamAngle = 3;
-				this.isCameraMoving = false;
-			}
-		 }
-	   else if (this.currCamAngle == 3)  {  //RESET TOP DOWN VIEW
-		 if (this.cameraPanCounter < CAMERA_PAN) {
-			this.camera.orbit(CGFcameraAxisID.Y, Math.PI / 2);
-			this.camera.pan(CAMERA_PAN_INCREMENT_NEG);
-			this.camera.orbit(CGFcameraAxisID.Y, -Math.PI / 2);
-			this.cameraPanCounter = this.cameraPanCounter + 1;
-		}
-		else if (this.cameraTiltCounter < CAMERA_TILT) {
-			this.camera.orbit(CGFcameraAxisID.X, -CAMERA_TILT_INCREMENT);
-			this.cameraTiltCounter++;
-		}
-		else if (this.cameraPanCounter == CAMERA_PAN && this.cameraTiltCounter == CAMERA_TILT){
-			this.currCamAngle = 0;
-			this.isCameraMoving = false;
-		}
-	   }
+			  else if (this.camPanCount < CAM_PAN_RATE)
+			  {
+				    this.camera.orbit(CGFcameraAxisID.Y, Math.PI/2);
+				    this.camera.pan(CAM_PAN_RATE_INCREMENT_BACKWARDS);
+				    this.camera.orbit(CGFcameraAxisID.Y, -Math.PI/2);
+				    this.camPanCount++;
+			  }
+			  else if (this.camTiltCount == CAM_TILT_RATE && this.camPanCount == CAM_PAN_RATE)
+			  {
+				    this.currCamAngle = 2;
+				    this.isCameraMoving = false;
+			  }
+		  }
 
+		  else if (this.currCamAngle == 2)  //Return camera to 2nd player spot
+		  {  
+                if (this.camPanCount < CAM_PAN_RATE)
+                {
+				    this.camera.orbit(CGFcameraAxisID.Y, Math.PI/2);
+				    this.camera.pan(CAM_PAN_RATE_INCREMENT_ORIGINAL);
+				    this.camera.orbit(CGFcameraAxisID.Y, -Math.PI/2);
+				    this.camPanCount++;
+			    }
+                else if (this.camTilt2Count < CAM_TILT_RATE_2)
+                {
+			         this.camera.orbit(CGFcameraAxisID.Y, -Math.PI/90 * 1.1);
+			         this.camTilt2Count++;
+		        }
+		        else if (this.camTiltCount < CAM_TILT_RATE)
+		        {
+				    this.camera.orbit(CGFcameraAxisID.X, -CAM_TILT_RATE_INCREMENT);
+				    this.camTiltCount++;
+			    }
+			
+			    else if (this.camTiltCount == CAM_TILT_RATE && this.camPanCount == CAM_PAN_RATE)
+			    {
+				    this.currCamAngle = 0;
+				    this.isCameraMoving = false;
+			    } 
+           }
 	  }
-	  }
-
-
-     /*Rotates the Camera
-     
-    rotateCamera(rotation){
-        this.cameraRotation = rotation;
-        this.cameraAcc = 0;
-    };
-    */
+    }
+    
 }
