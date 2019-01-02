@@ -2272,7 +2272,7 @@ class MySceneGraph {
 		if (this.scene.interface.isKeyPressed("KeyM") == true)
 			this.changeMaterials();
 
-		this.setUpTime();
+		this.updateScoreBoard();
 
 		this.scene.logPicking();
 		this.scene.clearPickRegistration();
@@ -2440,7 +2440,11 @@ class MySceneGraph {
 	/**
 	 * Gets time from scene and changes textures from scoreboard accordingly
 	 */
-	setUpTime() {
+	updateScoreBoard() {
+
+		this.components['whiteScore'].textureId = this.scene.whiteScore;
+		this.components['blackScore'].textureId = this.scene.blackScore;
+
 		let currentTime = this.scene.turnTimeCounter;
 
 		let minutes = Math.floor(currentTime / 60);

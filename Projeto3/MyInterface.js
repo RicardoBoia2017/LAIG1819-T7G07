@@ -101,6 +101,7 @@ class MyInterface extends CGFinterface {
 		this.gameOptions = this.gui.addFolder("Game Options");
 		this.gameOptions.open();
 		this.gui.add(this.scene, 'turnTime', 10, 120);
+		this.gui.add(this.scene, 'resetScore');
 	}
 	
 	/**

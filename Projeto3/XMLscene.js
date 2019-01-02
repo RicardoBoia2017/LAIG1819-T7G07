@@ -86,6 +86,9 @@ class XMLscene extends CGFscene {
         this.turnTime = 60; //Value controlled in interface
         this.turnTimeCounter = this.turnTime; //Value used to actually count the time
 
+        this.whiteScore = 0;
+        this.blackScore = 0;
+
         this.movValues = [2, 2.1];
 
         this.isCameraMoving = true; 
@@ -738,6 +741,11 @@ class XMLscene extends CGFscene {
             console.log(game.color + " has won the game!");
             scene.victoryAudio.play();
             scene.endGame();
+
+            if(game.color == 'b')
+                scene.blackScore++;
+            else
+                scene.whiteScore++;
         }
         
         else if(scene.checkDraw())
@@ -881,6 +889,12 @@ class XMLscene extends CGFscene {
             this.graph.components[whiteName].animations.length = 0;
             this.graph.components[whiteName].animationTime = 0;
         }
+    }
+
+    resetScore()
+    {
+        this.whiteScore = 0;
+        this.blackScore = 0;
     }
 
     endGame()
