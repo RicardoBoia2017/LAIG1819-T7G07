@@ -4,12 +4,12 @@
 
 <scene root="scene1" axis_length="5" />
 
-<views default="board">
+<views default="default">
     <!-- tem de existir, pelo menos, uma vista de -->
     <!-- entre as seguintes (perspective ou ortho) -->
 
     <perspective id="default" near="0.1" far="5000" angle="20">
-        <from x="17" y="10" z="17" />
+        <from x="30" y="20" z="30" />
         <to x="0" y="0" z="0" />
     </perspective>
 	
@@ -23,6 +23,7 @@
         <from x="60" y="60" z="60" />
         <to x="5" y="5" z="5" />
 	</ortho>
+
 
 </views>      
 
@@ -102,8 +103,12 @@
      <!-- Iron -->
     <texture id="iron" file="images/irontexture.jpg"/>
 
+    <texture id="glass" file="images/glassText.jpg" />
+
     <!-- Bordeaux -->
 	<texture id="bordeauxTex" file="images/bordeaux.jpg"/>
+
+    <texture id="blueTex" file="images/blueText.jpg"/>
 
 	<!-- White -->
 	<texture id="whiteTexture" file="images/white.png"/>
@@ -144,6 +149,14 @@
    <!-- White -->
    <texture id="whiteText" file="images/white.jpg"/>
 
+   <texture id="courtFloor" file='images/court.jpg'/>
+
+   <texture id="highSchoolWall" file="images/hswall.jpg"/>
+
+   <texture id="standsText" file="images/stand.jpg"/>
+
+    <texture id="neutreekoBanner" file="images/NeutreekoBanner.png"/>
+
    <texture id="scoreBoardTexture" file="images/scoreBoard.png"/>
     
    <texture id="0" file="images/Numbers/0.png"/>
@@ -183,8 +196,6 @@
    <texture id="arrow6" file="images/arrowNW.jpg"/>
 
    <texture id="undo" file="images/undo.jpg"/>
-
-   <texture id="test" file="images/green.jpg" />
 </textures>
 
 <materials>
@@ -335,6 +346,10 @@
 		    <componentref id="parede2" /> 
 		    <componentref id="tableAndBoard"/>
             <componentref id="marcador" />
+            <componentref id="stands" />
+            <componentref id="banner1" />
+            <componentref id="banner2" />     
+            <componentref id="double_door"/>       
         </children>
 
     </component>
@@ -467,6 +482,31 @@
 	    <component id="chao">  
 
         <transformation>
+            <translate x="-10" y="0" z="-15" />
+            <scale x="10" y="1" z="10" />		
+            <translate x="0" y="0" z="5" />		
+            <rotate axis="x" angle="-90" />
+			<translate x="0" y="1" z="0" />
+        </transformation>
+
+        <materials>
+            <material id="wallMaterial" /> 			
+        </materials>  
+
+        <texture id="courtFloor" length_s="1" length_t="1"/>       			
+
+        <children>
+			<primitiveref id="rectangle"/>        
+		</children>
+
+    </component>
+
+
+    <component id="chao2">  
+
+        <transformation>
+        	<translate x="-12" y="0" z="-9"/>
+            <scale x="1.5" y="1" z="1.5"/>
             <scale x="6" y="1" z="5" />		
             <translate x="0" y="0" z="5" />		
             <rotate axis="x" angle="-90" />
@@ -484,33 +524,14 @@
 		</children>
 
     </component>
-
-
-    <component id="chao2">  
-
-        <transformation>
-        	<translate x="-12" y="0" z="-9"/>
-            <scale x="1.5" y="1" z="1.5"/>
-        </transformation>
-
-        <materials>
-            <material id="wallMaterial" /> 			
-        </materials>  
-
-        <texture id="plastic" length_s="1" length_t="1"/>       			
-
-        <children>
-			<componentref id="chao"/>      
-		</children>
-
-    </component>
 	
 
     <!-- parede1 -->
 	   <component id="parede1">  
 
         <transformation>
-            <scale x="6" y="4" z="0" />		
+            <translate x="-10" y="0" z="-15" />
+            <scale x="10" y="7" z="0" />		
         </transformation>
 
         <materials>
@@ -518,7 +539,7 @@
 			
         </materials>  
         
-        <texture id="wall" length_s="1" length_t="1"/>       			
+        <texture id="highSchoolWall" length_s="0.25" length_t="0.25"/>       			
 
         <children>
 			<primitiveref id="rectangle"/>        
@@ -530,7 +551,8 @@
 	    <component id="parede2">  
 
         <transformation>
-			<scale x="0" y="4" z="4" />
+            <translate x="-10" y="0" z="-15" />
+			<scale x="0" y="7" z="8" />
 			<translate x="0" y="0" z="5"/>
             <rotate axis="y" angle="90" />
         </transformation>
@@ -539,7 +561,7 @@
             <material id="wallMaterial" />  
         </materials>  
 
-        <texture id="wall" length_s="1" length_t="1"/>       			
+        <texture id="highSchoolWall" length_s="0.25" length_t="0.25"/>       			
 
         <children>
 			<primitiveref id="rectangle"/>        
@@ -552,7 +574,8 @@
 
         <transformation>
         	<translate x="-12" y="0" z="-9"/>
-            <scale x="1.5" y="1.4" z="1.5" />		
+            <scale x="1.5" y="1.4" z="1.5" />	
+            <scale x="6" y="4" z="0" />			
         </transformation>
 
         <materials>
@@ -563,7 +586,7 @@
         <texture id="wall" length_s="1" length_t="1"/>       			
 
         <children>
-			<componentref id="parede1"/>      
+			<primitiveref id="rectangle"/>      
 		</children>
 
     </component> 
@@ -574,6 +597,9 @@
         <transformation>
 			<translate x="-12" y="0" z="-9"/>
             <scale x="1.5" y="1.4" z="1.5" />
+			<scale x="0" y="4" z="4" />
+			<translate x="0" y="0" z="5"/>
+            <rotate axis="y" angle="90" />	
         </transformation>
 
         <materials>
@@ -583,7 +609,7 @@
         <texture id="wall" length_s="1" length_t="1"/>       			
 
         <children>
-			<componentref id ="parede2"/>      
+			<primitiveref id ="rectangle"/>      
 		</children> 
 
     </component>
@@ -613,6 +639,7 @@
 
         <transformation>
             <translate x="-1" y="4" z="-9"/>
+            <translate x="8" y="7" z="0.1" />
         </transformation>
 
         <materials>            
@@ -622,8 +649,13 @@
       <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
-        <componentref id="marcador"/> 
-        
+        <componentref id="marcadorRectangle"/>
+        <componentref id="whiteScore"/>
+        <componentref id="blackScore"/>
+        <componentref id="time_square1"/>
+        <componentref id="time_square2"/>
+        <componentref id="time_square3"/>
+        <componentref id="time_square4"/>        
       </children>
       
     </component>
@@ -633,7 +665,9 @@
 
         <transformation>	
         	<translate x="-12" y="4" z="19"/>
-            <rotate axis="y" angle="90" />			
+            <rotate axis="y" angle="90" />		
+            <translate x="8" y="7" z="0.1" />
+	
         </transformation>
 
         <materials>
@@ -643,8 +677,14 @@
         <texture id="inherit" length_s="1" length_t="1"/>       			
 
         <children>
-			<componentref id="marcador"/>        
-		</children>
+            <componentref id="marcadorRectangle"/>
+            <componentref id="whiteScore"/>
+            <componentref id="blackScore"/>
+            <componentref id="time_square1"/>
+            <componentref id="time_square2"/>
+            <componentref id="time_square3"/>
+            <componentref id="time_square4"/>    
+        </children>
 
     </component>
 
@@ -1903,7 +1943,8 @@
     <component id="marcador">
 
         <transformation>
-            <translate x="8" y="7" z="0.1" />
+        	<translate x="-9.9" y= "17" z="17"/>
+            <rotate axis="y" angle="90" />		
         </transformation>
 
         <materials>            
@@ -2059,19 +2100,389 @@
 
 
 
+    <component id="stands">
 
+        <transformation>
+            <translate x="-10" y="0" z="0"/>
+            <scale x="5" y="1.5" z="1.5" /> 
+        </transformation>
 
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
 
+      <texture id="standsText" length_s="1" length_t="1"/>
 
+      <children>
+        <componentref id="stand1"/>
+        <componentref id="stand2"/>
+        <componentref id="stand3"/>
+        <componentref id="stand4"/>
+        <componentref id="stand5"/>
+        <componentref id="stand_side1"/>
+        <componentref id="stand_side2"/>
+        <componentref id="stand_side3"/>
+        <componentref id="stand_side4"/>
+        <componentref id="stand_side5"/>
+      </children>
+      
+    </component>
 
+    <component id="stand5">
+        <transformation>
+            <translate x="0" y="8" z="-8" />
+        </transformation>
 
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
 
+      <texture id="inherit" length_s="1" length_t="1"/>
 
+      <children>
+        <componentref id="standX"/>
+        <componentref id="standY"/>
+      </children>
+    </component>
+
+    <component id="stand4">
+        <transformation>
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="inherit" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id="standX"/>
+        <componentref id="standY"/>
+      </children>
+    </component>
+
+    <component id="stand3">
+        <transformation>
+            <translate x="0" y="2" z="-2" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="inherit" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id="standX"/>
+        <componentref id="standY"/>
+      </children>
+    </component>
+
+    <component id="stand2">
+        <transformation>
+            <translate x="0" y="4" z="-4" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="inherit" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id="standX"/>
+        <componentref id="standY"/>
+      </children>
+    </component>
+
+    <component id="stand1">
+        <transformation>
+            <translate x="0" y="6" z="-6" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="inherit" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id="standX"/>
+        <componentref id="standY"/>
+      </children>
+    </component>
+
+    <component id="standX">
+        <transformation>
+            <scale x="10" y="2" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="inherit" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+
+    </component>
+
+    <component id="standY">
+        <transformation>
+            <translate x="0" y="2" z="0" />
+            <rotate axis="x" angle="-90" />
+            <scale x="10" y="2" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="inherit" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+
+    </component>    
 		
+   <component id="stand_side5">
+        <transformation>
+            <translate x="10" y="8" z="-8" />
+            <rotate axis="y" angle="90" />
+            <scale x="2" y="2" z="1" />
+        </transformation>
 
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
 
+      <texture id="inherit" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+
+    </component>
+    <component id="stand_side4">
+        <transformation>
+            <translate x="10" y="6" z="-6" />
+            <rotate axis="y" angle="90" />
+            <scale x="4" y="2" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="inherit" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+
+    </component>
+    <component id="stand_side3">
+        <transformation>
+            <translate x="10" y="4" z="-4" />
+            <rotate axis="y" angle="90" />
+            <scale x="6" y="2" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="inherit" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+
+    </component>
+    <component id="stand_side2">
+        <transformation>
+            <translate x="10" y="2" z="-2" />
+            <rotate axis="y" angle="90" />
+            <scale x="8" y="2" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="inherit" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+
+    </component>
+
+   <component id="stand_side1">
+        <transformation>
+            <translate x="10" y="0" z="0" />
+            <rotate axis="y" angle="90" />
+            <scale x="10" y="2" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="inherit" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+
+    </component>  
+
+   <component id="banner1">
+        <transformation>
+            <translate x="19" y="20" z="-14.9" />
+            <scale x="20" y="6" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="neutreekoBanner" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+
+    </component>  
+
+    <component id="banner2">
+        <transformation>
+            <translate x="-9" y="20" z="-14.9" />
+            <scale x="20" y="6" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="phone_image" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+
+    </component>  
     
+    <component id="double_door">
+        <transformation>
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="phone_image" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id="door1"/>
+        <componentref id="door2"/>
+        <componentref id="door_glass1"/>
+        <componentref id="door_glass2"/>
+      </children>
+
+    </component>  
+
+    <component id="door1">
+        <transformation>
+            <translate x="-9.9" y="0" z="10" />
+            <rotate axis="y" angle="90" />
+            <scale x="6" y="11" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="blueTex" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+    </component>  
+    
+    <component id="door2">
+        <transformation>
+            <translate x="-9.9" y="0" z="16" />
+            <rotate axis="y" angle="90" />
+            <scale x="6" y="11" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="blueTex" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+    </component>  
+
+    <component id="door_glass1">
+        <transformation>
+            <translate x="-9.89" y="6" z="9" />
+            <rotate axis="y" angle="90" />
+            <scale x="4" y="4" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="glass" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+    </component>  
+
+    <component id="door_glass2">
+        <transformation>
+            <translate x="-9.89" y="6" z="15" />
+            <rotate axis="y" angle="90" />
+            <scale x="4" y="4" z="1" />
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="glass" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="rectangle2"/>
+      </children>
+    </component>  
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   	
 
 	<!-- porta -->
