@@ -32,7 +32,7 @@ class MyInterface extends CGFinterface {
 		var group = this.gui.addFolder("Scenes");
 		group.open();
 
-		this.gui.add(this.scene.graph, 'root', ['scene1','scene2', 'scene3', 'scene4'] ).name("Scenes");
+		this.gui.add(this.scene.graph, 'root', ['gym', 'lan'] ).name("Scenes");
 	}
 
     /**

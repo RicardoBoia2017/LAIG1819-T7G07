@@ -2,7 +2,7 @@
 <!-- deve definir-se um objeto para raiz da arvore, assim -->
 <!-- como o comprimento dos tres eixos (cilindros) -->
 
-<scene root="scene1" axis_length="5" />
+<scene root="gym" axis_length="5" />
 
 <views default="default">
     <!-- tem de existir, pelo menos, uma vista de -->
@@ -328,7 +328,7 @@
 <components>    
 
     <!-- The root component -->
-    <component id="scene1"> 
+    <component id="gym"> 
 
         <transformation>
            <transformationref id="default"/>
@@ -430,7 +430,7 @@
     </component>
 
 
-	<component id="scene4"> 
+	<component id="lan"> 
 
         <transformation>
            <transformationref id="default"/>
