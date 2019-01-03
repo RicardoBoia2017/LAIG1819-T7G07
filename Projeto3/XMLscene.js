@@ -4,9 +4,14 @@ let CAM_TILT_RATE = 81;
 let CAM_TILT_RATE_AUX = 25;
 let CAM_TILT_RATE_2 = 41;
 let CAM_TILT_RATE_INCREMENT = -(Math.PI/200)*1.1;
+let CAM_TILT_RATE_INCREMENT_INVERT = (Math.PI/200)*1.4;
 let CAM_PAN_RATE_INCREMENT_ORIGINAL = [0.4,0,1.5];
 let CAM_PAN_RATE_INCREMENT_BACKWARDS = [-0.4,0,1.5];
+let CAM_PAN_RATE_INCREMENT_BACKWARDS2 = [-0.3,0.3,-3.5];
+let CAM_PAN_RATE_INCREMENT_BACKBOARD = [-0.2,0,0];
+let CAM_PAN_RATE_INCREMENT_BACKBOARD2 = [0,0,-3.9];
 let CAM_PAN_RATE = 40;
+let CAM_PAN_RATE2 = 60;
 
 
 //struct to store game information
@@ -1165,31 +1170,60 @@ class XMLscene extends CGFscene {
 			  }
 		  }
 
-		  else if (this.currCamAngle == 2)  //Return camera to 2nd player spot
-		  {  
-                if (this.camPanCount < CAM_PAN_RATE)
-                {
+		  else if(this.currCamAngle == 2) //Move camera to show the timer
+		  {
+		      if (this.camTilt2Count < CAM_TILT_RATE_2)
+		      {
+                    this.camera.orbit(CGFcameraAxisID.Y, Math.PI/90 * 1.1);
+                    this.camera.orbit(CGFcameraAxisID.X, Math.PI/90 * 0.05);
+			        this.camTilt2Count++;
+		      }
+		      /*else if (this.camTiltCount < CAM_TILT_RATE)
+		      {
+				    this.camera.orbit(CGFcameraAxisID.X, CAM_TILT_RATE_INCREMENT);
+				    this.camTiltCount++;
+			  }*/
+			  else if (this.camPanCount < CAM_PAN_RATE2)
+			  {
 				    this.camera.orbit(CGFcameraAxisID.Y, Math.PI/2);
-				    this.camera.pan(CAM_PAN_RATE_INCREMENT_ORIGINAL);
+				    this.camera.pan(CAM_PAN_RATE_INCREMENT_BACKBOARD);
+				    this.camera.pan(CAM_PAN_RATE_INCREMENT_BACKBOARD2);
 				    this.camera.orbit(CGFcameraAxisID.Y, -Math.PI/2);
 				    this.camPanCount++;
-			    }
-                else if (this.camTilt2Count < CAM_TILT_RATE_2)
-                {
-			         this.camera.orbit(CGFcameraAxisID.Y, -Math.PI/90 * 1.1);
-			         this.camTilt2Count++;
-		        }
-		        else if (this.camTiltCount < CAM_TILT_RATE)
-		        {
-				    this.camera.orbit(CGFcameraAxisID.X, -CAM_TILT_RATE_INCREMENT);
+			  }
+			  else if (this.camPanCount == CAM_PAN_RATE2)
+			  {
+				    this.currCamAngle = 4;
+				    this.isCameraMoving = false;
+			  }
+		  }
+
+		  else if (this.currCamAngle == 3)  //Return camera to 2nd player spot
+		  {  
+                if (this.camTilt2Count < CAM_TILT_RATE_2)
+		      {
+                    this.camera.orbit(CGFcameraAxisID.Y, -Math.PI/90 * 0.5);
+                    this.camera.orbit(CGFcameraAxisID.X, -Math.PI/90 * 0.05);
+			        this.camTilt2Count++;
+		      }
+		      else if (this.camTiltCount < CAM_TILT_RATE)
+		      {
+				    this.camera.orbit(CGFcameraAxisID.X, CAM_TILT_RATE_INCREMENT_INVERT);
 				    this.camTiltCount++;
-			    }
-			
-			    else if (this.camTiltCount == CAM_TILT_RATE && this.camPanCount == CAM_PAN_RATE)
-			    {
+			  }
+			  else if (this.camPanCount < CAM_PAN_RATE2)
+			  {
+				    this.camera.orbit(CGFcameraAxisID.Y, Math.PI/2);
+				    //this.camera.pan(CAM_PAN_RATE_INCREMENT_BACKBOARD_INVERT2);
+				    //this.camera.pan(CAM_PAN_RATE_INCREMENT_BACKBOARD_INVERT);
+				    this.camera.orbit(CGFcameraAxisID.Y, -Math.PI/2);
+				    this.camPanCount++;
+			  }
+			  else if (this.camPanCount == CAM_PAN_RATE2)
+			  {
 				    this.currCamAngle = 3;
 				    this.isCameraMoving = false;
-			    } 
+			  }
            }
 	  }
     }
