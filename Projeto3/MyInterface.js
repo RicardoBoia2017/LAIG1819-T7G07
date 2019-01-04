@@ -61,7 +61,7 @@ class MyInterface extends CGFinterface {
 	*/
 	addViewsGroup(views) {
 	
-		var group = this.gui.addFolder("View");
+		var group = this.gui.addFolder("Views");
 		
         group.open();
 		
@@ -82,17 +82,17 @@ class MyInterface extends CGFinterface {
 	 */
 	addMenu() {
 
-	    this.hvh  = this.gui.addFolder("HumanvHuman");
+	    this.hvh  = this.gui.addFolder("Human vs Human");
 		this.hvh.open();	
 		this.gui.add(this.scene, 'HvH');
 		
-		this.hvc = this.gui.addFolder("HumanvComputer");
+		this.hvc = this.gui.addFolder("Human vs Computer");
 		this.hvc.open();	
 
 		this.gui.add(this.scene, 'HvC_Easy');
 		this.gui.add(this.scene, 'HvC_Hard');
 
-		this.cvc = this.gui.addFolder("ComputervComputer");
+		this.cvc = this.gui.addFolder("Computer vs Computer");
 		this.cvc.open();	
 
 		this.gui.add(this.scene, 'CvC_Easy');
