@@ -73,8 +73,6 @@ class MyInterface extends CGFinterface {
 
 		this.gui.add(this.scene, 'defaultView', viewsIds ).name("Views");
 		this.gui.add(this.scene, 'moveCamera');		
-		//this.gui.add(this.scene, 'moveCamera', viewsIds ).name("Move Camera");
-
 	}
 	
 	/**
