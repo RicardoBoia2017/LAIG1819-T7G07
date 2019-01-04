@@ -4,7 +4,7 @@
 
 <scene root="gym" axis_length="5" />
 
-<views default="default">
+<views default="board">
     <!-- tem de existir, pelo menos, uma vista de -->
     <!-- entre as seguintes (perspective ou ortho) -->
 
