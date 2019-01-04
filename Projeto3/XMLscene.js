@@ -751,12 +751,12 @@ class XMLscene extends CGFscene {
             if(game.color == 'b')
             {
                 scene.blackScore++;
-                console.log("Black have won the game!");
+                console.log("Black has won the game!");
             }
             else
             {
                 scene.whiteScore++;
-                console.log("White have won the game!");
+                console.log("White has won the game!");
             }
 
             scene.endGame();
@@ -924,18 +924,18 @@ class XMLscene extends CGFscene {
      * Called when someone doesn't play in time
      */
     timesUp() {
-        console.log("Time is up!");
+        console.log("Time is up!");        
         this.turnTimeCounter = 0;
 
         if(game.color == 'b')
         {
             this.whiteScore++;
-            console.log("White have won the game!");
+            console.log("White has won the game!");
         }
         else
         {
             this.blackScore++;
-            console.log("Black have won the game!");
+            console.log("Black has won the game!");
         }
         
 
@@ -948,6 +948,7 @@ class XMLscene extends CGFscene {
     endGame()
     {
         this.gameInProgress = false;
+        game.arrowPosition = [];
 
         this.interface.gameOptions.open();
         this.interface.gameMovie = this.interface.gui.add(this, 'ViewGameFilm');
