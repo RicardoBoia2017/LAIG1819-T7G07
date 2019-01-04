@@ -18,13 +18,6 @@
         <to x="7.5" y="3" z="5.5" />
     </perspective>
 
-
-    <ortho id="ortho" near="0.1" far="5000" left="-10" right="15" top="5" bottom="-10" >
-        <from x="60" y="60" z="60" />
-        <to x="5" y="5" z="5" />
-	</ortho>
-
-
 </views>      
 
 
