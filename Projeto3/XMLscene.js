@@ -746,14 +746,20 @@ class XMLscene extends CGFscene {
 
         if(reply == "1")
         {
-            console.log(game.color + " has won the game!");
             scene.victoryAudio.play();
-            scene.endGame();
 
             if(game.color == 'b')
+            {
                 scene.blackScore++;
+                console.log("Black have won the game!");
+            }
             else
+            {
                 scene.whiteScore++;
+                console.log("White have won the game!");
+            }
+
+            scene.endGame();
         }
         
         else if(scene.checkDraw())
@@ -915,6 +921,28 @@ class XMLscene extends CGFscene {
     }
 
     /**
+     * Called when someone doesn't play in time
+     */
+    timesUp() {
+        console.log("Time is up!");
+        this.turnTimeCounter = 0;
+
+        if(game.color == 'b')
+        {
+            this.whiteScore++;
+            console.log("White have won the game!");
+        }
+        else
+        {
+            this.blackScore++;
+            console.log("Black have won the game!");
+        }
+        
+
+        this.endGame();
+    }
+
+    /**
      * Ends game
      */
     endGame()
@@ -1016,6 +1044,8 @@ class XMLscene extends CGFscene {
         console.log("Bot-Hard vs Bot-Hard game started");
     }
 
+    /**********************************************************/
+    
     /**
      * Displays the scene.
      */
@@ -1088,11 +1118,7 @@ class XMLscene extends CGFscene {
             this.turnTimeCounter -= (currentTime - this.lastUpdate) / 1000;
 
             if(this.turnTimeCounter < 0)
-            {
-                console.log("Time is up!");
-                this.turnTimeCounter = 0;
-                this.endGame();
-            }
+                this.timesUp();
         }
 
         if(this.animationTime > 0)
