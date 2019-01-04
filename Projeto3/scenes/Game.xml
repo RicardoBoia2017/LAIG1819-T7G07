@@ -4,7 +4,7 @@
 
 <scene root="gym" axis_length="5" />
 
-<views default="default">
+<views default="board">
     <!-- tem de existir, pelo menos, uma vista de -->
     <!-- entre as seguintes (perspective ou ortho) -->
 
@@ -346,6 +346,7 @@
 		    <componentref id="parede2" /> 
 		    <componentref id="tableAndBoard"/>
             <componentref id="marcador" />
+            <componentref id="mini-marcador" />
             <componentref id="stands" />
             <componentref id="banner1" />
             <componentref id="banner2" />     
@@ -447,7 +448,8 @@
 		    <componentref id="parede3" />
 		    <componentref id="parede4" /> 
 		    <componentref id="tableAndBoard"/> 
-		 
+		             
+            <componentref id="mini-marcador" />
 		   <componentref id="marcador3" />
 		   <componentref id="marcador4" />
 
@@ -1600,8 +1602,8 @@
     <component id="mesa_caixa"> 
 
     	<transformation>
-    		<translate x="0" y="3" z="0" />
-			<scale x= "0.775" y="0.65" z= "1.400" />		
+    		<translate x="-1.25" y="3" z="0" />
+			<scale x= "0.85" y="0.65" z= "1.400" />		
         </transformation>
 
         <materials>            
@@ -1661,7 +1663,7 @@
     	<component id="cama_perna1">
 
         <transformation>
-			<translate x="0.5" y="0" z="0.5" />			
+			<translate x="-1.15" y="0" z="0.5" />			
         </transformation>
 
         <materials>            
@@ -1717,7 +1719,7 @@
 	<component id="cama_perna2">
 
         <transformation>
-			<translate x="0.5" y="0" z="10.5" />
+			<translate x="-1.15" y="0" z="10.5" />
         </transformation>
 
         <materials>            
@@ -1735,7 +1737,7 @@
 	<component id="cama_perna3">
 
         <transformation>
-			<translate x="9.5" y="0" z="10.5" />			
+			<translate x="9" y="0" z="10.5" />			
         </transformation>
 
         <materials>            
@@ -1753,7 +1755,7 @@
 	<component id="cama_perna4">
 
         <transformation>
-			<translate x="9.5" y="0" z="0.5" />						
+			<translate x="9" y="0" z="0.5" />						
         </transformation>
 
         <materials>            
@@ -1939,6 +1941,27 @@
       </children>
       
      </component>
+
+    <component id="mini-marcador">
+
+        <transformation>	
+            <translate x="12.5" y="15.5" z="11.25" />
+            <rotate axis="y" angle="90" />
+            <rotate axis="z" angle="90" />
+            <scale x="1" y="0.2" z="0.25" /> 
+        </transformation>
+
+        <materials>            
+            <material id="defaultMaterial" />        
+        </materials>
+
+      <texture id="scoreBoardTexture" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id="marcador" />
+      </children>
+      
+    </component>
 
     <component id="marcador">
 
