@@ -1122,6 +1122,7 @@
             <componentref id = "fullBoard"/> 
             <componentref id ="mesa"/> 
             <componentref id ="undo"/>
+            <componentref id ="color"/>
          </children>
 
     </component>
@@ -1200,6 +1201,27 @@
         </materials>   
 
         <texture id= "undo" length_s="1" length_t="1"/>  
+
+        <children>
+            <primitiveref id="rectangle2"/>
+         </children>
+
+    </component>
+
+    <component id="color"> 
+
+        <transformation>
+        	<scale x="1" y="1" z="1.25"/>
+          	<translate x="19.75" y="5.5" z="7.5"/>
+          	<rotate axis="y" angle="90"/>
+          	<rotate axis="x" angle="-90"/>
+        </transformation>
+
+        <materials>
+           <material id="wallMaterial"/> 
+        </materials>   
+
+        <texture id= "blackText" length_s="1" length_t="1"/>  
 
         <children>
             <primitiveref id="rectangle2"/>

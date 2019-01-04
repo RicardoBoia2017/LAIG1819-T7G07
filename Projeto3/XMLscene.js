@@ -294,11 +294,12 @@ class XMLscene extends CGFscene {
             return;
 
         let otherPlayer = game.players[Number(!game.currentPlayer)];
+        game.arrowPosition = [];
 
         this.undoMove();
 
         if(otherPlayer != "Human")
-            setTimeout(this.undoMove, this.animationTime * 1000);
+            setTimeout(this.undoMove, this.animationTime * 1000);    
     }
 
     //Gets previous board and restores it, animating piece movement
@@ -338,6 +339,7 @@ class XMLscene extends CGFscene {
 
             game.whitePositions[lastPieceMoved - 1] = [currentRow - rowDiff, currentCol - colDiff];
             game.color = 'w';
+            scene.graph.components['color'].textureId = 'whiteText';
         }
         
         else if (game.color == 'w') 
@@ -347,7 +349,9 @@ class XMLscene extends CGFscene {
 
             game.blackPositions[lastPieceMoved - 1] = [currentRow - rowDiff, currentCol - colDiff];
             game.color = 'b';
+            scene.graph.components['color'].textureId = 'blackText';
         }
+
     }
 
     //checks if the selected position has a piece of current player
@@ -542,31 +546,7 @@ class XMLscene extends CGFscene {
             componentName = "whitepeca" + game.piece;
         }
 
-        let diff1 = targetCol - startingCol;
-        let diff2 = targetRow - startingRow;
-        let time;
-
-        if (diff1 != 0) 
-            time = Math.abs(diff1);
-        else
-            time = Math.abs(diff2);
-
-        scene.animationTime = time;
-
-        scene.graph.components[componentName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [diff1 * scene.movValues[0], 0, diff2 * scene.movValues[1]]]);
-        scene.graph.components[componentName].currentAnimation = 0;
-
-        //Piece being moved, horizontal movement, vertical movement
-        game.pastAnimations.push([componentName, diff1, diff2]);
-
-        //Updates positions array
-        if (game.color == 'b') 
-            game.blackPositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
-
-        else if (game.color == 'w')
-            game.whitePositions[game.piece - 1] = [Number(reply[1]), Number(reply[2])];
-
-        scene.gameOver();
+        scene.moveAnimation(componentName, startingRow, startingCol, targetRow, targetCol);
     }
 
     /**
@@ -630,31 +610,7 @@ class XMLscene extends CGFscene {
 
         componentName += game.piece;
 
-        let diff1 = targetCol - startingCol;
-        let diff2 = targetRow - startingRow;
-        let time;
-
-        if (diff1 != 0) 
-            time = Math.abs(diff1);
-        else
-            time = Math.abs(diff2);
-
-        scene.animationTime = time;
-
-        scene.graph.components[componentName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [diff1 * scene.movValues[0], 0, diff2 * scene.movValues[1]]]);
-        scene.graph.components[componentName].currentAnimation = 0;            
-
-        //Piece being moved, horizontal movement, vertical movement
-        game.pastAnimations.push([componentName, diff1, diff2]);
-        
-        //Updates positions array
-        if (game.color == 'b') 
-            game.blackPositions[game.piece - 1] = [targetRow, targetCol];
-
-        else if (game.color == 'w')
-            game.whitePositions[game.piece - 1] = [targetRow, targetCol];
-
-        scene.gameOver();
+        scene.moveAnimation(componentName, startingRow, startingCol, targetRow, targetCol);
     }
 
     /**
@@ -773,6 +729,35 @@ class XMLscene extends CGFscene {
 
     /*****************************************************************/
 
+    moveAnimation(componentName, startingRow, startingCol, targetRow, targetCol)
+    {
+        let diff1 = targetCol - startingCol;
+        let diff2 = targetRow - startingRow;
+        let time;
+
+        if (diff1 != 0) 
+            time = Math.abs(diff1);
+        else
+            time = Math.abs(diff2);
+
+        scene.animationTime = time;
+
+        scene.graph.components[componentName].animations[0] = new LinearAnimation(scene, time, [[0, 0, 0], [diff1 * scene.movValues[0], 0, diff2 * scene.movValues[1]]]);
+        scene.graph.components[componentName].currentAnimation = 0;
+
+        //Piece being moved, horizontal movement, vertical movement
+        game.pastAnimations.push([componentName, diff1, diff2]);
+
+        //Updates positions array
+        if (game.color == 'b') 
+            game.blackPositions[game.piece - 1] = [targetRow, targetCol];
+
+        else if (game.color == 'w')
+            game.whitePositions[game.piece - 1] = [targetRow, targetCol];
+
+        scene.gameOver();
+    }
+
     /**
      * Checks if the board happened for the third time. If true, then the game ends as a draw.
      *  */
@@ -802,10 +787,16 @@ class XMLscene extends CGFscene {
     {
         //Changes player
         if (game.color == 'b') 
+        {
             game.color = 'w';
+            scene.graph.components['color'].textureId = 'whiteText';
+        }
         
         else if (game.color == 'w') 
+        {
             game.color = 'b';
+            scene.graph.components['color'].textureId = 'blackText';
+        }
             
         game.currentPlayer = Number(!game.currentPlayer);
   
@@ -841,6 +832,7 @@ class XMLscene extends CGFscene {
             [4, 3]
         ],
         game.color = 'b';
+        scene.graph.components['color'].textureId = 'blackText';
         game.piece = 0;
         game.currentPlayer = 0;
         game.arrowPosition = [];
