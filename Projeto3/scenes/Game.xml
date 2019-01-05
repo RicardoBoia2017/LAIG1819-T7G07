@@ -48,12 +48,6 @@
 
 <textures>
 	
-	<!-- Terrain -->
-    <texture id="terrainTexture" file="images/terrain2.jpg" />
-
-    <!-- Terrain height map -->
-    <texture id="terrainHeightMap" file="images/heightmap.png" />
-
 	<!-- Tempered Glass Desktop -->
 	<texture id="tgDesktop" file="images/desktopTGTexture.jpg"/>
 
@@ -66,30 +60,18 @@
 	<!-- Keyboard -->
 	<texture id="keyboardTexture" file="images/keyboardTexture.jpg"/>
 
-	<!-- Keyboard -->
-	<texture id="balloonTexture" file="images/blueballoon.jpg"/>
-
-	<!-- Keyboard -->
-	<texture id="ropeTexture" file="images/ropetexture.jpg"/>
-
-	<!-- Keyboard -->
-	<texture id="basketTexture" file="images/baskettexture.jpg"/>
-
 	 <!-- Basketball -->
     <texture id="basketball" file="images/basketballtexture.jpg"/>
 
      <!-- Iron -->
     <texture id="iron" file="images/irontexture.jpg"/>
 
-    <texture id="glass" file="images/glassText.jpg" />
+    <texture id="glass" file="images/glassText.jpg" /> 
 
     <!-- Bordeaux -->
 	<texture id="bordeauxTex" file="images/bordeaux.jpg"/>
 
     <texture id="blueTex" file="images/blueText.jpg"/>
-
-	<!-- White -->
-	<texture id="whiteTexture" file="images/white.png"/>
 
 	<!-- Donut -->
 	<texture id="donutTexture" file="images/simpsonsDonut.jpg"/>
@@ -112,14 +94,8 @@
     <!-- Furniture -->
     <texture id="furniture" file="/images/furnituretexture.jpg" />  
 
-    <!-- Board1 -->
-   <texture id="boardTexture1" file="images/boardTexture1.png"/>
-
-    <!-- Board2 -->
-   <texture id="boardTexture2" file="images/boardTexture2.png"/>
-
     <!-- Board3 -->
-   <texture id="boardTexture3" file="images/boardTexture3.png"/>
+   <texture id="boardTexture" file="images/boardTexture3.png"/>
 
    <!-- Black -->
    <texture id="blackText" file="images/black.jpg"/>
@@ -133,7 +109,7 @@
 
    <texture id="standsText" file="images/stand.jpg"/>
 
-    <texture id="neutreekoBanner" file="images/NeutreekoBanner.png"/>
+   <texture id="neutreekoBanner" file="images/NeutreekoBanner.png"/>
 
    <texture id="scoreBoardTexture" file="images/scoreBoard.png"/>
     
@@ -295,9 +271,9 @@
         <cylinder2 base="2" top="2" height="2" slices="40" stacks="40" />                  
     </primitive>
 
-    <primitive id="terrain">
+<!--    <primitive id="terrain">
         <terrain idtexture="terrainTexture" idheightmap="terrainHeightMap" parts="20" heightscale="3" />
-    </primitive> 
+    </primitive> -->
 
 </primitives>
 
@@ -332,82 +308,6 @@
         </children>
 
     </component>
-
-    <component id="scene2"> 
-
-        <transformation>
-           <transformationref id="default"/>
-        </transformation>
-
-        <materials>
-           <material id="defaultMaterial"/> 
-        </materials>   
-
-        <texture id= "none" length_s="1" length_t="1"/>  
-
-        <children>   
-
-            <componentref id="chao" />
-		    <componentref id="parede1" />
-		    <componentref id="parede2" /> 
-		    <componentref id="tableAndBoard"/>
-		    <componentref id="marcador2"/>
-
-		     <componentref id="lampada" /> 
-           <componentref id="armario" /> 
- 		   <componentref id="bandeira" />
-		   <componentref id="porta2" />
-
-		   <componentref id="pc"/>
-		  
-
-		
-		   
-		   <componentref id="donutplate"/>
-		   <componentref id="walllamp2"/>
-		   
-		   
-
-		   <componentref id="terrainAndBoard"/>
-        </children>
-
-    </component>
-
-    <component id="scene3"> 
-
-        <transformation>
-           <transformationref id="default"/>
-        </transformation>
-
-        <materials>
-           <material id="defaultMaterial"/> 
-        </materials>   
-
-        <texture id= "none" length_s="1" length_t="1"/>  
-
-        <children>
-            <componentref id="chao" />
-		    <componentref id="parede1" />
-		    <componentref id="parede2" /> 
-		    <componentref id="tableAndBoard"/>
-
-			<componentref id="lampada3" /> 
-		   <componentref id="porta3" />
-		   <componentref id="cama" />
-
-		   <componentref id="marcador" />
-		   
-		   <componentref id="donutplate3"/>
-		   <componentref id="walllamp3"/>
-		   <componentref id="phone"/>
-		   <componentref id="balloon"/>
-		
-
-
-        </children>
-
-    </component>
-
 
 	<component id="lan"> 
 
@@ -900,27 +800,6 @@
 
     </component>
 
-
-    <component id="terrainAndBoard"> 
-
-        <transformation>
-            
- 			<translate x="23.5" y="-1" z="9.5"/>
-        </transformation>
-
-        <materials>
-           <material id="defaultMaterial"/> 
-        </materials>   
-
-        <texture id= "inherit" length_s="1" length_t="1"/>  
-
-        <children>
-            <componentref id = "mesa_caixa2"/>  
-            <componentref id="terrain"/>   
-         </children>
-
-    </component>
-
     <component id="walllamp2">  
 
         <transformation>
@@ -1247,7 +1126,7 @@
            <material id="defaultMaterial"/> 
         </materials>   
 
-        <texture id= "boardTexture3" length_s="1" length_t="1"/>  
+        <texture id= "boardTexture" length_s="1" length_t="1"/>  
 
         <children>
             <componentref id = "caixa"/>     
@@ -3856,7 +3735,7 @@
             <material id="lightMaterial" />         
         </materials>
 
-      <texture id="whiteTexture" length_s="1" length_t="1"/>
+      <texture id="whiteText" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref id="cone"/>
@@ -4081,204 +3960,6 @@
       </children>
 
     </component>
-
-    <component id="balloon">
-
-        <transformation>
-        	<translate x="26" y="1.5" z="16"/>
-        </transformation>
-
-        <animations>  
-  <!--         <animationref id="linear"/>
-         <animationref id="circular"/>         
-          <animationref id="anti-linear"/>    -->  
-        </animations>
-
-
-        <materials>             
-            <material id="defaultMaterial" />         
-        </materials>
-
-      <texture id="inherit" length_s="1" length_t="1"/>
-
-      <children>
-        <componentref id="balloon_sphere"/>
-        <componentref id="balloon_ropes"/>
-        <componentref id="balloon_basket"/>
-      </children>
-
-    </component>
-
-	<component id="balloon_sphere">
-
-        <transformation>
-        	<translate x="0" y="3" z="0"/>
-        	<scale x="0.8" y="1.0" z="0.8"/>
-        </transformation>
-
-        <materials>             
-            <material id="defaultMaterial" />         
-        </materials>
-
-      <texture id="balloonTexture" length_s="1" length_t="1"/>
-
-      <children>
-        <primitiveref id="sphere"/>
-      </children>
-
-    </component>
-
-	<component id="balloon_ropes">
-
-        <transformation>
-        	<translate x="0" y="0" z="0"/>
-        </transformation>
-
-        <materials>             
-            <material id="defaultMaterial" />         
-        </materials>
-
-      <texture id="ropeTexture" length_s="1" length_t="1"/>
-
-      <children>
-        <componentref id="balloon_rope1"/>
-        <componentref id="balloon_rope2"/>
-        <componentref id="balloon_rope3"/>
-        <componentref id="balloon_rope4"/>
-      </children>
-
-    </component>
-
-    <component id="balloon_rope1">
-
-        <transformation>
-        	<translate x="0.1" y="2" z="1.2"/>
-        	<rotate axis="x" angle="100"/>
-        	<scale x="0.1" y="0.1" z="2.90"/>
-        </transformation>
-
-        <materials>             
-            <material id="defaultMaterial" />         
-        </materials>
-
-      <texture id="inherit" length_s="1" length_t="1"/>
-
-      <children>
-        <primitiveref id="cylinder"/>
-      </children>
-
-    </component>
-
-    <component id="balloon_rope2">
-
-        <transformation>
-        	<translate x="-1.1" y="2" z="0"/>
-        	<rotate axis="y" angle="-90"/>
-        	<rotate axis="x" angle="100"/>
-        	<scale x="0.1" y="0.1" z="2.90"/>
-        </transformation>
-
-        <materials>             
-            <material id="defaultMaterial" />         
-        </materials>
-
-      <texture id="inherit" length_s="1" length_t="1"/>
-
-      <children>
-        <primitiveref id="cylinder"/>
-      </children>
-
-    </component>
-
-
-	<component id="balloon_rope3">
-
-        <transformation>
-        	<translate x="0" y="-0.9" z="-0.6"/>
-        	<rotate axis="x" angle="-100"/>
-        	<scale x="0.1" y="0.1" z="2.90"/>
-        </transformation>
-
-        <materials>             
-            <material id="defaultMaterial" />         
-        </materials>
-
-      <texture id="inherit" length_s="1" length_t="1"/>
-
-      <children>
-        <primitiveref id="cylinder"/>
-      </children>
-
-    </component>
-
-    <component id="balloon_rope4">
-
-        <transformation>
-        	<translate x="1.2" y="2" z="0"/>
-        	<rotate axis="y" angle="90"/>
-        	<rotate axis="x" angle="100"/>
-        	<scale x="0.1" y="0.1" z="2.90"/>
-        </transformation>
-
-        <materials>             
-            <material id="defaultMaterial" />         
-        </materials>
-
-      <texture id="inherit" length_s="1" length_t="1"/>
-
-      <children>
-        <primitiveref id="cylinder"/>
-      </children>
-
-    </component>
-
-    <component id="balloon_basket">
-
-        <transformation>
-        	<translate x="-1.2" y="-2.5" z="-1.2"/>
-        	<scale x="0.25" y="0.25" z="0.25"/>
-        </transformation>
-
-        <materials>             
-            <material id="defaultMaterial" />         
-        </materials>
-
-      <texture id="basketTexture" length_s="1" length_t="1"/>
-
-      <children>
-        <componentref id="faceGaveta1"/>
-        <componentref id="faceGaveta2"/>
-        <componentref id="faceGaveta3"/>
-        <componentref id="faceGaveta4"/>
-        <componentref id="faceGaveta5"/>
-        <componentref id="faceGaveta6"/>
-        <componentref id="faceGaveta7"/>
-        <componentref id="faceGaveta8"/>
-        <componentref id="faceGaveta9"/>
-        <componentref id="faceGaveta10"/>
-      </children>
-
-    </component>	
-
-    <component id="terrain">
-
-        <transformation>
-        	<translate x="2.4" y="1.2" z="2.65"/>
-        	<scale x="4.3" y="4.3" z="4.3"/>
-        </transformation>
-
-        <materials>             
-            <material id="defaultMaterial" />         
-        </materials>
-
-      <texture id="terrainTexture" length_s="1" length_t="1"/>
-
-      <children>
-         <primitiveref id="terrain"/>
-      </children>
-
-    </component>
-
 
 	<component id="chair1">
 

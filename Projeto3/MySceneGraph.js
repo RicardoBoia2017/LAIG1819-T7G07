@@ -2384,7 +2384,6 @@ class MySceneGraph {
 		this.displayComponent(root, root.materials[root.currentMaterial], root.texture, root.texS, root.texT);
 	}
 
-
 	else if(this.scene.pickMode == true)
 	{
 			for (i =0; i<5; i++) 
