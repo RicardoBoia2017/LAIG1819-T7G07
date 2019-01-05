@@ -82,23 +82,26 @@ class XMLscene extends CGFscene {
 
         this.setPickEnabled(true);
 
-        this.choosingDirection = false;
-        this.animationTime = 0;
-        this.gameInProgress = true;
-        this.ignoreRequest = false;
-        this.requestInProgress = false;
+        this.choosingDirection = false; //controls whether the player is choosing a direction. If true, then arrows wil show
+        this.animationTime = 0; //remaining time for animation to complete
+        this.gameInProgress = true; //controls whether a game is in progress or not
+        this.ignoreRequest = false; //flag to control if a reply function ignores a request
+        this.requestInProgress = false; //controls whether a request is in progress
 
         this.turnTime = 60; //Value controlled in interface
         this.turnTimeCounter = this.turnTime; //Value used to actually count the time
 
+        //Scores
         this.whiteScore = 0;
         this.blackScore = 0;
 
+        //Animation movements for each square (horizontal, vertical)
         this.movValues = [2, 2.1];
 
         this.isCameraMoving = true; 
         this.currCamAngle=0;
 
+        //Picking objects
         this.objects = [];
 
         for (let i = 0; i < 25; i++)
@@ -106,8 +109,10 @@ class XMLscene extends CGFscene {
 
         this.undo = new MyQuad(this, [0, 0, 1, 1]);
 
+        //Pushes initial board to pastBoards.
         game.pastBoards.push(game.board);
 
+        //Audio for when a player wins
         this.victoryAudio = new Audio('scenes/victory.mp4');
     }
 
@@ -287,7 +292,7 @@ class XMLscene extends CGFscene {
 
     }
 
-    //Revertts game to previous turn
+    //Reverts game to previous turn
     undoTurn()
     {
         if(game.pastBoards.length == 1) //only has initial board
@@ -392,7 +397,12 @@ class XMLscene extends CGFscene {
 
     /*Requests*/
 
-    //Calculates the direction given starting and target positions, and makes move request
+    /**
+     * Calculates the direction of the movement and makes request
+     * 
+     * @param {Final row} targetRow 
+     * @param {Final column} targetCol 
+     */
     moveRequest(targetRow, targetCol) {
         let startingRow;
         let startingCol;
@@ -461,7 +471,9 @@ class XMLscene extends CGFscene {
 
     }
 
-    //Request for valid direction of selected piece
+    /**
+     * Request for valid direction of selected piece
+     */
     validDirections() {
         let row;
         let col;
@@ -494,7 +506,6 @@ class XMLscene extends CGFscene {
     getPrologRequest(requestString, onSuccess, onError, port) {
         var requestPort = port || 8081
         var request = new XMLHttpRequest();
-        request.game = game;
         request.open('GET', 'http://localhost:' + requestPort + '/' + requestString, true);
 
         request.onload = onSuccess || function (data) { console.log("Request successful. Reply: " + data.target.response); };
@@ -509,8 +520,8 @@ class XMLscene extends CGFscene {
     /* Reply Handlers */
 
     /**
-     * Handles the reply for move requests. Updates positions array and sets animation
-     * @param {*} data 
+     * Handles the reply for move requests. 
+     * @param {Data received} data 
      */
     moveReply(data) {
 
@@ -550,7 +561,8 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     * Handles the reply for bot move request. Updates opsition array and sets animation
+     * Handles the reply for bot move request. 
+     * @param {Data received} data 
      */
     botMoveReply(data) {
 
@@ -615,7 +627,7 @@ class XMLscene extends CGFscene {
 
     /**
      * Handles the reply for valid moves requests. Fills arrowPosition array with coordinates of valid directions
-     * @param {*} data 
+     * @param {Data received} data 
      */
     validMovesReply(data) {
         let reply = data.target.response;
@@ -686,8 +698,9 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     *  Checks if any game ending condition verifies. If true, the game ends, otherwise player's turn ends
-     * */
+     *Checks if any game ending condition happened.
+     * @param {Data received} data 
+     */
     gameOverReply(data) {
         scene.requestInProgress = false;
 
@@ -729,6 +742,14 @@ class XMLscene extends CGFscene {
 
     /*****************************************************************/
 
+    /**
+     * Updates positions array and sets animation.
+     * @param {Name of piece} componentName 
+     * @param {Starting row} startingRow 
+     * @param {Starting column} startingCol 
+     * @param {Final row} targetRow 
+     * @param {Final column} targetCol 
+     */
     moveAnimation(componentName, startingRow, startingCol, targetRow, targetCol)
     {
         let diff1 = targetCol - startingCol;
@@ -810,7 +831,7 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     * Puts pieces back into original position and reverts game's values to default
+     * Rreverts pieces and variables to default
      * @param {Mode in which the game will be played} mode 
      */
     newGame(mode)
@@ -913,7 +934,7 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     * Called when someone doesn't play in time
+     * Called when a player doesn't play in time
      */
     timesUp() {
         console.log("Time is up!");        
@@ -935,7 +956,7 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     * Ends game
+     * Ends game and adds 'ViewGameFilm' to interface
      */
     endGame()
     {
